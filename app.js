@@ -10,12 +10,8 @@ app.set('view engine', 'html');
 app.engine('html', hbs.__express);
 app.use(express.bodyParser());
 
-connection.query('SELECT * FROM `bookmarks`', function(err, rows, fields) {
-    if (err) throw err;
 
-    console.log('Result : ', rows[0]);
-});
 
-var api = require('./router/api')(app);
+var api = require('./router/api')(app, connection);
 
 app.listen(1337);
