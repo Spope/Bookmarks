@@ -1,42 +1,23 @@
-var bookmarks = [
-    {
-        name: "Hello",
-        url : "http://www.site.com"
-    },
-    {
-        name: "Bonjour",
-        url : "http://www.website.com"
-    }
-]
-
-getBookmarks = function() {
-    return bookmarks;
-}
-
-module.exports = function(app, connection) {
+module.exports = function(app, dbEngine) {
     app.get('/api/', function(req, res){
-        res.json(getBookmarks());
+        res.json({});
     });
 
     app.get('/api/bookmarks/', function(req, res){
-            connection.query('SELECT * FROM bookmarks', function(err, rows, fields) {
-                if (err) throw err;
-
-                res.json(rows);
-            });
+        var result = dbEngine.get('bookmarks', {}, function(result){
+            res.json(result);
+        });
     });
 
     app.get('/api/bookmarks/:id', function(req, res){
         if(req.params.id && req.params.id > 0){
-            var sql = 'SELECT * FROM bookmarks WHERE id = '+connection.escape(req.params.id);
-            connection.query(sql, function(err, rows, fields) {
-                if (err) throw err;
-
-                res.json(rows);
+            var result = dbEngine.get('bookmarks', {id : req.params.id}, function(result){
+                res.json(result);
             });
 
         }else{
             res.statusCode = 404;
+
             return res.send('Error, parameter is not valid');
         }
     });
