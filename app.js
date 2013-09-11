@@ -4,7 +4,9 @@ var app = express();
 var hbs = require('hbs');
 var mysql = require('mysql');
 
+
 var connection = require('./db/connection')(mysql);
+//The module that request the DB
 var dbEngine = {};
 require('./db/engine')(connection, dbEngine);
 
