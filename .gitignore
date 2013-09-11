@@ -1,8 +1,10 @@
+/db/connection.js
+
+/node_modules/*
+
 *~
 *.lock
 *.DS_Store
 *.swp
 *.out
 ._*
-
-/node_modules/*

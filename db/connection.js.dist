@@ -1,0 +1,13 @@
+module.exports = function(mysql){
+    
+    var connection = mysql.createConnection({
+        host     : 'localhost',
+        database : 'bookmarks',
+        user     : 'USER',
+        password : 'PASS',
+    });
+
+    connection.connect();
+
+    return connection;
+}
