@@ -1,17 +1,17 @@
-module.exports = function(app, dbEngine) {
+module.exports = function(app, dbEngine, checkAuth) {
     app.get('/api/', function(req, res){
         res.json({});
     });
 
-    app.get('/api/bookmarks/', function(req, res){
-        var result = dbEngine.get('bookmarks', {}, function(result){
+    app.get('/api/bookmarks/', checkAuth, function(req, res){
+        var result = dbEngine.get('bookmark', {}, function(result){
             res.json(result);
         });
     });
 
     app.get('/api/bookmarks/:id', function(req, res){
         if(req.params.id && req.params.id > 0){
-            var result = dbEngine.get('bookmarks', {id : req.params.id}, function(result){
+            var result = dbEngine.get('bookmark', {id : req.params.id}, function(result){
                 res.json(result);
             });
 
