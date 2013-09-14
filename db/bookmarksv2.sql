@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `bookmark` (
   `id` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
   `url` varchar(300) NOT NULL,
-  `postition` int(11) NOT NULL,
+  `position` int(11) NOT NULL,
   `parent` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `bookmark` (
 -- Contenu de la table `bookmark`
 --
 
-INSERT INTO `bookmark` (`id`, `name`, `url`, `postition`, `parent`, `user_id`, `category_id`, `bookmark_type_id`) VALUES
+INSERT INTO `bookmark` (`id`, `name`, `url`, `position`, `parent`, `user_id`, `category_id`, `bookmark_type_id`) VALUES
 (1, 'Book dans perso', 'www.cool.com', 1, NULL, 1, 1, 1),
 (2, 'Autre book', 'www.coolcoolcool.com', 2, NULL, 1, 1, 1),
 (3, 'Autre book 2', 'www.test.com', 0, NULL, 1, 1, 1);
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `roles`) VALUES
-(1, 'Spope', 'GIE+ZdcpQzMN0G7PhaKOYahmQLGCRWkrVEFR3yOo2XHHV6wB/J6n3rfA1uVXh7dw0yc+tUrHqnTNkdyw+DEBag==', 'pinaudt@gmail.com', 'ROLE_USER');
+(1, 'Spope', '4Cu69UxllQa21865268e327e71a083ba85ca241ed4', 'pinaudt@gmail.com', 'ROLE_USER');
 
 -- --------------------------------------------------------
 

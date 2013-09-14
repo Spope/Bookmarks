@@ -17,7 +17,9 @@ module.exports = function(app) {
                         logError: true
                     }); 
                 }else{
-                    //result is the user logged
+                    //
+                    req.session.user_id = result.id;
+                    res.redirect('/api/bookmarks/');
                 }
             });
         }else{

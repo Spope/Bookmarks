@@ -1,5 +1,6 @@
 var bootstrap = require('./bootstrap');
 var crypto = require('crypto');
+var connection = bootstrap.getConnection();
 
 module.exports = {
 
@@ -13,9 +14,18 @@ module.exports = {
 
     login: function(login, password, callback) {
 
-        bootstrap.getDbEngine().query('SELECT * FROM user WHERE username = '+bootstrap.getConnection().escape(login)+' LIMIT 1', function(result){
-            if(result.length == 0) result = false;
-            callback.call(null, result);
+        connection.query('SELECT * FROM user WHERE username = '+connection.escape(login)+' LIMIT 1', function(err, rows, fields){
+            if(rows.length == 0) {
+                var result = false;
+                callback.call(null, false);
+            }else{
+
+                validatePassword(password, rows[0].password, function(result){
+                    callback.call(null, rows[0]);
+                })
+
+                
+            }
         })
 
     }
@@ -33,7 +43,7 @@ var md5 = function(str) {
 var validatePassword = function(plainPass, hashedPass, callback) {
 	var salt = hashedPass.substr(0, 10);
 	var validHash = salt + md5(plainPass + salt);
-	callback(null, hashedPass === validHash);
+	callback.call(null, hashedPass === validHash);
 }
 
 
