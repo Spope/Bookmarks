@@ -6,6 +6,7 @@ var hbs = require('hbs');
 
 app.set('view engine', 'html');
 app.engine('html', hbs.__express);
+app.use(express.static('public'));
 app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.session({
