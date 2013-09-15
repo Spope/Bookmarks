@@ -19,7 +19,8 @@ module.exports = function(app) {
                 }else{
                     //
                     req.session.user_id = result.id;
-                    res.redirect('/api/bookmarks/');
+                    req.session.user = result;
+                    res.redirect('/');
                 }
             });
         }else{
