@@ -1,0 +1,2 @@
+function BookmarkListController($scope, $routeParams) {
+}
