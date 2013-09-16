@@ -1,6 +1,6 @@
-/db/connection.js
+/server/db/connection.js
 
-/node_modules/*
+/server/node_modules/*
 
 *~
 *.lock
