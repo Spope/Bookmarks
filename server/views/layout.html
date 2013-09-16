@@ -1,20 +1,23 @@
-<html ng-app>
+<!DOCTYPE html>
+<html ng-app="bookmark">
  
 <head>
-   <title>{{title}}</title>
+   <title>Bookmarks</title>
 </head>
 
 <body>
     <div class="container">
 
-        {{{body}}}
      
-        <footer>
-        </footer>
+        <div ng-view></div>
     </div>
 
-    <script src="/bower/jquery/jquery.min.js"></script>
-    <script src="/bower/angular/angular.min.js"></script>
-    <script src="/js/App/Controller/SearchEngineController.js"></script>
+    <script type="text/javascript" src="/bower/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/bower/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/js/App/app.js"></script>
+    <script type="text/javascript" src="/js/App/Controller/LoginController.js"></script>
+    <script type="text/javascript" src="/js/App/Controller/CategoryController.js"></script>
+    <script type="text/javascript" src="/js/App/Controller/BookmarkListController.js"></script>
+    <script type="text/javascript" src="/js/App/Controller/SearchEngineController.js"></script>
 </body>
 </html>

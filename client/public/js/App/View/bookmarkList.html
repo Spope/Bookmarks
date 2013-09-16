@@ -1,0 +1,23 @@
+<div class="search-engine-list-general">
+    <div class="search-engine-list">
+        <div class="search-engine-list-int" ng-controller="SearchEngineController">
+
+            <div ng-repeat="searchEngine in searchEngines" class="search-engine">
+                <img src="/img/search-engines/{{searchEngine.logo}}" alt="{{searchEngine.name}}" />
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="categories-list-general" ng-controller="CategoryController">
+    <ul class="categories-list">
+        <li class="category-li" ng-repeat="category in categories">
+            <div class="category-general">
+                <div class="category-header">
+                    <h2>{{category.name}}</h2>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

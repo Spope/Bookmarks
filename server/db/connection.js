@@ -2,9 +2,9 @@ module.exports = function(mysql){
     
     var connection = mysql.createConnection({
         host     : 'localhost',
-        database : 'bookmarks',
-        user     : 'thomas.devserver',
-        password : 'popo',
+        database : 'bookmarksv2',
+        user     : 'root',
+        password : 'zr17008',
     });
 
     connection.connect();
