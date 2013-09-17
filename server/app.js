@@ -16,6 +16,7 @@ app.use(express.session({
 //var login = require('./controller/login')(app);
 //var application = require('./controller/application')(app);
 //Api
+var login    = require('./controller/api/login')(app);
 var category = require('./controller/api/category')(app);
 var bookmark = require('./controller/api/bookmark')(app);
 

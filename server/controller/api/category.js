@@ -3,7 +3,7 @@ var connection = bootstrap.getConnection();
 
 module.exports = function(app) {
 
-    app.get('/api/categories/', bootstrap.getSecurity().checkAuth, function(req, res){
+    app.get('/api/categories', bootstrap.getSecurity().checkAuth, function(req, res){
 
         var sql = 'SELECT * FROM category '+
             'WHERE user_id = '+connection.escape(req.session.user_id)+' ';

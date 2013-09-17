@@ -1,0 +1,3 @@
+function LogoutController($scope, $routeparams) {
+    
+}

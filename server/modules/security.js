@@ -6,7 +6,8 @@ module.exports = {
 
    checkAuth: function(req, res, next){
         if (!req.session.user_id) {
-            res.redirect('/login/');
+
+            res.send(401);
         } else {
             next();
         }
@@ -21,7 +22,11 @@ module.exports = {
             }else{
 
                 validatePassword(password, rows[0].password, function(result){
-                    callback.call(null, rows[0]);
+                    if(result){
+                        callback.call(null, rows[0]);
+                    }else{
+                        callback.call(null, false);
+                    }
                 })
 
                 
