@@ -1,0 +1,16 @@
+{
+  "name": "Bookmarks",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Spope/bookmarks",
+  "authors": [
+    "Thomas Pinaud <pinaudt@gmail.com>"
+  ],
+  "description": "Personal bookmarks manager",
+  "dependencies": {
+      "angular"          : "latest",
+      "angular-resource" : "latest",
+      "jquery"           : "latest"
+  },
+  "license": "MIT",
+  "private": true
+}
