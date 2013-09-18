@@ -4,18 +4,20 @@ module.exports = function(app) {
 
     app.post('/api/login', function(req, res){
         var post = req.body;
-        if(post.login && post.password){
-            bootstrap.getSecurity().login(post.login, post.password, function(result){
+        if(( post.login && post.password) || req.cookies.token){
+            bootstrap.getSecurity().login(req, res, function(result){
                 
                 if(result){
-                    //
+                    //Loging the user
                     req.session.user_id = result.id;
                     req.session.user = result;
+
                     if(post.remember) {
-                        req.session.cookie.maxAge = 1000 * 3600 * 24 * 31 * 6;//6 mois
+                        res.cookie('token', result.token, {
+                            expires: new Date(Date.now() + (1000 * 3600 * 24 * 31 * 6))
+                        });
                     }
-                    res.send(post);
-                     
+                    res.send(result);
 
                 }else{
                     //Error on login
@@ -30,6 +32,9 @@ module.exports = function(app) {
     
     app.get('/api/logout', function (req, res) {
         delete req.session.user_id;
-        res.redirect('/login');
+        res.cookie('token', null, {expires: new Date()});
+        console.log(req.cookies);
+        console.log(req.session);
+        res.send(200);
     });  
 }
