@@ -1,4 +1,4 @@
-function LoginController($scope, $rootScope, $location, LoginService) {
+function LoginController($scope, $rootScope, $location, $http, LoginService) {
     
     $scope.user = {login: "", password:"", remember:false};
 
@@ -6,6 +6,8 @@ function LoginController($scope, $rootScope, $location, LoginService) {
         $scope.user = LoginService.save($scope.user, function(success) {
             $rootScope.loggedIn = true;
             $location.path('/');
+            $rootScope = $http.get('/api/user/'+success.id);
+            
         }, function(error) {
             if(error.data.error) {
                 $scope.loginError = true;
