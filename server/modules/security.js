@@ -4,7 +4,7 @@ var connection = bootstrap.getConnection();
 
 module.exports = {
 
-   checkAuth: function(req, res, next){
+    checkAuth: function(req, res, next){
         if (!req.session.user_id) {
 
             if(req.cookies.token){

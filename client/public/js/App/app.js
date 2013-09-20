@@ -2,14 +2,14 @@ bookmarkApp.config(function($routeProvider) {
     $routeProvider.
         when('/', {
             templateUrl: 'js/App/View/bookmarkList.html',
-            controller: controllers.BookmarkListController,
+            controller: 'BookmarkListController',
             access: {
                 level: 1
             }
         }).
         when('/login', {
             templateUrl: 'js/App/View/login.html',
-            controller: controllers.LoginController,
+            controller: 'LoginController',
             access: {
                 level: 0
             }
@@ -17,13 +17,22 @@ bookmarkApp.config(function($routeProvider) {
         }).
         when('/logout', {
             templateUrl: 'js/App/View/login.html',
-            controller: controllers.LogoutController,
+            controller: 'LogoutController',
             access: {
                 level: 1
             }
         }).
         otherwise({redirectTo: '/'});
 });
+
+//Check user auth
+bookmarkApp.run(['$rootScope', 'AuthService', 'UserService', '$location', function(root, auth, User, location) {
+    root.$on('$routeChangeSuccess', function(scope, currView, prevView) { 
+        if (!auth.checkAuth(currView, User.user)){
+            location.path('/login');
+        }
+    });
+}]);
 
 
 bookmarkApp.config(['$httpProvider', function($httpProvider) {

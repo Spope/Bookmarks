@@ -1,3 +1,3 @@
-function LogoutController($scope, $routeparams) {
+controllers.controller('LogoutController', function ($scope, $routeparams) {
     
 }

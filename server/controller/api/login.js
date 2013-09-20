@@ -4,7 +4,10 @@ module.exports = function(app) {
 
     app.post('/api/login', function(req, res){
         var post = req.body;
+        //If I the user has a cookie i remove it
+        res = logout(req, res);
         if(( post.login && post.password) || req.cookies.token){
+
             bootstrap.getSecurity().login(req, res, function(result){
                 
                 if(result){
@@ -31,10 +34,19 @@ module.exports = function(app) {
     });
     
     app.get('/api/logout', function (req, res) {
-        delete req.session.user_id;
-        res.cookie('token', null, {expires: new Date()});
-        console.log(req.cookies);
-        console.log(req.session);
+        res = logout(req, res);
+
         res.send(200);
-    });  
+    });
+
+
+    function logout(req, res) {
+        delete req.session.user_id;
+        delete req.session.user_id;
+        delete req.session.user;
+
+        res.cookie('token', null, {expires: new Date()});
+
+        return res;
+    }
 }

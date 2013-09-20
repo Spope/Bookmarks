@@ -1,27 +1,33 @@
-controllers.controller('LoginController', function ($scope, $http, UserService) {
+controllers.controller('LoginController', function ($scope, $http, $location, UserService) {
     
     $scope.user = {login: "", password:"", remember:false};
 
     var config = {
         method: 'POST',
-        url   : '/login',
+        url   : '/api/login',
         data  : $scope.user
     };
 
-    $http(config)
-    .success(function(data, status, headers, config) {
-        if (data.status) {
-            UserService.isLogged = true;
-            UserService.user     = data;
-        } else {
+    $scope.loginFn = function() {
+        $http(config)
+        .success(function(data, status, headers, config) {
+            if (data && status == 200) {
+                UserService.isLogged = true;
+                UserService.user     = data;
+                //Redirect to home
+                $location.path('/');
+            } else {
+                UserService.isLogged = false;
+                UserService.user     = null;
+                $scope.loginError = true;
+            }
+        })
+        .error(function(data, status, headers, config) {
             UserService.isLogged = false;
             UserService.user     = null;
-        }
-    })
-    .error(function(data, status, headers, config) {
-        UserService.isLogged = false;
-        UserService.user     = null;
-    });
+            $scope.loginError = true;
+        });
+    }
     /*
     $scope.login = function() {
         $scope.user = LoginService.save($scope.user, function(success) {

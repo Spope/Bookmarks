@@ -1,5 +1,7 @@
-function SearchEngineController($scope){
-    
+function SearchEngineController($scope, UserService){
+
+    //$scope.serachEngines = UserService.user.searchEngine;
+
     $scope.searchEngines = [
         {
             name: 'Google',
