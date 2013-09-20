@@ -1,22 +1,34 @@
-<!DOCTYPE html>
-<html ng-app="bookmark">
+<!doctype html>
+<html ng-app="bookmarkApp">
  
 <head>
    <title>Bookmarks</title>
 </head>
 
 <body>
+    <div class="container">
 
-    <div class="container" ng-view></div>
+     
+        <div ng-view ></div>
+    </div>
 
     <script type="text/javascript" src="/bower/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/bower/angular/angular.min.js"></script>
-    <script type="text/javascript" src="/bower/angular-resource/angular-resource.min.js"></script>
-    <script type="text/javascript" src="/js/App/app.js"></script>
+
+    <script type="text/javascript" src="/js/App/init.js"></script>
+
+    <script type="text/javascript" src="/js/App/Directive/CheckUser.js"></script>
+
+    <script type="text/javascript" src="/js/App/Service/UserService.js"></script>
+
+    
+
     <script type="text/javascript" src="/js/App/Controller/LoginController.js"></script>
-    <script type="text/javascript" src="/js/App/Controller/LogoutController.js"></script>
-    <script type="text/javascript" src="/js/App/Controller/CategoryController.js"></script>
     <script type="text/javascript" src="/js/App/Controller/BookmarkListController.js"></script>
+    <script type="text/javascript" src="/js/App/Controller/CategoryController.js"></script>
     <script type="text/javascript" src="/js/App/Controller/SearchEngineController.js"></script>
+
+    <script type="text/javascript" src="/js/App/app.js"></script>
+
 </body>
 </html>

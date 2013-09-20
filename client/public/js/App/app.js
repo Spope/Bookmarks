@@ -1,25 +1,32 @@
-var app = angular.module('bookmark', ['ngResource']);
-
-
-app.config(function($routeProvider) {
+bookmarkApp.config(function($routeProvider) {
     $routeProvider.
         when('/', {
             templateUrl: 'js/App/View/bookmarkList.html',
-            controller: BookmarkListController
+            controller: controllers.BookmarkListController,
+            access: {
+                level: 1
+            }
         }).
         when('/login', {
             templateUrl: 'js/App/View/login.html',
-            controller: LoginController
+            controller: controllers.LoginController,
+            access: {
+                level: 0
+            }
+            
         }).
         when('/logout', {
             templateUrl: 'js/App/View/login.html',
-            controller: LogoutController
+            controller: controllers.LogoutController,
+            access: {
+                level: 1
+            }
         }).
         otherwise({redirectTo: '/'});
 });
 
 
-app.config(['$httpProvider', function($httpProvider) {
+bookmarkApp.config(['$httpProvider', function($httpProvider) {
 
     //================================================
     // Add an interceptor for AJAX errors
@@ -41,14 +48,4 @@ app.config(['$httpProvider', function($httpProvider) {
         }
     });
 
- 
-     
-    }]);
-
-app.factory('LoginService', function($resource) {
-    return $resource('/api/login/');
-});
-
-app.factory('CategoryService', function($resource) {
-    return $resource('/api/categories/');
-});
+}]);

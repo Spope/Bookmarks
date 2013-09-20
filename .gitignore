@@ -1,6 +1,6 @@
 /client/public/bower/*
-/server/db/connection.js
 
+/server/db/connection.js
 /server/node_modules/*
 
 *~

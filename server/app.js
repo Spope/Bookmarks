@@ -13,8 +13,6 @@ app.use(express.session({
 }));
 
 
-//var login = require('./controller/login')(app);
-//var application = require('./controller/application')(app);
 //Api
 var login    = require('./controller/api/login')(app);
 var user     = require('./controller/api/user')(app);

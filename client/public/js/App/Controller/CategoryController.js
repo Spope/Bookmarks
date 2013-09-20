@@ -1,4 +1,3 @@
-function CategoryController($scope, CategoryService) {
+controllers.controller('CategoryController', function ($scope) {
 
-    $scope.categories = CategoryService.query();
-}
+});

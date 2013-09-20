@@ -1,2 +1,3 @@
-function BookmarkListController($scope, $routeParams) {
-}
+controllers.controller('BookmarkListController', function ($scope, $routeParams) {
+
+});
