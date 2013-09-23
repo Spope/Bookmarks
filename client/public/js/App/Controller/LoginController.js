@@ -7,6 +7,7 @@ controllers.controller('LoginController', function ($scope, $http, $location, Us
         url   : '/api/login',
         data  : $scope.user
     };
+    console.log();
 
     $scope.loginFn = function() {
         $http(config)
@@ -15,7 +16,7 @@ controllers.controller('LoginController', function ($scope, $http, $location, Us
                 UserService.isLogged = true;
                 UserService.user     = data;
                 //Redirect to home
-                $location.path('/');
+                $location.path($location.search().redirect).search({});
             } else {
                 UserService.isLogged = false;
                 UserService.user     = null;
@@ -28,18 +29,5 @@ controllers.controller('LoginController', function ($scope, $http, $location, Us
             $scope.loginError = true;
         });
     }
-    /*
-    $scope.login = function() {
-        $scope.user = LoginService.save($scope.user, function(success) {
-            $rootScope.loggedIn = true;
-            $location.path('/');
-            $rootScope = $http.get('/api/user/'+success.id);
-            
-        }, function(error) {
-            if(error.data.error) {
-                $scope.loginError = true;
-            }
-        });
-    }
-    */
+
 });
