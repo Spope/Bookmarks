@@ -25,13 +25,17 @@ controllers.controller('LoginController', function ($scope, $http, $location, Us
             } else {
                 UserService.isLogged = false;
                 UserService.user     = null;
-                $scope.loginError = true;
+                if(!autolog) {
+                    $scope.loginError = true;
+                }
             }
         })
         .error(function(data, status, headers, config) {
             UserService.isLogged = false;
             UserService.user     = null;
-            $scope.loginError = true;
+            if(!autolog) {
+                $scope.loginError = true;
+            }
         });
     }
 

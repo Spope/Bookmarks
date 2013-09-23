@@ -11,7 +11,7 @@ bookmarkApp.config(function($routeProvider) {
             templateUrl: 'js/App/View/bookmarkList.html',
             controller: 'BookmarkListController',
             access: {
-                level: 1
+                level: 2
             }
         }).
         when('/login', {
@@ -26,7 +26,7 @@ bookmarkApp.config(function($routeProvider) {
             templateUrl: 'js/App/View/login.html',
             controller: 'LogoutController',
             access: {
-                level: 1
+                level: 0
             }
         }).
         otherwise({redirectTo: '/'});

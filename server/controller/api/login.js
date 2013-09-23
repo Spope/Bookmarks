@@ -11,7 +11,7 @@ module.exports = function(app) {
         if(( post.login && post.password) || req.cookies.token || req.session.user_id){
 
             bootstrap.getSecurity().login(req, res, function(result){
-                
+
                 if(result){
                     //Loging the user
                     req.session.user_id = result.id;
@@ -29,7 +29,6 @@ module.exports = function(app) {
                             }
                         );
                     } else if(!req.cookies.token || (req.cookies && !req.cookies.token.remember)) {
-                        console.log('set');
                         //Add a cookie to retrieve session. cookie will die with the session
                         res.cookie('token', {id: result.token, remember: false});
                     }
@@ -57,7 +56,7 @@ module.exports = function(app) {
         delete req.session.user_id;
         delete req.session.user;
 
-        res.cookie('token', null, {expires: new Date()});
+        res.clearCookie('token');
 
         return res;
     }
