@@ -9,7 +9,8 @@ app.use(express.static('../client/public'));
 app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.session({
-    secret: 'Wohathatscoolycool'
+    secret: 'Wohathatscoolycool',
+    cookie: { httpOnly: false }
 }));
 
 

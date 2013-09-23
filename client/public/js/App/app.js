@@ -57,7 +57,7 @@ bookmarkApp.config(['$httpProvider', function($httpProvider) {
                 }, 
                 // Error: check the error status to get only the 401
                 function(response) {
-                    if (response.status === 401)
+                    if (response.status === 401 && $location.path() != '/login')
                         $location.url('/login');
                     return $q.reject(response);
                 }

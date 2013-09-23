@@ -55,7 +55,7 @@ module.exports = {
                 }
             })
         }else if(req.cookies.token) {
-            connection.query('SELECT * FROM user WHERE token = '+connection.escape(req.cookies.token)+' LIMIT 1', function(err, rows, fields){
+            connection.query('SELECT * FROM user WHERE token = '+connection.escape(req.cookies.token.id)+' LIMIT 1', function(err, rows, fields){
                 if(rows.length == 0) {
                     var result = false;
                     callback.call(null, false);
@@ -65,7 +65,6 @@ module.exports = {
                 }
             })
         }
-
     }
 }
 
