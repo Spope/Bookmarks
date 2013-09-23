@@ -1,4 +1,4 @@
-controllers.controller('LogoutController', function ($scope, $http, $location, UserService) {
+controllers.controller('LogoutController', ['$scope', '$http', '$location', 'UserService', function ($scope, $http, $location, UserService) {
     $http.get('/api/logout')
     .success(function(data, status, headers, config) {
         UserService.isLogged = false;
@@ -10,4 +10,4 @@ controllers.controller('LogoutController', function ($scope, $http, $location, U
         UserService.user     = null;
         $scope.loginError = true;
     });
-});
+}]);

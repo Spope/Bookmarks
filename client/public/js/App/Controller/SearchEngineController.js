@@ -1,4 +1,4 @@
-function SearchEngineController($scope, UserService){
+controllers.controller('SearchEngineController', ['$scope', 'UserService', function($scope, UserService){
 
     //$scope.serachEngines = UserService.user.searchEngine;
 
@@ -14,4 +14,4 @@ function SearchEngineController($scope, UserService){
             logo: 'amazon.png'
         }
     ];
-}
+}]);

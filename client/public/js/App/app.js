@@ -1,4 +1,4 @@
-bookmarkApp.config(function($routeProvider) {
+bookmarkApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
         when('/', {
             templateUrl: 'js/App/View/bookmarkList.html',
@@ -30,14 +30,27 @@ bookmarkApp.config(function($routeProvider) {
             }
         }).
         otherwise({redirectTo: '/'});
-});
+}]);
 
 //Check user auth
 bookmarkApp.run(['$rootScope', 'AuthService', 'UserService', '$location', function(root, auth, User, location) {
-    root.$on('$routeChangeSuccess', function(scope, currView, prevView) { 
-        if (!auth.checkAuth(currView, User.user)){
+    root.$on('$routeChangeSuccess', function(scope, currView, prevView) {
+        var authorization = auth.checkAuth(currView, User.user);
+        if (!authorization.response) {
             var page = location.path();
-            location.path('/login').search({redirect: page});
+
+            //
+            if(authorization.redirect) {
+                //The user need to be logged
+                location.path('/login').search({redirect: page});
+            } else {
+                //the user doesn't had credential to access this page
+                var previous = "/";
+                if(!prevView) previous = prevView;
+                location.path(previous);
+                console.log('Auth error');
+            }
+            
         }
     });
 }]);

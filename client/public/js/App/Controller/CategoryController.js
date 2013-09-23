@@ -1,3 +1,3 @@
-controllers.controller('CategoryController', function ($scope) {
+controllers.controller('CategoryController', ['$scope', function ($scope) {
 
-});
+}]);

@@ -1,4 +1,4 @@
-controllers.controller('LoginController', function ($scope, $http, $location, UserService) {
+controllers.controller('LoginController', ['$scope', '$http', '$location', 'UserService', function ($scope, $http, $location, UserService) {
     
     $scope.user = {login: "", password:"", remember:false};
     var config = {
@@ -39,6 +39,7 @@ controllers.controller('LoginController', function ($scope, $http, $location, Us
         });
     }
 
+    //Try to re-log the user from session or cookie.
     $scope.loginFn(true);
 
-});
+}]);
