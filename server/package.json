@@ -7,8 +7,8 @@
     "url": "git@github.com:Spope/bookmarks.git"
   },
   "dependencies": {
-    "express": "3.x",
-    "mysql": "git://github.com/felixge/node-mysql",
-    "hbs": "*"
+    "express" : "3.x",
+    "mysql"   : "git://github.com/felixge/node-mysql",
+    "hbs"     : "*"
   }
 }

@@ -1,6 +1,7 @@
 controllers.controller('LoginController', ['$scope', '$http', '$location', 'UserService', function ($scope, $http, $location, UserService) {
     
     $scope.user = {login: "", password:"", remember:false};
+    $scope.loginError = false;
     var config = {
         method: 'POST',
         url   : '/api/login',
