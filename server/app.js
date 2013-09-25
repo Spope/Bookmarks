@@ -15,12 +15,13 @@ app.use(express.session({
 
 
 //Api
-var login    = require('./controller/api/login')(app);
-var user     = require('./controller/api/user')(app);
-var category = require('./controller/api/category')(app);
-var bookmark = require('./controller/api/bookmark')(app);
+var login        = require('./controller/api/login')(app);
+var user         = require('./controller/api/user')(app);
+var category     = require('./controller/api/category')(app);
+var bookmark     = require('./controller/api/bookmark')(app);
+var searchEngine = require('./controller/api/searchEngine')(app);
 
-app.all('/*', function(req, res) {
+app.all('/', function(req, res) {
     // Just send the index.html for other files to support HTML5Mode
     res.render('index');
 });

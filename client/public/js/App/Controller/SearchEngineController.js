@@ -1,17 +1,27 @@
-controllers.controller('SearchEngineController', ['$scope', 'UserService', function($scope, UserService){
+controllers.controller('SearchEngineController', ['$scope', 'SearchEngineService', '$window', function($scope, SearchEngineService, $window){
 
-    //$scope.serachEngines = UserService.user.searchEngine;
+    $scope.search = {search: ""};
 
-    $scope.searchEngines = [
-        {
-            name: 'Google',
-            url : 'http://www.google.fr/search?q={q}',
-            logo: 'google.png'
-        },
-        {
-            name: 'Amazon',
-            url : 'http://www.amazon.fr/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords={q}&x=0&y=0',
-            logo: 'amazon.png'
+    //retrieving searchengines from DB
+    SearchEngineService.get().then(function(data) {
+        $scope.searchEngines = data;
+        $scope.selectedSearchEngine = $scope.searchEngines[0];
+    });
+
+    //search
+    $scope.searchFn = function() {
+        if($scope.search.search) {
+            var url = $scope.selectedSearchEngine.url.replace("{q}", $scope.search.search);
+            $window.open(url);
         }
-    ];
+    }
+
+    $scope.setSelectedSearchEngine = function(id) {
+        $scope.selectedSearchEngine = $scope.searchEngines.filter(function(value, index) {
+            return value.id == id;
+        })[0];
+
+        $scope.selectedSearchEngine;
+    }
+
 }]);
