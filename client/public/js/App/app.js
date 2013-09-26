@@ -1,15 +1,15 @@
 bookmarkApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
         when('/', {
-            templateUrl: 'js/App/View/Bookmarks/bookmarkList.html',
-            controller: 'BookmarkListController',
+            templateUrl: 'js/App/View/Bookmarks/mainView.html',
+            controller: 'MainController',
             access: {
                 level: 1
             }
         }).
         when('/test', {
-            templateUrl: 'js/App/View/Bookmarks/bookmarkList.html',
-            controller: 'BookmarkListController',
+            templateUrl: 'js/App/View/Bookmarks/mainView.html',
+            controller: 'MainController',
             access: {
                 level: 1
             }

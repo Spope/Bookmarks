@@ -3,14 +3,20 @@ var connection = bootstrap.getConnection();
 
 module.exports = function(app) {
 
-    app.get('/api/categories', bootstrap.getSecurity().checkAuth, function(req, res){
+    app.get('/api/user/:idUser/categories', bootstrap.getSecurity().checkAuth, function(req, res){
 
-        var sql = 'SELECT * FROM category '+
-            'WHERE user_id = '+connection.escape(req.session.user_id)+' ';
-            'ORDER BY position';
-        connection.query(sql, function(err, rows, fields){
-            return res.json(rows);
-        });
+        if(req.params.idUser == req.session.user_id) {
+            var sql = 'SELECT * FROM category '+
+                'WHERE user_id = '+connection.escape(req.session.user_id)+' ';
+                'ORDER BY position';
+            connection.query(sql, function(err, rows, fields){
+                return res.json(rows);
+            });
+        }else{
+
+            res.statusCode = 401;
+            return res.send("This isn't really you rigth ?");
+        }
 
     });
 

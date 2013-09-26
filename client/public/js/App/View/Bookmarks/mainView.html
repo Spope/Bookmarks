@@ -11,6 +11,11 @@
                 <div class="category-header">
                     <h2>{{category.name}}</h2>
                 </div>
+                <div class="bookmarks-list-general">
+
+                    <ng-include src="'js/App/View/Bookmarks/partial/bookmarksList.html'" ng-controller="BookmarkController" ng-controller="BookmarkController" ng-init="idCategory=category.id; loadBookmarks()" ></ng-include>
+
+                </div>
             </div>
         </li>
     </ul>
