@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 18, 2013 at 01:25 PM
+-- Generation Time: Sep 26, 2013 at 11:17 AM
 -- Server version: 5.5.32-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.7
 
@@ -99,12 +99,20 @@ INSERT INTO `category` (`id`, `name`, `parent`, `root`, `user_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `search_engine` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `url` varchar(45) NOT NULL,
+  `url` varchar(300) NOT NULL,
   `logo` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `search_engine`
+--
+
+INSERT INTO `search_engine` (`id`, `name`, `url`, `logo`) VALUES
+(1, 'Google', 'http://www.google.fr/search?q={q}', 'google.png'),
+(2, 'Amazon', 'http://www.amazon.fr/s/ref=nb_sb_noss_1?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Daps&field-keywords={q}', 'amazon.png');
 
 -- --------------------------------------------------------
 
@@ -128,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `token`, `email`, `roles`) VALUES
-(1, 'Spope', '4Cu69UxllQa21865268e327e71a083ba85ca241ed4', '6b1c1c06fef0ea4d1e4ddc4d1dcbd900', 'pinaudt@gmail.com', 'ROLE_USER');
+(1, 'Spope', '4Cu69UxllQa21865268e327e71a083ba85ca241ed4', '6b1c1c06fef0ea4d1e4ddc4d1dcbd900', 'pinaudt@gmail.com', '1');
 
 -- --------------------------------------------------------
 
@@ -139,10 +147,19 @@ INSERT INTO `user` (`id`, `username`, `password`, `token`, `email`, `roles`) VAL
 CREATE TABLE IF NOT EXISTS `user_search_engine` (
   `user_id` int(11) NOT NULL,
   `search_engine_id` int(11) NOT NULL,
+  `default` tinyint(1) NOT NULL,
   PRIMARY KEY (`user_id`,`search_engine_id`),
   KEY `fk_user_has_search_engine_search_engine1` (`search_engine_id`),
   KEY `fk_user_has_search_engine_user1` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_search_engine`
+--
+
+INSERT INTO `user_search_engine` (`user_id`, `search_engine_id`, `default`) VALUES
+(1, 1, 1),
+(1, 2, 0);
 
 --
 -- Constraints for dumped tables
