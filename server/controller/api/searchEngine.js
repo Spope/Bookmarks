@@ -8,7 +8,7 @@ module.exports = function(app) {
         var sql = 'SELECT search_engine.* FROM search_engine '+
             'LEFT JOIN user_search_engine ON user_search_engine.search_engine_id = search_engine.id '+
             'WHERE user_search_engine.user_id = '+connection.escape(req.session.user_id)+' '+
-            '';
+            'ORDER BY name ASC';
         connection.query(sql, function(err, rows, fields){
             if(err){
                 console.log(err);
