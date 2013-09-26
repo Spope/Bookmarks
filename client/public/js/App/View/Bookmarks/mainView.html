@@ -7,7 +7,7 @@
 <div class="categories-list-general" ng-controller="CategoryController">
     <ul class="categories-list">
         <li class="category-li" ng-repeat="category in categories">
-            <div class="category-general">
+            <div class="category-general" category>
                 <div class="category-header">
                     <h2>{{category.name}}</h2>
                 </div>
@@ -15,6 +15,12 @@
 
                     <ng-include src="'js/App/View/Bookmarks/partial/bookmarksList.html'" ng-controller="BookmarkController" ng-controller="BookmarkController" ng-init="idCategory=category.id; loadBookmarks()" ></ng-include>
 
+                </div>
+                <div class="category-add-bookmark" style="display:none;">
+                    <form ng-submit="addBookmark(url)">
+                        <input type="text" ng-model="url" placeholder="url" />
+                        <input type="submit" />
+                    </form>
                 </div>
             </div>
         </li>
