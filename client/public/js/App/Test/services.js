@@ -54,20 +54,19 @@ describe('Services', function() {
 
     describe('SearchEngineService', function() {
         var searchEngineService;
-        beforeEach(function() {
-            module('bookmarkApp');
-            inject(function($rootScope, $httpBackend, $http, $injector) {
-                injector = $injector;
+        beforeEach(module('bookmarkApp', function($provide) {
 
-                rootScope   = $rootScope;
-                httpMock    = $httpBackend;
-                http        = $http;
+            $provide.value('UserService', {
+                isLogged : true,
+                user : {
+                    id: 1
+                }
             });
-        });
+        }));
 
-        it('should retrieve the searchEngines', function() {
+        it('should retrieve the searchEngines', inject(function($httpBackend, $injector) {
 
-            httpMock.whenGET('/api/user/1/searchengines').respond(200, 
+            $httpBackend.whenGET('/api/user/1/searchengines').respond(200, 
                 [
                     {
                         "id": 1,
@@ -83,15 +82,14 @@ describe('Services', function() {
                     }
             ]);
             var list;
-            searchEngineService = injector.get('SearchEngineService', {Userservice : {user:{id:1}, isLogged:true}, $http: http});
+            searchEngineService = $injector.get('SearchEngineService');
             searchEngineService.get().then(function(data) {
-                list = data.data;
+                list = data;
             });
 
-            //httpMock.expectGET('/api/user/1/searchengines');
-            httpMock.flush();
+            $httpBackend.flush();
 
             expect(list.length).toEqual(2);
-        });
+        }));
     });
 });

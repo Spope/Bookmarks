@@ -1,7 +1,6 @@
 services.factory('SearchEngineService', ['UserService', '$http', function(UserService, $http) {
     var service = {
         get: function() {
-            console.log(UserService);
 
             if(!UserService.isLogged) {
 
