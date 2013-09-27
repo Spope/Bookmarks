@@ -11,9 +11,9 @@
     "mysql": "git://github.com/felixge/node-mysql",
     "hbs": "*",
     "less": "*",
+    "grunt": "*",
+    "grunt-cli": "*",
+    "grunt-contrib-watch": "~0.5.3",
     "grunt-contrib-less": "*"
-  },
-  "devDependencies": {
-    "grunt-contrib-watch": "~0.5.3"
   }
 }
