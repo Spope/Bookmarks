@@ -10,7 +10,6 @@ module.exports = function(app) {
             'AND category_id = '+connection.escape(req.params.idCat)+' '+
             'ORDER BY position';
         connection.query(sql, function(err, rows, fields){
-            console.log(err);
             return res.json(rows);
         });
 
