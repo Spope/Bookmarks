@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 26, 2013 at 11:17 AM
+-- Generation Time: Sep 30, 2013 at 05:36 PM
 -- Server version: 5.5.32-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.7
 
@@ -22,10 +22,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `bookmark` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `url` varchar(300) NOT NULL,
-  `postition` int(11) NOT NULL,
+  `position` int(11) NOT NULL,
   `parent` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
@@ -35,16 +35,16 @@ CREATE TABLE IF NOT EXISTS `bookmark` (
   KEY `fk_bookmark_category1` (`category_id`),
   KEY `fk_bookmark_bookmark_type1` (`bookmark_type_id`),
   KEY `fk_bookmark_bookmark1` (`parent`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `bookmark`
 --
 
-INSERT INTO `bookmark` (`id`, `name`, `url`, `postition`, `parent`, `user_id`, `category_id`, `bookmark_type_id`) VALUES
-(1, 'Book dans perso', 'www.cool.com', 1, NULL, 1, 1, 1),
-(2, 'Autre book', 'www.coolcoolcool.com', 2, NULL, 1, 1, 1),
-(3, 'Autre book 2', 'www.test.com', 0, NULL, 1, 1, 1);
+INSERT INTO `bookmark` (`id`, `name`, `url`, `position`, `parent`, `user_id`, `category_id`, `bookmark_type_id`) VALUES
+(1, 'Book dans perso', 'http://www.spope.fr', 1, NULL, 1, 1, 1),
+(2, 'Autre book', 'http://www.google.com', 0, NULL, 1, 1, 1),
+(3, 'Autre book 2', 'http://www.facebook.com', 0, NULL, 1, 2, 1);
 
 -- --------------------------------------------------------
 

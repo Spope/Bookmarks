@@ -34,4 +34,18 @@ module.exports = function(app) {
             return res.send('Error, parameter is not valid');
         }
     });
+
+    app.post('/api/user/:idUser/category/:idCat/bookmark', bootstrap.getSecurity().checkAuth, function(req, res) {
+        var bookmark = req.body;
+        bookmark.user_id = req.session.user_id;
+        bookmark.bookmark_type_id = 1;
+
+        var query = connection.query('INSERT INTO bookmark SET ?', bookmark, function(err, rows, field){
+            if(err){
+                return res.send(err);
+            }
+            return res.json({id: rows.insertId});
+        });
+
+    });
 }

@@ -11,16 +11,24 @@
                 <div class="category-header">
                     <h2>{{category.name}}</h2>
                 </div>
-                <div class="bookmarks-list-general">
+                <div class="bookmarks-list-general" ng-controller="BookmarkController" ng-init="idCategory=category.id; loadBookmarks()">
 
-                    <ng-include src="'js/App/View/Bookmarks/partial/bookmarksList.html'" ng-controller="BookmarkController" ng-controller="BookmarkController" ng-init="idCategory=category.id; loadBookmarks()" ></ng-include>
-
-                </div>
-                <div class="category-add-bookmark" style="display:none;">
-                    <form ng-submit="addBookmark(url)">
-                        <input type="text" ng-model="url" placeholder="url" />
-                        <input type="submit" />
-                    </form>
+                    <ul class="bookmarks-list">
+                        <li ng-repeat="bookmark in bookmarks" class="bookmark">
+                            <a ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">
+                                <img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" />
+                                {{bookmark.name}}
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="category-add-bookmark" style="display:none;">
+                        <form ng-submit="postBookmark(bookmark, category.id)">
+                            <input class="input-add-bookmark add-bookmark-url" type="url" ng-required ng-model="bookmark.url" placeholder="url" />
+                            <input class="input-add-bookmark add-bookmark-name" type="text" ng-model="bookmark.name" placeholder="name" style="display:none;" />
+                            <button class="btn-add-bookmark btn-add-bookmark-url" type="button">Add</button>
+                            <button class="btn-add-bookmark btn-add-bookmark-name" type="submit" style="display:none">Add</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </li>

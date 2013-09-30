@@ -5,7 +5,5 @@ controllers.controller('CategoryController', ['$scope', 'CategoryService', funct
         $scope.categories = data;
     });
 
-    $scope.addBookmark = function(url){
-        console.log(url);
-    }
+    
 }]);

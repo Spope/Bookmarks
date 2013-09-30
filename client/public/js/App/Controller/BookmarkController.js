@@ -6,4 +6,12 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', funct
             $scope.bookmarks = data;
         });
     }
+
+    $scope.postBookmark = function(bookmark, idCategory){
+        bookmark.category_id = idCategory;
+        bookmark.position = $scope.bookmarks.length;
+        BookmarkService.post(bookmark).then(function(data) {
+            $scope.bookmarks = data;
+        });
+    }
 }]);
