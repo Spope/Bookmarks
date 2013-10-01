@@ -1,4 +1,3 @@
-<a href="/#/test">test</a>
 <a href="/#/logout">logout</a>
 <div class="search-engine-list-general">
     <ng-include src="'js/App/View/Bookmarks/searchEnginesList.html'" ng-controller="SearchEngineController"></ng-include>
@@ -7,22 +6,25 @@
 <div class="categories-list-general" ng-controller="CategoryController">
     <ul class="categories-list">
         <li class="category-li" ng-repeat="category in categories">
-            <div class="category-general" category>
+            <div class="category-general" ng-mouseenter="formAdd=true" ng-mouseleave="formAdd=false">
                 <div class="category-header">
                     <h2>{{category.name}}</h2>
                 </div>
                 <div class="bookmarks-list-general" ng-controller="BookmarkController" ng-init="idCategory=category.id; loadBookmarks()">
 
                     <ul class="bookmarks-list">
-                        <li ng-repeat="bookmark in bookmarks" class="bookmark">
-                            <a ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">
+                        <li ng-repeat="bookmark in bookmarks" class="bookmark" bookmark>
+                            <a class="btn-edit-bookmark" ng-href="/#/edit/{{bookmark.id}}">
+                                <img src="/img/bookmark/pen.png" ng-show="bookmark.showEditBtn" />
+                            </a>
+                            <a class="url-bookmark" ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">
                                 <img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" />
                                 {{bookmark.name}}
                             </a>
                         </li>
                     </ul>
-                    <div class="category-add-bookmark" style="display:none;">
-                        <form ng-submit="postBookmark(bookmark, category.id)">
+                    <div class="category-add-bookmark" style="display:none;" addbookmark="{{category.id}}">
+                        <form ng-submit="send()">
                             <input class="input-add-bookmark add-bookmark-url" type="url" ng-required ng-model="bookmark.url" placeholder="url" />
                             <input class="input-add-bookmark add-bookmark-name" type="text" ng-model="bookmark.name" placeholder="name" style="display:none;" />
                             <button class="btn-add-bookmark btn-add-bookmark-url" type="button">Add</button>

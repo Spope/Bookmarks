@@ -7,7 +7,7 @@ bookmarkApp.config(['$routeProvider', function($routeProvider) {
                 level: 1
             }
         }).
-        when('/test', {
+        when('/edit/:idbookmark', {
             templateUrl: 'js/App/View/Bookmarks/mainView.html',
             controller: 'MainController',
             access: {

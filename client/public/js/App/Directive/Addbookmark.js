@@ -1,21 +1,20 @@
-directives.directive("category", function(){
+directives.directive("addbookmark", function(){
     return {
         restrict: "A",
-        link: function(scope, element, args){
+        link: function(scope, element, attrs){
             scope.bookmark = {};
-            element.bind('mouseenter', function() {
-                element.addClass("hover");
-                element.find('.category-add-bookmark').stop();
-                element.find('.category-add-bookmark').slideDown(100);
 
-            })
-
-            element.bind('mouseleave', function() {
-                element.removeClass("hover");
-                element.find('.category-add-bookmark').stop();
-                element.find('.category-add-bookmark').slideUp(100);
-
-            })
+            scope.$watch('formAdd', function () {
+                if(scope.formAdd) {
+                    element.parent().parent().addClass("hover");
+                    element.stop();
+                    element.slideDown(100);
+                } else {
+                    element.parent().parent().removeClass("hover");
+                    element.stop();
+                    element.slideUp(100);
+                }
+            });
 
             var firstStep = function() {
                 if(scope.bookmark.url != "" && element.find('.add-bookmark-url').hasClass('ng-valid')) {
@@ -28,7 +27,6 @@ directives.directive("category", function(){
             var lastStep = function() {
                 element.find('.add-bookmark-url, .btn-add-bookmark-url').show();
                 element.find('.add-bookmark-name, .btn-add-bookmark-name').hide();
-                console.log(scope.bookmark.url, scope.bookmark.name);
             }
 
             element.find('.btn-add-bookmark-url').bind('click', function(event) {
@@ -49,6 +47,17 @@ directives.directive("category", function(){
             element.find('.btn-add-bookmark-name').bind('click', function(event) {
                 lastStep();
             })
+
+
+            scope.send = function() {
+                scope.postBookmark(scope.bookmark, attrs.addbookmark, function() {
+                    //bookmark is saved, I reset the form
+                    scope.bookmark.url = "";
+                    scope.bookmark.name = "";
+                });
+
+                return false;
+            }
 
         }
     };

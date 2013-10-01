@@ -1,6 +1,6 @@
 services.factory('BookmarkService', ['UserService', '$http', function(UserService, $http) {
     var service = {
-        getByCategory: function(idCategory) {
+        getByCategory: function(idCategory, parent) {
 
             if(!UserService.isLogged) {
 
