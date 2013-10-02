@@ -1,4 +1,4 @@
-controllers.controller('BookmarkController', ['$scope', 'BookmarkService', function ($scope, BookmarkService) {
+controllers.controller('BookmarkController', ['$scope', 'BookmarkService',  function ($scope, BookmarkService, modalService) {
     
     //retrieving bookmarks from DB
     $scope.parent = null;
@@ -24,4 +24,5 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', funct
             }
         });
     }
+    
 }]);

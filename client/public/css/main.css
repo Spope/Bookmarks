@@ -7,6 +7,26 @@
 ul {
   list-style: none;
 }
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1040;
+}
+.modal {
+  position: fixed;
+  left: 50%;
+  width: 560px;
+  margin-left: -280px;
+  z-index: 1050;
+  background: white;
+}
+.hide {
+  display: none;
+}
 /** This is sale it need to be ranged */
 .category-general {
   float: left;
