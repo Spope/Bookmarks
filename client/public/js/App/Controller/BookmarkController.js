@@ -1,4 +1,4 @@
-controllers.controller('BookmarkController', ['$scope', 'BookmarkService',  function ($scope, BookmarkService, modalService) {
+controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'modalService', function ($scope, BookmarkService, modalService) {
     
     //retrieving bookmarks from DB
     $scope.parent = null;
@@ -23,6 +23,19 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService',  func
                 console.error('Error on adding this bookmark');
             }
         });
+    }
+
+    $scope.editBookmark = function(id) {
+        var modalOptions = {
+            closeButtonText: 'Cancel',
+            actionButtonText: 'Delete Customer',
+            headerText: 'Delete ?',
+            bodyText: 'Are you sure you want to delete this customer?',
+            template: 'js/App/View/Bookmarks/partial/Modal/editBookmark.html',
+            toto: "Popo"
+        };
+
+        modalService.showModal({}, modalOptions);
     }
     
 }]);

@@ -8,7 +8,9 @@ services.factory('$modal', ['$rootScope', '$compile', '$http', '$timeout', '$q',
           scope = options.scope ? options.scope : $rootScope.$new(),
           templateUrl = options.template;
 
-      return $q.when($templateCache.get(templateUrl) || $http.get(templateUrl, {cache: true}).then(function(res) { return res.data; }))
+      return $q.when($templateCache.get(templateUrl) || $http.get(templateUrl, {cache: true}).then(function(res) {
+          return res.data;
+      }))
       .then(function onSuccess(template) {
 
         // Build modal object
@@ -19,6 +21,7 @@ services.factory('$modal', ['$rootScope', '$compile', '$http', '$timeout', '$q',
         $('body').append($modal);
 
         // Compile modal content
+        scope.modal = {toto: "aa"};
         $timeout(function() {
           $compile($modal)(scope);
         });

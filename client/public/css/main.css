@@ -24,6 +24,9 @@ ul {
   z-index: 1050;
   background: white;
 }
+.pointer {
+  cursor: pointer;
+}
 .hide {
   display: none;
 }
