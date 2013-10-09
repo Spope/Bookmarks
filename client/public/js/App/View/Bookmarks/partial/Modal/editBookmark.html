@@ -1,15 +1,18 @@
 <!-- Modal (external ./partials/modal.html or inline ng-template) -->
 <div class="modal-header">
-  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-  <h3>Modal header</h3>
-  Oui
+    <h3>Edit bookmark</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 </div>
 <div class="modal-body">
-  <p>{{modal.content}}</p>
-  <br />
-  <pre>2 + 3 = {{ 2 + 3 }}</pre>{{modal.toto}}
+    <form>
+        <div class="edit-bookmark-group">
+            <label>Name : <input type="text" class="edit-bookmark-name" value="{{bookmark.name}}" placeholder="Name" /></label>
+        </div>
+        <div class="edit-bookmark-group">
+            <label>Url : <input type="text" class="edit-bookmark-url" value="{{bookmark.url}}" placeholder="Url" type="url" /></label>
+        </div>
+    </form>
 </div>
-<div class="modal-footer">
-  <button type="button" class="btn" ng-click="hide()">Close</button>
-  <button class="btn btn-primary" ng-click="modal.saved=true;hide()">Save changes</button>
+<div class="modal-action">
+    <button type="button" class="btn" ng-click="save()">Save</button>
 </div>

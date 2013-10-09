@@ -16,7 +16,7 @@ module.exports = function(app) {
     });
 
 
-    app.get('/api/user/:idUser/category/:idCat/bookmarks/:id', bootstrap.getSecurity().checkAuth, function(req, res){
+    app.get('/api/user/:idUser/category/:idCat/bookmark/:id', bootstrap.getSecurity().checkAuth, function(req, res){
         if(req.params.id && req.params.id > 0){
             var sql = 'SELECT * FROM bookmark '+
                 'WHERE user_id = '+connection.escape(req.session.user_id)+' '+
@@ -25,7 +25,7 @@ module.exports = function(app) {
                 'LIMIT 1';
 
             connection.query(sql, function(err, rows, field){
-                    res.json(rows);
+                res.json(rows[0]);
             });
 
         }else{

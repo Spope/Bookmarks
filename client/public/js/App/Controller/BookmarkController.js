@@ -25,17 +25,20 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'moda
         });
     }
 
-    $scope.editBookmark = function(id) {
+    $scope.editBookmark = function(idCategory, id) {
+
+        var modalDefault = {
+            template: 'js/App/View/Bookmarks/partial/Modal/editBookmark.html'
+        }
         var modalOptions = {
-            closeButtonText: 'Cancel',
-            actionButtonText: 'Delete Customer',
-            headerText: 'Delete ?',
-            bodyText: 'Are you sure you want to delete this customer?',
-            template: 'js/App/View/Bookmarks/partial/Modal/editBookmark.html',
-            toto: "Popo"
         };
 
-        modalService.showModal({}, modalOptions);
+        BookmarkService.get(idCategory, id).then(function(data) {
+            modalOptions.bookmark = data;
+            modalService.showModal(modalDefault, modalOptions);
+        });
+
+        
     }
     
 }]);

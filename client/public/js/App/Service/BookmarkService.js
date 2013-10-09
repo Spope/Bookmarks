@@ -23,6 +23,29 @@ services.factory('BookmarkService', ['UserService', '$http', function(UserServic
             }
         },
 
+        get: function(idCategory, id) {
+
+            if(!UserService.isLogged) {
+
+                return null;
+            } else {
+
+                var promise = $http.get('/api/user/'+UserService.user.id+'/category/'+idCategory+'/bookmark/'+id)
+                .then(
+                    function(response) {
+
+                        return response.data;
+                    },
+                    function(data) {
+                        console.error("Can't retrieve bookmarks");
+                        return {}
+                    }
+                );
+
+                return promise;
+            }
+        },
+
         post: function(bookmark) {
             var promise = $http.post('/api/user/'+UserService.user.id+'/category/'+bookmark.category_id+'/bookmark', bookmark)
             .then(

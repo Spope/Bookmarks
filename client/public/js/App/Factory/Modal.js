@@ -1,9 +1,10 @@
-services.factory('$modal', ['$rootScope', '$compile', '$http', '$timeout', '$q', '$templateCache', function($rootScope, $compile, $http, $timeout, $q, $templateCache) {
+services.factory('$modal', ['$rootScope', '$compile', '$http', '$timeout', '$q', '$templateCache', '$controller', function($rootScope, $compile, $http, $timeout, $q, $templateCache, $controller) {
 
   var ModalFactory = function ModalFactoryFn(config) {
-
+    var configPer;
     function Modal(config) {
 
+      configPer = config;
       var options = angular.extend({show: true}, {}, config),
           scope = options.scope ? options.scope : $rootScope.$new(),
           templateUrl = options.template;
@@ -18,10 +19,20 @@ services.factory('$modal', ['$rootScope', '$compile', '$http', '$timeout', '$q',
         var $modal = $('<div class="modal hide" tabindex="-1"></div>').attr('id', id).addClass('fade').html(template);
         if(options.modalClass) $modal.addClass(options.modalClass);
 
+        //Using the controller passed in the options
+        var ctrlInstance, ctrlLocals = {};
+        if(configPer.controller) {
+
+            ctrlLocals.$scope = scope;
+            ctrlLocals.$modalInstance = $modal;
+
+          ctrlInstance = $controller(configPer.controller, ctrlLocals);
+        }
+
         $('body').append($modal);
 
         // Compile modal content
-        scope.modal = {toto: "aa"};
+        scope.modal = {};
         $timeout(function() {
           $compile($modal)(scope);
         });

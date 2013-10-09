@@ -35,6 +35,9 @@ services.service('modalService', ['$modal', '$q',
             if (!tempModalDefaults.controller) {
                 tempModalDefaults.controller = function ($scope, $modalInstance) {
                     $scope.modalOptions = tempModalOptions;
+                    for(var key in customModalOptions) {
+                        $scope[key] = customModalOptions[key];
+                    }
                     $scope.modalOptions.ok = function (result) {
                         $modalInstance.close(result);
                     };
