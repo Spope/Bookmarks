@@ -44,7 +44,15 @@ module.exports = function(app) {
             if(err){
                 return res.send(err);
             }
-            return res.json({id: rows.insertId});
+
+            var sql = 'SELECT * FROM bookmark '+
+                'WHERE user_id = '+connection.escape(req.session.user_id)+' '+
+                'AND id = '+connection.escape(rows.insertId)+' '+
+                'LIMIT 1';
+
+            connection.query(sql, function(err, rows, field){
+                return res.json(rows[0]);
+            });
         });
 
     });

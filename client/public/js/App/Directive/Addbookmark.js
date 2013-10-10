@@ -50,6 +50,7 @@ directives.directive("addbookmark", function(){
 
 
             scope.send = function() {
+
                 scope.postBookmark(scope.bookmark, attrs.addbookmark, function() {
                     //bookmark is saved, I reset the form
                     scope.bookmark.url = "";

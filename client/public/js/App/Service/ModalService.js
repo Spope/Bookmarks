@@ -30,18 +30,7 @@ services.service('modalService', ['$modal', '$q',
             angular.extend(tempModalOptions, modalOptions, customModalOptions);
 
             if (!tempModalDefaults.controller) {
-                tempModalDefaults.controller = function ($scope,  $modalInstance) {
-                    //$scope.modalOptions = tempModalOptions;
-                    //for(var key in customModalOptions) {
-                        //$scope[key] = customModalOptions[key];
-                    //}
-                    //$scope.modalOptions.ok = function (result) {
-                        //$modalInstance.close(result);
-                    //};
-                    //$scope.modalOptions.close = function (result) {
-                        //$modalInstance.dismiss('cancel');
-                    //};
-                }
+                tempModalDefaults.controller = function ($scope,  $modalInstance) {}
             }
 
             var modalPromise = $modal(tempModalDefaults, customModalOptions);

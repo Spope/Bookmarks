@@ -1,4 +1,4 @@
-services.factory('CategoryService', ['UserService', '$http', function(UserService, $http) {
+services.factory('CategoryService', ['UserService', 'LocalCategoryService', '$http', function(UserService, LocalCategoryService, $http) {
     var service = {
         getAll: function() {
 
@@ -7,19 +7,30 @@ services.factory('CategoryService', ['UserService', '$http', function(UserServic
                 return null;
             }else{
 
-                var promise = $http.get('/api/user/'+UserService.user.id+'/categories')
-                .then(
-                    function(response) {
+                if(LocalCategoryService.getCategories() === false) {
 
-                        return response.data;
-                    },
-                    function(data) {
-                        console.error("Can't retrieve categories");
-                        return {}
-                    }
-                );
+                    var promise = $http.get('/api/user/'+UserService.user.id+'/categories')
+                    .then(
+                        function(response) {
 
-                return promise;
+                            return response.data;
+                        },
+                        function(data) {
+                            console.error("Can't retrieve categories");
+                            return {}
+                        }
+                    );
+
+                    return promise.then(function(data) {
+
+                        LocalCategoryService.setCategories(data);
+
+                        return data;
+                    });
+
+                } else {
+                    return LocalCategoryService.getCategories();
+                }
             }
         }
     }

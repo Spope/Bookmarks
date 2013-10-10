@@ -1,23 +1,19 @@
-controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'modalService', function ($scope, BookmarkService, modalService) {
+controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'modalService', 'LocalCategoryService', 'LocalBookmarkService', function ($scope, BookmarkService, modalService, LocalCategoryService, LocalBookmarkService) {
     
     //retrieving bookmarks from DB
     $scope.parent = null;
 
     $scope.loadBookmarks = function() {
-        BookmarkService.getByCategory($scope.idCategory, $scope.parent).then(function(data) {
-            $scope.bookmarks = data;
-        });
+        $scope.bookmarks = BookmarkService.getByCategory($scope.idCategory);
     }
 
     $scope.postBookmark = function(bookmark, idCategory, callback){
+
         bookmark.category_id = idCategory;
-        bookmark.position = $scope.bookmarks.length;
-        callback.call(null);
+        bookmark.position = BookmarkService.getByCategory(idCategory).length;
 
         BookmarkService.post(bookmark).then(function(data) {
             if(data.id) {
-                bookmark.id = data.id;
-                $scope.bookmarks.push(bookmark);
                 callback.call(null);
             } else {
                 console.error('Error on adding this bookmark');
@@ -27,34 +23,32 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'moda
 
     $scope.editBookmark = function(bookmark) {
 
-        var modalController = function($scope, $modalInstance) {
+        var modalController = function($scope, $modalInstance, LocalBookmarkService) {
             $scope.save = function() {
                 BookmarkService.update($scope.bookmark).then(function(data) {
-                    bookmark = data;
+                    $modalInstance.modal('hide');
                 });
             }
 
             $modalInstance.on('hide.bs.modal', function(e) {
-                BookmarkService.get($scope.bookmark.category_id, $scope.bookmark.id).then(function(data) {
-                    console.log($scope);
-                    $scope.bookmark = data;
-                });
+                //Whene modal is leaved, book can be changed but not saved, so I retrieve db info to update display
+                var bookmark = BookmarkService.get($scope.bookmark.category_id, $scope.bookmark.id);
+                if(!LocalBookmarkService.setBookmark(bookmark)) {
+                    console.error("Can't refresh bookmark");
+                }
             });
-        }
+        };
+
         var modalDefault = {
             template: 'js/App/View/Bookmarks/partial/Modal/editBookmark.html',
             controller: modalController
         }
 
-        
         var modalOptions = {
             bookmark: bookmark
         };
 
-        //BookmarkService.get(idCategory, id).then(function(data) {
-            //modalOptions.bookmark = data;
-            modalService.showModal(modalDefault, modalOptions);
-        //});
+        modalService.showModal(modalDefault, modalOptions);
 
     }
     
