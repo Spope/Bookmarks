@@ -1,10 +1,8 @@
 services.factory('$modal', ['$rootScope', '$compile', '$http', '$timeout', '$q', '$templateCache', '$controller', function($rootScope, $compile, $http, $timeout, $q, $templateCache, $controller) {
 
-  var ModalFactory = function ModalFactoryFn(config) {
-    var configPer;
-    function Modal(config) {
+  var ModalFactory = function ModalFactoryFn(config, params) {
+    function Modal(config, params) {
 
-      configPer = config;
       var options = angular.extend({show: true}, {}, config),
           scope = options.scope ? options.scope : $rootScope.$new(),
           templateUrl = options.template;
@@ -21,12 +19,16 @@ services.factory('$modal', ['$rootScope', '$compile', '$http', '$timeout', '$q',
 
         //Using the controller passed in the options
         var ctrlInstance, ctrlLocals = {};
-        if(configPer.controller) {
+        if(config.controller) {
 
+            //setting the modal vars into its scope
+            for(var key in params) {
+                scope[key] = params[key];
+            }
             ctrlLocals.$scope = scope;
             ctrlLocals.$modalInstance = $modal;
 
-          ctrlInstance = $controller(configPer.controller, ctrlLocals);
+          ctrlInstance = $controller(config.controller, ctrlLocals);
         }
 
         $('body').append($modal);
@@ -77,7 +79,7 @@ services.factory('$modal', ['$rootScope', '$compile', '$http', '$timeout', '$q',
 
     }
 
-    return new Modal(config);
+    return new Modal(config, params);
 
   };
 

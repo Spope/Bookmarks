@@ -6,10 +6,10 @@
 <div class="modal-body">
     <form>
         <div class="edit-bookmark-group">
-            <label>Name : <input type="text" class="edit-bookmark-name" value="{{bookmark.name}}" placeholder="Name" /></label>
+            <label>Name : <input type="text" class="edit-bookmark-name" ng-model="bookmark.name" placeholder="Name" /></label>
         </div>
         <div class="edit-bookmark-group">
-            <label>Url : <input type="text" class="edit-bookmark-url" value="{{bookmark.url}}" placeholder="Url" type="url" /></label>
+            <label>Url : <input type="text" class="edit-bookmark-url" ng-model="bookmark.url" placeholder="Url" type="url" /></label>
         </div>
     </form>
 </div>

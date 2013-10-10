@@ -60,6 +60,22 @@ services.factory('BookmarkService', ['UserService', '$http', function(UserServic
             )
 
             return promise;
+        },
+
+        update: function(bookmark) {
+            var promise = $http.put('/api/user/'+UserService.user.id+'/category/'+bookmark.category_id+'/bookmark', bookmark)
+            .then(
+                    function(response) {
+
+                    return response.data;
+                },
+                function(data) {
+                    console.error("Can't add a bookmark");
+                    return {}
+                }
+            )
+
+            return promise;
         }
     }
 

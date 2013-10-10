@@ -13,7 +13,7 @@
 
                     <ul class="bookmarks-list">
                         <li ng-repeat="bookmark in bookmarks" class="bookmark" bookmark>
-                            <a class="btn-edit-bookmark pointer" ng-click="editBookmark(category.id, bookmark.id)">
+                            <a class="btn-edit-bookmark pointer" ng-click="editBookmark(bookmark)">
                                 <img src="/img/bookmark/pen.png" ng-show="bookmark.showEditBtn" />
                             </a>
                             <a class="url-bookmark" ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">

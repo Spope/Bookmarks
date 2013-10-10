@@ -13,7 +13,7 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'moda
         bookmark.category_id = idCategory;
         bookmark.position = $scope.bookmarks.length;
         callback.call(null);
-        return true;
+
         BookmarkService.post(bookmark).then(function(data) {
             if(data.id) {
                 bookmark.id = data.id;
@@ -25,20 +25,37 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'moda
         });
     }
 
-    $scope.editBookmark = function(idCategory, id) {
+    $scope.editBookmark = function(bookmark) {
 
-        var modalDefault = {
-            template: 'js/App/View/Bookmarks/partial/Modal/editBookmark.html'
+        var modalController = function($scope, $modalInstance) {
+            $scope.save = function() {
+                BookmarkService.update($scope.bookmark).then(function(data) {
+                    bookmark = data;
+                });
+            }
+
+            $modalInstance.on('hide.bs.modal', function(e) {
+                BookmarkService.get($scope.bookmark.category_id, $scope.bookmark.id).then(function(data) {
+                    console.log($scope);
+                    $scope.bookmark = data;
+                });
+            });
         }
-        var modalOptions = {
-        };
-
-        BookmarkService.get(idCategory, id).then(function(data) {
-            modalOptions.bookmark = data;
-            modalService.showModal(modalDefault, modalOptions);
-        });
+        var modalDefault = {
+            template: 'js/App/View/Bookmarks/partial/Modal/editBookmark.html',
+            controller: modalController
+        }
 
         
+        var modalOptions = {
+            bookmark: bookmark
+        };
+
+        //BookmarkService.get(idCategory, id).then(function(data) {
+            //modalOptions.bookmark = data;
+            modalService.showModal(modalDefault, modalOptions);
+        //});
+
     }
     
 }]);

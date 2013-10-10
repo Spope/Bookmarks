@@ -48,4 +48,25 @@ module.exports = function(app) {
         });
 
     });
+
+    app.put('/api/user/:idUser/category/:idCat/bookmark', bootstrap.getSecurity().checkAuth, function(req, res) {
+        var bookmark = req.body;
+        bookmark.user_id = req.session.user_id;
+        bookmark.bookmark_type_id = 1;
+
+        var query = connection.query('UPDATE bookmark SET '+
+            'name='+connection.escape(bookmark.name)+', '+
+            'position='+connection.escape(bookmark.position)+', '+
+            'parent='+connection.escape(bookmark.parent)+', '+
+            'category_id='+connection.escape(bookmark.category_id)+', '+
+            'url='+connection.escape(bookmark.url)+' '+
+            'WHERE id='+connection.escape(bookmark.id)+' '+
+            'AND user_id='+req.session.user_id, function(err, rows, field){
+            if(err){
+                return res.send(err);
+            }
+            return res.json(bookmark);
+        });
+
+    });
 }
