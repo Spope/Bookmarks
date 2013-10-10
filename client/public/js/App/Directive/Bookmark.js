@@ -17,9 +17,13 @@ directives.directive("bookmark", function(){
             });
 
             element.bind('mouseleave', function(e) {
-                scope.bookmark.showEditBtn = false;
-                scope.$apply();
-                element.children('.url-bookmark').css('padding-left', '20px');
+                
+                if(scope.bookmark.showEditBtn) {
+                    scope.bookmark.showEditBtn = false;
+                    scope.$apply();
+
+                    element.children('.url-bookmark').css('padding-left', '20px');
+                }
 
                 element.children('.url-bookmark').stop().animate({
                     paddingLeft: 0
