@@ -10,7 +10,8 @@
       "angular"          : "latest",
       "angular-resource" : "latest",
       "angular-mocks"    : "latest",
-      "jquery"           : "latest"
+      "jquery"           : "latest",
+      "jquery-ui"        : "latest"
   },
   "license": "MIT",
   "private": true
