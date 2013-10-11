@@ -6,9 +6,17 @@ directives.directive("sortable", ['BookmarkService', function(BookmarkService){
                 connectWith: "."+attrs.sortable,
                 stop: function (e, ui) {
                     var id = ui.item.attr('bookmark');
-                    console.log(id);
+
                     var bookmark = BookmarkService.get(id);
-                    console.log(bookmark);
+                    var list = ui.item.parent().children("li").toArray();
+                    for(var index in list) {
+                        if(list[index].getAttribute('bookmark') == id) {
+                            bookmark.position = index;
+                        }
+                    }
+
+                    BookmarkService.update(bookmark);
+
                 }
             });
         }
