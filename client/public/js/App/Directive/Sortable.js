@@ -15,7 +15,9 @@ directives.directive("sortable", ['BookmarkService', function(BookmarkService){
                         }
                     }
 
-                    BookmarkService.update(bookmark);
+                    var test = BookmarkService.update(bookmark).then(function(data) {
+                        BookmarkService.getByCategory(bookmark.category_id, bookmark.parent, false);
+                    });
 
                 }
             });

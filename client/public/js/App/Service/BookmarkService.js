@@ -1,13 +1,13 @@
 services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkService', function(UserService, $http, LocalBookmarkService) {
     var service = {
-        getByCategory: function(idCategory, parent) {
+        getByCategory: function(idCategory, parent, cache) {
 
             if(!UserService.isLogged) {
 
                 return null;
             }else{
 
-                if(LocalBookmarkService.getByCategory(idCategory) === false) {
+                if(LocalBookmarkService.getByCategory(idCategory) === false || cache === false) {
                     var promise = $http.get('/api/user/'+UserService.user.id+'/category/'+idCategory+'/bookmarks')
                     .then(
                         function(response) {
@@ -102,7 +102,10 @@ services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkServi
                 }
             )
 
-            return promise;
+            return promise.then(function(data) {
+
+                return data;
+            });;
         }
     }
 
