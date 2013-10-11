@@ -31,11 +31,9 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'moda
             }
 
             $modalInstance.on('hide.bs.modal', function(e) {
-                //Whene modal is leaved, book can be changed but not saved, so I retrieve db info to update display
-                var bookmark = BookmarkService.get($scope.bookmark.category_id, $scope.bookmark.id);
-                if(!LocalBookmarkService.setBookmark(bookmark)) {
-                    console.error("Can't refresh bookmark");
-                }
+                //When modal is leaved, book can be changed but not saved, so I retrieve db info to update display
+                //This will retrieve the bookmark into the db (cache=false) and resetting it
+                BookmarkService.get($scope.bookmark.id, false);
             });
         };
 

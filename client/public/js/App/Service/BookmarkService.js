@@ -33,15 +33,15 @@ services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkServi
             }
         },
 
-        get: function(idCategory, id) {
+        get: function(id, cache) {
 
             if(!UserService.isLogged) {
 
                 return null;
             } else {
 
-                if(LocalBookmarkService.get(id) === false) {
-                    var promise = $http.get('/api/user/'+UserService.user.id+'/category/'+idCategory+'/bookmark/'+id)
+                if(LocalBookmarkService.get(id) === false || cache === false) {
+                    var promise = $http.get('/api/user/'+UserService.user.id+'/bookmark/'+id)
                     .then(
                         function(response) {
 
@@ -67,7 +67,7 @@ services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkServi
         },
 
         post: function(bookmark) {
-            var promise = $http.post('/api/user/'+UserService.user.id+'/category/'+bookmark.category_id+'/bookmark', bookmark)
+            var promise = $http.post('/api/user/'+UserService.user.id+'/bookmark', bookmark)
             .then(
                     function(response) {
 
@@ -90,7 +90,7 @@ services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkServi
         },
 
         update: function(bookmark) {
-            var promise = $http.put('/api/user/'+UserService.user.id+'/category/'+bookmark.category_id+'/bookmark', bookmark)
+            var promise = $http.put('/api/user/'+UserService.user.id+'/bookmark', bookmark)
             .then(
                     function(response) {
 

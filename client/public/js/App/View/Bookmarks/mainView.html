@@ -11,8 +11,8 @@
                 </div>
                 <div class="bookmarks-list-general" ng-controller="BookmarkController" ng-init="idCategory=category.id;loadBookmarks()">
 
-                    <ul class="bookmarks-list">
-                        <li ng-repeat="bookmark in bookmarks" class="bookmark" bookmark>
+                    <ul class="bookmarks-list" sortable="bookmarks-list">
+                        <li ng-repeat="bookmark in bookmarks" class="bookmark" bookmark data-bookmark="{{bookmark.id}}">
                             <a class="btn-edit-bookmark pointer" ng-click="editBookmark(bookmark)">
                                 <img src="/img/bookmark/pen.png" ng-show="bookmark.showEditBtn" />
                             </a>

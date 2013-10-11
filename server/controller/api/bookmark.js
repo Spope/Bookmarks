@@ -16,12 +16,11 @@ module.exports = function(app) {
     });
 
 
-    app.get('/api/user/:idUser/category/:idCat/bookmark/:id', bootstrap.getSecurity().checkAuth, function(req, res){
+    app.get('/api/user/:idUser/bookmark/:id', bootstrap.getSecurity().checkAuth, function(req, res){
         if(req.params.id && req.params.id > 0){
             var sql = 'SELECT * FROM bookmark '+
                 'WHERE user_id = '+connection.escape(req.session.user_id)+' '+
                 'AND id = '+connection.escape(req.params.id)+' '+
-                'AND category_id = '+connection.escape(req.params.idCat)+' '+
                 'LIMIT 1';
 
             connection.query(sql, function(err, rows, field){
@@ -35,7 +34,7 @@ module.exports = function(app) {
         }
     });
 
-    app.post('/api/user/:idUser/category/:idCat/bookmark', bootstrap.getSecurity().checkAuth, function(req, res) {
+    app.post('/api/user/:idUser/bookmark', bootstrap.getSecurity().checkAuth, function(req, res) {
         var bookmark = req.body;
         bookmark.user_id = req.session.user_id;
         bookmark.bookmark_type_id = 1;
@@ -57,7 +56,7 @@ module.exports = function(app) {
 
     });
 
-    app.put('/api/user/:idUser/category/:idCat/bookmark', bootstrap.getSecurity().checkAuth, function(req, res) {
+    app.put('/api/user/:idUser/bookmark', bootstrap.getSecurity().checkAuth, function(req, res) {
         var bookmark = req.body;
         bookmark.user_id = req.session.user_id;
         bookmark.bookmark_type_id = 1;
