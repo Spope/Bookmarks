@@ -21,11 +21,18 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'moda
         });
     }
 
+    var saveBookmark = function(bookmark) {
+
+        return BookmarkService.update(bookmark);
+    }
+
+    $scope.saveBookmark = saveBookmark;
+
     $scope.editBookmark = function(bookmark) {
 
         var modalController = function($scope, $modalInstance, LocalBookmarkService) {
             $scope.save = function() {
-                BookmarkService.update($scope.bookmark).then(function(data) {
+                saveBookmark($scope.bookmark).then(function(data) {
                     $modalInstance.modal('hide');
                 });
             }

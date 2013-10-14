@@ -92,20 +92,17 @@ services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkServi
         update: function(bookmark) {
             var promise = $http.put('/api/user/'+UserService.user.id+'/bookmark', bookmark)
             .then(
-                    function(response) {
+                function(response) {
 
                     return response.data;
                 },
                 function(data) {
-                    console.error("Can't add a bookmark");
+                    console.error("Can't update a bookmark");
                     return {}
                 }
             )
 
-            return promise.then(function(data) {
-
-                return data;
-            });;
+            return promise;
         }
     }
 

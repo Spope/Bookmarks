@@ -2,25 +2,27 @@ directives.directive("sortable", ['BookmarkService', function(BookmarkService){
     return {
         restrict: "A",
         link: function(scope, element, attrs) {
+
             element.sortable({
                 connectWith: "."+attrs.sortable,
                 stop: function (e, ui) {
                     var id = ui.item.attr('bookmark');
 
-                    var bookmark = BookmarkService.get(id);
+                    scope.bookmark = BookmarkService.get(id);
                     var list = ui.item.parent().children("li").toArray();
                     for(var index in list) {
                         if(list[index].getAttribute('bookmark') == id) {
-                            bookmark.position = index;
+                            scope.bookmark.position = index;
                         }
                     }
 
-                    var test = BookmarkService.update(bookmark).then(function(data) {
-                        BookmarkService.getByCategory(bookmark.category_id, bookmark.parent, false);
+                    scope.$apply(attrs.save).then(function(data) {
+                        BookmarkService.getByCategory(scope.bookmark.category_id, scope.bookmark.parent, false);
                     });
 
                 }
             });
+
         }
     }
 }]);
