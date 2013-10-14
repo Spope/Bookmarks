@@ -6,22 +6,46 @@ directives.directive("sortable", ['BookmarkService', function(BookmarkService){
             element.sortable({
                 connectWith: "."+attrs.sortable,
                 stop: function (e, ui) {
-                    var id = ui.item.attr('bookmark');
+                    //Avoid sort when book has changed of category
+                    if (this === ui.item.parent()[0]) {
+                        var id = ui.item.attr('bookmark');
 
-                    scope.bookmark = BookmarkService.get(id);
-                    var list = ui.item.parent().children("li").toArray();
-                    for(var index in list) {
-                        if(list[index].getAttribute('bookmark') == id) {
-                            scope.bookmark.position = index;
-                        }
+                        scope.bookmark = BookmarkService.get(id);
+                        setNewOrder(ui);
+
+                        scope.$apply(attrs.save).then(function(data) {
+                            BookmarkService.getByCategory(scope.bookmark.category_id, scope.bookmark.parent, false);
+                        });
                     }
+
+                },
+                remove: function(e, ui) {
+                    e.stopPropagation();
+                },
+                receive: function(e, ui) {
+                    e.stopPropagation();
+                    console.log(scope.category);
+                    var id = ui.item.attr('bookmark');
+                    scope.bookmark = BookmarkService.get(id);
+                    scope.bookmark.category_id = scope.category.id;
+                    setNewOrder(ui);
 
                     scope.$apply(attrs.save).then(function(data) {
                         BookmarkService.getByCategory(scope.bookmark.category_id, scope.bookmark.parent, false);
                     });
-
                 }
             });
+
+            var setNewOrder = function(ui) {
+                var list = ui.item.parent().children("li").toArray();
+                var id = ui.item.attr('bookmark');
+                for(var index in list) {
+                    if(list[index].getAttribute('bookmark') == id) {
+                        scope.bookmark.position = parseInt(index);
+                    }
+                }
+            }
+
 
         }
     }

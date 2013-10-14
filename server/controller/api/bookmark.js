@@ -69,74 +69,144 @@ module.exports = function(app) {
 
         connection.query(sql, function(err, rows, field){
 
-            if(rows[0].position != bookmark.position) {
-                var updatePosition;
-                if(rows[0].position - bookmark.position < 0 ) {
-                    //from 2 to 4
-                    updatePosition = 'UPDATE bookmark SET '+
-                        'position = position-1 '+
-                        'WHERE category_id = '+connection.escape(bookmark.category_id)+' ';
-                        if(bookmark.parent != null){
-                            updatePosition += 'AND parent = '+connection.escape(bookmark.parent)+' ';
-                        } else {
-                            updatePosition += 'AND parent IS NULL ';
-                        }
-                        updatePosition += 'AND position <='+connection.escape(bookmark.position)+' '+
-                        'AND position >'+rows[0].position+' '+
-                        'AND user_id ='+req.session.user_id;
-                } else {
-                    //from 4 to 2
-                    updatePosition = 'UPDATE bookmark SET '+
-                        'position = position+1 '+
-                        'WHERE category_id = '+connection.escape(bookmark.category_id)+' ';
-                        if(bookmark.parent != null){
-                            updatePosition += 'AND parent = '+connection.escape(bookmark.parent)+' ';
-                        } else {
-                            updatePosition += 'AND parent IS NULL ';
-                        }
-                        updatePosition += 'AND position >='+parseInt(bookmark.position)+' '+
-                        'AND position <'+rows[0].position+' '+
-                        'AND user_id ='+req.session.user_id;
-                }
+            var actions = [__updateCategory, __updatePosition, __updateBookmark];
+            var count = actions.length;
+            var data = {};
 
-                connection.query(updatePosition, function(err, rows, fields) {
+            actions.forEach(function(fn) {
 
-                    var query = connection.query('UPDATE bookmark SET '+
-                        'name='+connection.escape(bookmark.name)+', '+
-                        'position='+connection.escape(bookmark.position)+', '+
-                        'parent='+connection.escape(bookmark.parent)+', '+
-                        'category_id='+connection.escape(bookmark.category_id)+', '+
-                        'url='+connection.escape(bookmark.url)+' '+
-                        'WHERE id='+connection.escape(bookmark.id)+' '+
-                        'AND user_id='+req.session.user_id, function(err, rows, field){
-                            if(err){
-                                return res.send(err);
-                            }
-                            return res.json(bookmark);
-                        }
-                    );
-                });
+                fn.call(null, bookmark, rows[0], function(bookmark) {
+                    bookmark = bookmark;
+                    count--;
 
-            } else {
+                    console.log(count);
+                    if( count <= 0 ) {
 
-                var query = connection.query('UPDATE bookmark SET '+
-                    'name='+connection.escape(bookmark.name)+', '+
-                    'position='+connection.escape(bookmark.position)+', '+
-                    'parent='+connection.escape(bookmark.parent)+', '+
-                    'category_id='+connection.escape(bookmark.category_id)+', '+
-                    'url='+connection.escape(bookmark.url)+' '+
-                    'WHERE id='+connection.escape(bookmark.id)+' '+
-                    'AND user_id='+req.session.user_id, function(err, rows, field){
-                        if(err){
-                            return res.send(err);
-                        }
                         return res.json(bookmark);
                     }
-                );
-            }
+                });
+                
+            });
+
         });
 
-        
+
+
+        var __updatePosition = function(bookmark, oldBookmark, next) {
+            var oldposition = oldBookmark.position;
+            if(bookmark.position != oldposition) {
+                var updateposition;
+                if(oldposition - bookmark.position < 0 ) {
+                    //from 2 to 4
+                    updateposition = 'update bookmark set '+
+                        'position = position-1 '+
+                        'where category_id = '+connection.escape(bookmark.category_id)+' ';
+                        if(bookmark.parent != null){
+                            updateposition += 'and parent = '+connection.escape(bookmark.parent)+' ';
+                        } else {
+                            updateposition += 'and parent is null ';
+                        }
+                        updateposition += 'and position <='+connection.escape(bookmark.position)+' '+
+                        'and position >'+oldposition+' '+
+                        'and user_id ='+req.session.user_id;
+                } else {
+                    //from 4 to 2
+                    updateposition = 'update bookmark set '+
+                        'position = position+1 '+
+                        'where category_id = '+connection.escape(bookmark.category_id)+' ';
+                        if(bookmark.parent != null){
+                            updateposition += 'and parent = '+connection.escape(bookmark.parent)+' ';
+                        } else {
+                            updateposition += 'and parent is null ';
+                        }
+                        updateposition += 'and position >='+parseInt(bookmark.position)+' '+
+                        'and position <'+oldposition+' '+
+                        'and user_id ='+req.session.user_id;
+                }
+
+                connection.query(updateposition, function(err, rows, fields) {
+                    console.log('__updatePosition');
+                    if(err){
+                        console.log(err);
+                        return err;
+                    }
+                    connection.query("UPDATE bookmark SET position="+parseInt(bookmark.position)+" "+
+                            'WHERE category_id = '+connection.escape(bookmark.category_id)+' '+
+                            'AND id = '+parseInt(bookmark.id)+' '+
+                            'AND user_id ='+req.session.user_id, function(err, rows, fields) {
+                        if(err){
+                            console.log(err);
+                            return err;
+                        }
+
+                        next(bookmark);
+                    });
+                    
+                });
+            } else {
+                next(bookmark);
+            }
+        }
+
+        var __updateCategory = function(bookmark, oldBookmark, next) {
+
+            if(bookmark.category_id != oldBookmark.category_id) {
+
+                var getCount = "SELECT COUNT(id) AS count FROM bookmark WHERE category_id = "+escape(bookmark.id);
+                connection.query(getCount, function(err, rows, fields) {
+
+                    var tempPosition = rows[0].count;
+
+                    var updateCategory;
+                    updateCategory = 'UPDATE bookmark SET '+
+                        'position = '+tempPosition+' '+
+                        'AND category_id = '+connection.escape(bookmark.category_id)+' '+
+                        'WHERE id = '+connection.escape(bookmark.id)+' ';
+
+                    connection.query(updateCategory, function(err, rows, fields) {
+                        if(err){
+                            return err;
+                        }
+
+                        console.log('__updateCategory');
+
+                        if(tempPosition != bookmark.position) {
+                            oldBookmark.position = tempPosition;
+                            __updatePosition(bookmark, oldBookmark, next);
+                        } else {
+                            next(bookmark);
+                        }
+                    });
+                });
+            } else {
+
+                next(bookmark);
+            }
+
+        }
+
+        var __updateBookmark = function(bookmark, oldBookmark, next) {
+
+            var query = connection.query('UPDATE bookmark SET '+
+                'name='+connection.escape(bookmark.name)+', '+
+                //'position='+connection.escape(bookmark.position)+', '+
+                'parent='+connection.escape(bookmark.parent)+', '+
+                //'category_id='+connection.escape(bookmark.category_id)+', '+
+                'url='+connection.escape(bookmark.url)+' '+
+                'WHERE id='+connection.escape(bookmark.id)+' '+
+                'AND user_id='+req.session.user_id, function(err, rows, field){
+                    if(err){
+                        return res.send(err);
+                    }
+
+                    console.log('__updateBookmark');
+
+                    next(bookmark);
+                }
+            );
+        }
 
     });
+
+    
 }
