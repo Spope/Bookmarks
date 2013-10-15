@@ -70,11 +70,14 @@ module.exports = function(app) {
 
         connection.query(sql, function(err, rows, field){
 
-            __updateCategory(bookmark, rows[0])
-            //.then(function(bookmark) {
-                //return __updatePosition(bookmark, rows[0]);
-            //})
-            .then(function(bookmark) {
+            var exec = null;
+            if(bookmark.category_id == rows[0].category_id) {
+                exec = __updatePosition(bookmark, rows[0]);
+            }else{
+                exec = __updateCategory(bookmark, rows[0]);
+            }
+            
+            exec.then(function(bookmark) {
                 return __updateBookmark(bookmark, rows[0]);
             })
             .then(function(bookmark) {
@@ -123,8 +126,6 @@ module.exports = function(app) {
                             }
                             updateOldPosition += 'AND position >='+connection.escape(oldBookmark.position)+' '+
                             'AND user_id ='+req.session.user_id;
-
-                            console.log(updateOldPosition);
 
                         connection.query(updateOldPosition, function(err, rows, fields) {
                             if(err){
@@ -183,7 +184,6 @@ module.exports = function(app) {
                         'and position <'+oldposition+' '+
                         'and user_id ='+req.session.user_id;
                 }
-
                 connection.query(updateposition, function(err, rows, fields) {
                     console.log('__updatePosition');
                     if(err){

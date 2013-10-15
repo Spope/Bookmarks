@@ -8,7 +8,7 @@ directives.directive("sortable", ['BookmarkService', function(BookmarkService){
                 stop: function (e, ui) {
                     //Avoid sort when book has changed of category
                     if (this === ui.item.parent()[0]) {
-                        var id = ui.item.attr('bookmark');
+                        var id = ui.item.data('bookmark');
 
                         scope.bookmark = BookmarkService.get(id);
                         setNewOrder(ui);
@@ -25,7 +25,7 @@ directives.directive("sortable", ['BookmarkService', function(BookmarkService){
                 receive: function(e, ui) {
                     e.stopPropagation();
                     console.log(scope.category);
-                    var id = ui.item.attr('bookmark');
+                    var id = ui.item.data('bookmark');
                     scope.bookmark = BookmarkService.get(id);
                     scope.bookmark.category_id = scope.category.id;
                     setNewOrder(ui);
@@ -38,9 +38,9 @@ directives.directive("sortable", ['BookmarkService', function(BookmarkService){
 
             var setNewOrder = function(ui) {
                 var list = ui.item.parent().children("li").toArray();
-                var id = ui.item.attr('bookmark');
+                var id = ui.item.data('bookmark');
                 for(var index in list) {
-                    if(list[index].getAttribute('bookmark') == id) {
+                    if(list[index].getAttribute('data-bookmark') == id) {
                         scope.bookmark.position = parseInt(index);
                     }
                 }
