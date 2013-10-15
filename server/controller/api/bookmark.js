@@ -111,12 +111,35 @@ module.exports = function(app) {
 
                         console.log('__updateCategory');
 
-                        if(tempPosition != bookmark.position) {
-                            oldBookmark.position = tempPosition;
-                            deferred.resolve(__updatePosition(bookmark, oldBookmark));
-                        } else {
-                            deferred.resolve(bookmark);
-                        }
+                        //Update of the old categroy. Each bookmark after the removed on are deincremented
+                        var updateOldPosition = "";
+                        updateOldPosition = 'UPDATE bookmark SET '+
+                            'position = position-1 '+
+                            'WHERE category_id = '+connection.escape(oldBookmark.category_id)+' ';
+                            if(bookmark.parent != null){
+                                updateOldPosition += 'AND parent = '+connection.escape(bookmark.parent)+' ';
+                            } else {
+                                updateOldPosition += 'AND parent is NULL ';
+                            }
+                            updateOldPosition += 'AND position >='+connection.escape(oldBookmark.position)+' '+
+                            'AND user_id ='+req.session.user_id;
+
+                            console.log(updateOldPosition);
+
+                        connection.query(updateOldPosition, function(err, rows, fields) {
+                            if(err){
+                                console.log(err);
+                                deferred.reject(err);
+                            }
+                        
+
+                            if(tempPosition != bookmark.position) {
+                                oldBookmark.position = tempPosition;
+                                deferred.resolve(__updatePosition(bookmark, oldBookmark));
+                            } else {
+                                deferred.resolve(bookmark);
+                            }
+                        });
                     });
                 });
             } else {
