@@ -1,5 +1,6 @@
 var bootstrap = require('../../modules/bootstrap');
 var connection = bootstrap.getConnection();
+var Q = bootstrap.getPromise();
 
 module.exports = function(app) {
 
@@ -69,30 +70,66 @@ module.exports = function(app) {
 
         connection.query(sql, function(err, rows, field){
 
-            var actions = [__updateCategory, __updatePosition, __updateBookmark];
-            var count = actions.length;
-            var data = {};
+            __updateCategory(bookmark, rows[0])
+            //.then(function(bookmark) {
+                //return __updatePosition(bookmark, rows[0]);
+            //})
+            .then(function(bookmark) {
+                return __updateBookmark(bookmark, rows[0]);
+            })
+            .then(function(bookmark) {
 
-            actions.forEach(function(fn) {
-
-                fn.call(null, bookmark, rows[0], function(bookmark) {
-                    bookmark = bookmark;
-                    count--;
-
-                    console.log(count);
-                    if( count <= 0 ) {
-
-                        return res.json(bookmark);
-                    }
-                });
-                
+                return res.json(bookmark);
             });
-
         });
 
 
 
-        var __updatePosition = function(bookmark, oldBookmark, next) {
+        var __updateCategory = function(bookmark, oldBookmark) {
+
+            var deferred = Q.defer();
+
+            if(bookmark.category_id != oldBookmark.category_id) {
+
+                var getCount = "SELECT COUNT(id) AS count FROM bookmark WHERE category_id = "+parseInt(bookmark.category_id);
+                connection.query(getCount, function(err, rows, fields) {
+
+                    var tempPosition = rows[0].count;
+
+                    var updateCategory;
+                    updateCategory = 'UPDATE bookmark SET '+
+                        'position = '+tempPosition+', '+
+                        'category_id = '+connection.escape(bookmark.category_id)+' '+
+                        'WHERE id = '+connection.escape(bookmark.id)+' '+
+                        'AND user_id ='+req.session.user_id;
+
+                    connection.query(updateCategory, function(err, rows, fields) {
+                        if(err){
+                            console.log(err);
+                            deferred.reject(err);
+                        }
+
+                        console.log('__updateCategory');
+
+                        if(tempPosition != bookmark.position) {
+                            oldBookmark.position = tempPosition;
+                            deferred.resolve(__updatePosition(bookmark, oldBookmark));
+                        } else {
+                            deferred.resolve(bookmark);
+                        }
+                    });
+                });
+            } else {
+
+                deferred.resolve(bookmark);
+            }
+
+            return deferred.promise;
+
+        }
+
+        var __updatePosition = function(bookmark, oldBookmark) {
+            var deferred = Q.defer();
             var oldposition = oldBookmark.position;
             if(bookmark.position != oldposition) {
                 var updateposition;
@@ -128,7 +165,7 @@ module.exports = function(app) {
                     console.log('__updatePosition');
                     if(err){
                         console.log(err);
-                        return err;
+                        deferred.reject(err);
                     }
                     connection.query("UPDATE bookmark SET position="+parseInt(bookmark.position)+" "+
                             'WHERE category_id = '+connection.escape(bookmark.category_id)+' '+
@@ -136,56 +173,25 @@ module.exports = function(app) {
                             'AND user_id ='+req.session.user_id, function(err, rows, fields) {
                         if(err){
                             console.log(err);
-                            return err;
+                            deferred.reject(err);
                         }
 
-                        next(bookmark);
+                        deferred.resolve(bookmark);
                     });
                     
                 });
             } else {
-                next(bookmark);
-            }
-        }
-
-        var __updateCategory = function(bookmark, oldBookmark, next) {
-
-            if(bookmark.category_id != oldBookmark.category_id) {
-
-                var getCount = "SELECT COUNT(id) AS count FROM bookmark WHERE category_id = "+escape(bookmark.id);
-                connection.query(getCount, function(err, rows, fields) {
-
-                    var tempPosition = rows[0].count;
-
-                    var updateCategory;
-                    updateCategory = 'UPDATE bookmark SET '+
-                        'position = '+tempPosition+' '+
-                        'AND category_id = '+connection.escape(bookmark.category_id)+' '+
-                        'WHERE id = '+connection.escape(bookmark.id)+' ';
-
-                    connection.query(updateCategory, function(err, rows, fields) {
-                        if(err){
-                            return err;
-                        }
-
-                        console.log('__updateCategory');
-
-                        if(tempPosition != bookmark.position) {
-                            oldBookmark.position = tempPosition;
-                            __updatePosition(bookmark, oldBookmark, next);
-                        } else {
-                            next(bookmark);
-                        }
-                    });
-                });
-            } else {
-
-                next(bookmark);
+                deferred.resolve(bookmark);
             }
 
+            return deferred.promise;
         }
 
-        var __updateBookmark = function(bookmark, oldBookmark, next) {
+        
+
+        var __updateBookmark = function(bookmark, oldBookmark) {
+
+            var deferred = Q.defer();
 
             var query = connection.query('UPDATE bookmark SET '+
                 'name='+connection.escape(bookmark.name)+', '+
@@ -196,14 +202,16 @@ module.exports = function(app) {
                 'WHERE id='+connection.escape(bookmark.id)+' '+
                 'AND user_id='+req.session.user_id, function(err, rows, field){
                     if(err){
-                        return res.send(err);
+                        deferred.reject(err);
                     }
 
                     console.log('__updateBookmark');
 
-                    next(bookmark);
+                    deferred.resolve(bookmark);
                 }
             );
+
+            return deferred.promise;
         }
 
     });

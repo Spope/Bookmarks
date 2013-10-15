@@ -31,5 +31,13 @@ module.exports = {
 
         return this.security;
 
+    },
+
+    getPromise    : function(){
+        if(!this.promise){
+            this.promise = require('q');
+        }
+
+        return this.promise;
     }
 }
