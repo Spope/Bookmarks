@@ -24,7 +24,7 @@ directives.directive("sortable", ['BookmarkService', function(BookmarkService){
                 },
                 receive: function(e, ui) {
                     e.stopPropagation();
-                    console.log(scope.category);
+
                     var id = ui.item.data('bookmark');
                     scope.bookmark = BookmarkService.get(id);
                     scope.bookmark.category_id = scope.category.id;

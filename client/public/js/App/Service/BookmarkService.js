@@ -7,8 +7,14 @@ services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkServi
                 return null;
             }else{
 
-                if(LocalBookmarkService.getByCategory(idCategory) === false || cache === false) {
-                    var promise = $http.get('/api/user/'+UserService.user.id+'/category/'+idCategory+'/bookmarks')
+                if(LocalBookmarkService.getByCategory(idCategory, parent) === false || cache === false) {
+                    var url = "";
+                    if(parent) {
+                        url = '/api/user/'+UserService.user.id+'/category/'+idCategory+'/parent/'+parent.id;
+                    } else {
+                        url = '/api/user/'+UserService.user.id+'/category/'+idCategory+'/bookmarks';
+                    }
+                    var promise = $http.get(url)
                     .then(
                         function(response) {
 
@@ -22,13 +28,13 @@ services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkServi
 
                     return promise.then(function(data) {
 
-                        LocalBookmarkService.setByCategory(idCategory, data);
+                        LocalBookmarkService.setByCategory(idCategory, parent, data);
 
                         return data;
                     });
                 } else {
 
-                    return LocalBookmarkService.getByCategory(idCategory);
+                    return LocalBookmarkService.getByCategory(idCategory, parent);
                 }
             }
         },
@@ -88,6 +94,12 @@ services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkServi
                 return data;
             });
         },
+
+        getParent: function(id) {
+            LocalBookmarkService.getParent(id);
+        },
+
+
 
         update: function(bookmark) {
             var promise = $http.put('/api/user/'+UserService.user.id+'/bookmark', bookmark)

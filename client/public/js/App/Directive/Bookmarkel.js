@@ -5,12 +5,12 @@ directives.directive("bookmarkel", function(){
 
             element.bind('mouseenter', function(e) {
                 
-                element.children('.url-bookmark').stop().animate({
+                element.children().children().children('.url-bookmark').stop().animate({
                     paddingLeft: 20
                 }, 200, function () {
                     //append editButton
                     scope.bookmark.showEditBtn = true;
-                    element.children('.url-bookmark').css('padding-left', '6px');
+                    element.children().children().children('.url-bookmark').css('padding-left', '6px');
                     scope.$apply();
                 })
                 
@@ -22,10 +22,10 @@ directives.directive("bookmarkel", function(){
                     scope.bookmark.showEditBtn = false;
                     scope.$apply();
 
-                    element.children('.url-bookmark').css('padding-left', '20px');
+                    element.children().children().children('.url-bookmark').css('padding-left', '20px');
                 }
 
-                element.children('.url-bookmark').stop().animate({
+                element.children().children().children('.url-bookmark').stop().animate({
                     paddingLeft: 0
                 }, 200)
                 

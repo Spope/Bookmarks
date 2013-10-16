@@ -2,12 +2,24 @@ services.factory('LocalBookmarkService', [ function() {
 
     var service = {
         bookmarks: new Array(),
+        /**
+         * bookmarks = [
+         *      idCategory = [
+         *          idParent = [
+         *              book1, book2...
+         *          ],
+         *          'root' = []
+         *      ]
+         *  ]
+         */
 
         get: function(id) {
             for(var cat in this.bookmarks) {
-                for(var book in this.bookmarks[cat]) {
-                    if(this.bookmarks[cat][book].id == id) {
-                        return this.bookmarks[cat][book];
+                for(var parent in this.bookmarks[cat]) {
+                    for(var book in this.bookmarks[cat][parent]) {
+                        if(this.bookmarks[cat][parent][book].id == id) {
+                            return this.bookmarks[cat][parent][book];
+                        }
                     }
                 }
             }
@@ -15,14 +27,33 @@ services.factory('LocalBookmarkService', [ function() {
             return false;
         },
 
-        getByCategory: function(idCategory) {
+        getByCategory: function(idCategory, parent) {
 
-            if(this.bookmarks[idCategory]) {
+            if(!parent) {
+                parent = 'root';
+            } else {
+                parent = parent.id;
+            }
 
-                return this.bookmarks[idCategory];
+            if(this.bookmarks[idCategory] && this.bookmarks[idCategory][parent]) {
+
+                return this.bookmarks[idCategory][parent];
             } else {
 
                 return false;
+            }
+        },
+
+        getParent: function(id) {
+
+            for(var cat in this.bookmarks) {
+                for(var parent in this.bookmarks[cat]) {
+                    for(var book in this.bookmarks[cat][parent]) {
+                        if(this.bookmarks[cat][parent][book].id == id) {
+                            return parent;
+                        }
+                    }
+                }
             }
         },
 
@@ -34,11 +65,13 @@ services.factory('LocalBookmarkService', [ function() {
         setBookmark: function (bookmark) {
 
             for(var cat in this.bookmarks) {
-                for(var book in this.bookmarks[cat]) {
-                    if(this.bookmarks[cat][book].id == bookmark.id) {
-                        this.bookmarks[cat][book] = bookmark;
-                        
-                        return true;
+                for(var parent in this.bookmarks[cat]) {
+                    for(var book in this.bookmarks[cat][parent]) {
+                        if(this.bookmarks[cat][parent][book].id == bookmark.id) {
+                            this.bookmarks[cat][parent][book] = bookmark;
+                            
+                            return true;
+                        }
                     }
                 }
             }
@@ -46,17 +79,33 @@ services.factory('LocalBookmarkService', [ function() {
             return false;
         },
 
-        setByCategory: function (idCategory, bookmarks) {
+        setByCategory: function (idCategory, parent, bookmarks) {
 
-            this.bookmarks[idCategory] = bookmarks;
+            if(!parent) {
+                parent = 'root';
+            } else {
+                parent = parent.id;
+            }
+
+            if(!this.bookmarks[idCategory]) {
+                this.bookmarks[idCategory] = new Array();
+            }
+            this.bookmarks[idCategory][parent] = bookmarks;
         },
 
         addBookmark: function (bookmark) {
 
             var idCategory = bookmark.category_id;
-            if(this.bookmarks[idCategory]) {
+            var parent = bookmark.parent;
+            if(!parent) {
+                parent = 'root';
+            } else {
+                parent = parent.id;
+            }
 
-                this.bookmarks[idCategory].push(bookmark);
+            if(this.bookmarks[idCategory][parent]) {
+
+                this.bookmarks[idCategory][parent].push(bookmark);
             } else {
                 return false;
             }

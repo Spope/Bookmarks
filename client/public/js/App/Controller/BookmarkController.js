@@ -1,10 +1,11 @@
 controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'modalService', 'LocalCategoryService', 'LocalBookmarkService', function ($scope, BookmarkService, modalService, LocalCategoryService, LocalBookmarkService) {
     
     //retrieving bookmarks from DB
-    $scope.parent = null;
+    $scope.currentParent = null;
+    $scope.backElement = null;
 
     $scope.loadBookmarks = function() {
-        $scope.bookmarks = BookmarkService.getByCategory($scope.idCategory);
+        $scope.bookmarks = BookmarkService.getByCategory($scope.idCategory, $scope.currentParent);
     }
 
     $scope.postBookmark = function(bookmark, idCategory, callback){
@@ -56,5 +57,14 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'moda
         modalService.showModal(modalDefault, modalOptions);
 
     }
+
+    $scope.setParent = function(parent) {
+
+        $scope.backElement = $scope.currentParent;
+
+        $scope.currentParent = parent;
+
+        $scope.loadBookmarks();
+    };
     
 }]);

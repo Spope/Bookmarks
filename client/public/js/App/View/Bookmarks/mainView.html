@@ -12,14 +12,32 @@
                 <div class="bookmarks-list-general" ng-controller="BookmarkController" ng-init="idCategory=category.id;loadBookmarks()">
 
                     <ul class="bookmarks-list" sortable="bookmarks-list" save="saveBookmark(bookmark)">
+                        <li ng-show="currentParent" class="bookmark-back">
+                            <a href="" ng-click="setParent(backElement)">
+                                &lt; {{currentParent.name}}
+                            </a>
+                        </li>
                         <li ng-repeat="bookmark in bookmarks" class="bookmark" bookmarkEl data-bookmark="{{bookmark.id}}">
-                            <a class="btn-edit-bookmark pointer" ng-click="editBookmark(bookmark)">
-                                <img src="/img/bookmark/pen.png" ng-show="bookmark.showEditBtn" />
-                            </a>
-                            <a class="url-bookmark" ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">
-                                <img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" />
-                                {{bookmark.name}}
-                            </a>
+                            <div ng-switch on="bookmark.bookmark_type_id">
+                                <div ng-switch-when="1">
+                                    <a class="btn-edit-bookmark pointer" ng-click="editBookmark(bookmark)">
+                                        <img src="/img/bookmark/pen.png" ng-show="bookmark.showEditBtn" />
+                                    </a>
+                                    <a class="url-bookmark" ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">
+                                        <img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" />
+                                        {{bookmark.name}}
+                                    </a>
+                                </div>
+                                <div ng-switch-when="2">
+                                    <a class="btn-edit-bookmark pointer" ng-click="editBookmark(bookmark)">
+                                        <img src="/img/bookmark/pen.png" ng-show="bookmark.showEditBtn" />
+                                    </a>
+                                    <a class="url-bookmark" href="" title="{{bookmark.name}}" ng-click="setParent(bookmark)">
+                                        <img src="/img/bookmark/folder.png" />
+                                        {{bookmark.name}}
+                                    </a>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                     <div class="category-add-bookmark" style="display:none;" addbookmark="{{category.id}}">

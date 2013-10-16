@@ -9,10 +9,25 @@ module.exports = function(app) {
         var sql = 'SELECT * FROM bookmark '+
             'WHERE user_id = '+connection.escape(req.session.user_id)+' '+
             'AND category_id = '+connection.escape(req.params.idCat)+' '+
+            'AND parent IS NULL '+
             'ORDER BY position';
         connection.query(sql, function(err, rows, fields){
             return res.json(rows);
         });
+
+    });
+
+    app.get('/api/user/:idUser/category/:idCat/parent/:idparent', bootstrap.getSecurity().checkAuth, function(req, res){
+        if(req.params.idparent && req.params.idparent > 0){
+            var sql = 'SELECT * FROM bookmark '+
+                'WHERE user_id = '+connection.escape(req.session.user_id)+' '+
+                'AND category_id = '+connection.escape(req.params.idCat)+' '+
+                'AND parent = '+parseInt(req.params.idparent)+' '+
+                'ORDER BY position';
+            connection.query(sql, function(err, rows, fields){
+                return res.json(rows);
+            });
+        }
 
     });
 
@@ -254,9 +269,7 @@ module.exports = function(app) {
 
             connection.query('UPDATE bookmark SET '+
                 'name='+connection.escape(bookmark.name)+', '+
-                //'position='+connection.escape(bookmark.position)+', '+
                 'parent='+connection.escape(bookmark.parent)+', '+
-                //'category_id='+connection.escape(bookmark.category_id)+', '+
                 'url='+connection.escape(bookmark.url)+' '+
                 'WHERE id='+connection.escape(bookmark.id)+' '+
                 'AND user_id='+req.session.user_id, function(err, rows, field){
