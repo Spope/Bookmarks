@@ -68,17 +68,27 @@ module.exports = function(app) {
             'AND id = '+connection.escape(bookmark.id)+' '+
             'LIMIT 1';
 
-        connection.query(sql, function(err, rows, field){
+        var getOldBook = Q.defer();
 
+        connection.query(sql, function(err, rows, field){
+            if(err){
+                console.log(err);
+                getOldBook.reject(err);
+            }
+
+            getOldBook.resolve(rows[0]);
+        });
+
+        getOldBook.promise.then(function(oldBookmark) {
             var exec = null;
-            if(bookmark.category_id == rows[0].category_id) {
-                exec = __updatePosition(bookmark, rows[0]);
+            if(bookmark.category_id == oldBookmark.category_id) {
+                exec = __updatePosition(bookmark, oldBookmark);
             }else{
-                exec = __updateCategory(bookmark, rows[0]);
+                exec = __updateCategory(bookmark, oldBookmark);
             }
             
             exec.then(function(bookmark) {
-                return __updateBookmark(bookmark, rows[0]);
+                return __updateBookmark(bookmark, oldBookmark);
             })
             .then(function(bookmark) {
 
@@ -91,15 +101,26 @@ module.exports = function(app) {
          */
         var __updateCategory = function(bookmark, oldBookmark) {
 
-            var deferred = Q.defer();
+            var returnPromise = Q.defer();
 
             if(bookmark.category_id != oldBookmark.category_id) {
 
                 //I retrieve the total of bookmark into the new category
                 var getCount = "SELECT COUNT(id) AS count FROM bookmark WHERE category_id = "+parseInt(bookmark.category_id);
+                var getCountPromise = Q.defer();
                 connection.query(getCount, function(err, rows, fields) {
+                    if(err){
+                        console.log(err);
+                        returnPromise.reject(err);
+                    }
 
-                    var tempPosition = rows[0].count;
+                    getCountPromise.resolve(rows[0].count);
+                });
+
+                var updateBookPromise = Q.defer();
+                var tempPosition;
+                getCountPromise.promise.then(function(count) {
+                    tempPosition = count;
                     //I temporary set the bookmark as the last of the new category
                     var updateCategory = 'UPDATE bookmark SET '+
                         'position = '+tempPosition+', '+
@@ -110,52 +131,63 @@ module.exports = function(app) {
                     connection.query(updateCategory, function(err, rows, fields) {
                         if(err){
                             console.log(err);
-                            deferred.reject(err);
+                            returnPromise.reject(err);
                         }
 
-                        //Update of the old categroy. Each bookmark after the removed on are de-incremented
-                        var updateOldPosition = "";
-                        updateOldPosition = 'UPDATE bookmark SET '+
-                            'position = position-1 '+
-                            'WHERE category_id = '+connection.escape(oldBookmark.category_id)+' ';
-                            if(bookmark.parent != null){
-                                updateOldPosition += 'AND parent = '+connection.escape(bookmark.parent)+' ';
-                            } else {
-                                updateOldPosition += 'AND parent is NULL ';
-                            }
-                            updateOldPosition += 'AND position >='+connection.escape(oldBookmark.position)+' '+
-                            'AND user_id ='+req.session.user_id;
-
-                        connection.query(updateOldPosition, function(err, rows, fields) {
-                            if(err){
-                                console.log(err);
-                                deferred.reject(err);
-                            }
-
-                            //The bookmarks has been temporary placed as the last one of the category. If it's not
-                            //his position, I use the __updatePosition function to place him.
-                            if(tempPosition != bookmark.position) {
-                                oldBookmark.position = tempPosition;
-                                deferred.resolve(__updatePosition(bookmark, oldBookmark));
-                            } else {
-                                deferred.resolve(bookmark);
-                            }
-                        });
+                        updateBookPromise.resolve(rows[0]);
                     });
                 });
+
+                var updateOldCategoryPromise = Q.defer();
+                updateBookPromise.promise.then(function(update) {
+                    //Update of the old categroy. Each bookmark after the removed on are de-incremented
+                    var updateOldPosition = "";
+                    updateOldPosition = 'UPDATE bookmark SET '+
+                        'position = position-1 '+
+                        'WHERE category_id = '+connection.escape(oldBookmark.category_id)+' ';
+                        if(bookmark.parent != null){
+                            updateOldPosition += 'AND parent = '+connection.escape(bookmark.parent)+' ';
+                        } else {
+                            updateOldPosition += 'AND parent is NULL ';
+                        }
+                        updateOldPosition += 'AND position >='+connection.escape(oldBookmark.position)+' '+
+                        'AND user_id ='+req.session.user_id;
+
+                    connection.query(updateOldPosition, function(err, rows, fields) {
+                        if(err){
+                            console.log(err);
+                            returnPromise.reject(err);
+                        }
+
+                        updateOldCategoryPromise.resolve(rows[0])
+                    });
+                });
+
+                updateOldCategoryPromise.promise.then(function(update) {
+
+                    //The bookmarks has been temporary placed as the last one of the category. If it's not
+                    //his position, I use the __updatePosition function to place him.
+                    if(tempPosition != bookmark.position) {
+                        oldBookmark.position = tempPosition;
+                        returnPromise.resolve(__updatePosition(bookmark, oldBookmark));
+                    } else {
+                        returnPromise.resolve(bookmark);
+                    }
+                });
+
             } else {
 
-                deferred.resolve(bookmark);
+                returnPromise.resolve(bookmark);
             }
 
-            return deferred.promise;
-
+            return returnPromise.promise;
         }
 
         var __updatePosition = function(bookmark, oldBookmark) {
             var deferred = Q.defer();
             var oldposition = oldBookmark.position;
             if(bookmark.position != oldposition) {
+                //Building the request that will update other bookmarks from the category
                 var updateposition;
                 if(oldposition - bookmark.position < 0 ) {
                     //from 2 to 4
@@ -184,12 +216,17 @@ module.exports = function(app) {
                         'and position <'+oldposition+' '+
                         'and user_id ='+req.session.user_id;
                 }
+                var updateBookmarksPromise = Q.defer();
                 connection.query(updateposition, function(err, rows, fields) {
-                    console.log('__updatePosition');
                     if(err){
                         console.log(err);
                         deferred.reject(err);
                     }
+                    
+                    updateBookmarksPromise.resolve(rows[0]);
+                });
+
+                updateBookmarksPromise.promise.then(function(update) {
                     connection.query("UPDATE bookmark SET position="+parseInt(bookmark.position)+" "+
                             'WHERE category_id = '+connection.escape(bookmark.category_id)+' '+
                             'AND id = '+parseInt(bookmark.id)+' '+
@@ -201,7 +238,6 @@ module.exports = function(app) {
 
                         deferred.resolve(bookmark);
                     });
-                    
                 });
             } else {
                 deferred.resolve(bookmark);
@@ -227,8 +263,6 @@ module.exports = function(app) {
                     if(err){
                         deferred.reject(err);
                     }
-
-                    console.log('__updateBookmark');
 
                     deferred.resolve(bookmark);
                 }
