@@ -11,7 +11,7 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'moda
     $scope.postBookmark = function(bookmark, idCategory, callback){
 
         bookmark.category_id = idCategory;
-        bookmark.position = BookmarkService.getByCategory(idCategory).length;
+        bookmark.position = BookmarkService.getByCategory(idCategory, $scope.currentParent).length;
 
         BookmarkService.post(bookmark).then(function(data) {
             if(data.id) {
