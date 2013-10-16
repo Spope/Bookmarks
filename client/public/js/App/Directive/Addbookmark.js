@@ -50,7 +50,9 @@ directives.directive("addbookmark", function(){
 
             scope.send = function() {
 
-                scope.newBookmark.parent = scope.currentParent.id;
+                if(scope.currentParent) {
+                    scope.newBookmark.parent = scope.currentParent.id;
+                }
                 scope.postBookmark(scope.newBookmark, attrs.addbookmark, function() {
                     //bookmark is saved, I reset the form
                     scope.newBookmark.url = "";
