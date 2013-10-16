@@ -86,21 +86,22 @@ module.exports = function(app) {
             });
         });
 
-
-
+        /**
+         * If the bookmark has changed of category
+         */
         var __updateCategory = function(bookmark, oldBookmark) {
 
             var deferred = Q.defer();
 
             if(bookmark.category_id != oldBookmark.category_id) {
 
+                //I retrieve the total of bookmark into the new category
                 var getCount = "SELECT COUNT(id) AS count FROM bookmark WHERE category_id = "+parseInt(bookmark.category_id);
                 connection.query(getCount, function(err, rows, fields) {
 
                     var tempPosition = rows[0].count;
-
-                    var updateCategory;
-                    updateCategory = 'UPDATE bookmark SET '+
+                    //I temporary set the bookmark as the last of the new category
+                    var updateCategory = 'UPDATE bookmark SET '+
                         'position = '+tempPosition+', '+
                         'category_id = '+connection.escape(bookmark.category_id)+' '+
                         'WHERE id = '+connection.escape(bookmark.id)+' '+
@@ -112,9 +113,7 @@ module.exports = function(app) {
                             deferred.reject(err);
                         }
 
-                        console.log('__updateCategory');
-
-                        //Update of the old categroy. Each bookmark after the removed on are deincremented
+                        //Update of the old categroy. Each bookmark after the removed on are de-incremented
                         var updateOldPosition = "";
                         updateOldPosition = 'UPDATE bookmark SET '+
                             'position = position-1 '+
@@ -132,8 +131,9 @@ module.exports = function(app) {
                                 console.log(err);
                                 deferred.reject(err);
                             }
-                        
 
+                            //The bookmarks has been temporary placed as the last one of the category. If it's not
+                            //his position, I use the __updatePosition function to place him.
                             if(tempPosition != bookmark.position) {
                                 oldBookmark.position = tempPosition;
                                 deferred.resolve(__updatePosition(bookmark, oldBookmark));
@@ -216,7 +216,7 @@ module.exports = function(app) {
 
             var deferred = Q.defer();
 
-            var query = connection.query('UPDATE bookmark SET '+
+            connection.query('UPDATE bookmark SET '+
                 'name='+connection.escape(bookmark.name)+', '+
                 //'position='+connection.escape(bookmark.position)+', '+
                 'parent='+connection.escape(bookmark.parent)+', '+

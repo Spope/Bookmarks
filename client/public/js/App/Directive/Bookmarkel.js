@@ -1,4 +1,4 @@
-directives.directive("bookmark", function(){
+directives.directive("bookmarkel", function(){
     return {
         restrict: "A",
         link: function(scope, element, attrs){

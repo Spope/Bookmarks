@@ -46,7 +46,6 @@ directives.directive("sortable", ['BookmarkService', function(BookmarkService){
                 }
             }
 
-
         }
     }
 }]);
