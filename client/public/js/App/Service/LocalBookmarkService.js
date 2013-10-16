@@ -100,7 +100,7 @@ services.factory('LocalBookmarkService', [ function() {
             if(!parent) {
                 parent = 'root';
             } else {
-                parent = parent.id;
+                parent = parent;
             }
 
             if(this.bookmarks[idCategory][parent]) {

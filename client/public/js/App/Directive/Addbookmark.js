@@ -2,7 +2,7 @@ directives.directive("addbookmark", function(){
     return {
         restrict: "A",
         link: function(scope, element, attrs){
-            scope.bookmark = {};
+            scope.newBookmark = {};
 
             scope.$watch('formAdd', function () {
                 if(scope.formAdd) {
@@ -17,7 +17,7 @@ directives.directive("addbookmark", function(){
             });
 
             var firstStep = function() {
-                if(scope.bookmark.url != "" && element.find('.add-bookmark-url').hasClass('ng-valid')) {
+                if(scope.newBookmark.url != "" && element.find('.add-bookmark-url').hasClass('ng-valid')) {
                     element.find('.add-bookmark-url, .btn-add-bookmark-url').hide();
                     element.find('.add-bookmark-name, .btn-add-bookmark-name').show();
                     element.find('.add-bookmark-name').focus();
@@ -51,10 +51,11 @@ directives.directive("addbookmark", function(){
 
             scope.send = function() {
 
-                scope.postBookmark(scope.bookmark, attrs.addbookmark, function() {
+                scope.newBookmark.parent = scope.currentParent.id;
+                scope.postBookmark(scope.newBookmark, attrs.addbookmark, function() {
                     //bookmark is saved, I reset the form
-                    scope.bookmark.url = "";
-                    scope.bookmark.name = "";
+                    scope.newBookmark.url = "";
+                    scope.newBookmark.name = "";
                 });
 
                 return false;
