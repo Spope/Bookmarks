@@ -48,7 +48,6 @@ directives.directive("addbookmark", function(){
                 lastStep();
             })
 
-
             scope.send = function() {
 
                 scope.newBookmark.parent = scope.currentParent.id;
@@ -60,7 +59,6 @@ directives.directive("addbookmark", function(){
 
                 return false;
             }
-
         }
     };
 });

@@ -4,6 +4,7 @@ directives.directive("sortable", ['BookmarkService', function(BookmarkService){
         link: function(scope, element, attrs) {
 
             element.sortable({
+                items:"li:not(.bookmark-back)",
                 connectWith: "."+attrs.sortable,
                 stop: function (e, ui) {
                     //Avoid sort when book has changed of category
@@ -14,7 +15,8 @@ directives.directive("sortable", ['BookmarkService', function(BookmarkService){
                         setNewOrder(ui);
 
                         scope.$apply(attrs.save).then(function(data) {
-                            BookmarkService.getByCategory(scope.bookmark.category_id, scope.bookmark.parent, false);
+                            var parent = BookmarkService.get(scope.bookmark.parent);
+                            BookmarkService.getByCategory(scope.bookmark.category_id, parent, false);
                         });
                     }
 
@@ -37,8 +39,9 @@ directives.directive("sortable", ['BookmarkService', function(BookmarkService){
             });
 
             var setNewOrder = function(ui) {
-                var list = ui.item.parent().children("li").toArray();
+                var list = ui.item.parent().children("li:not(.bookmark-back)").toArray();
                 var id = ui.item.data('bookmark');
+
                 for(var index in list) {
                     if(list[index].getAttribute('data-bookmark') == id) {
                         scope.bookmark.position = parseInt(index);
