@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 30, 2013 at 05:36 PM
+-- Generation Time: Oct 16, 2013 at 03:51 PM
 -- Server version: 5.5.32-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.7
 
@@ -35,16 +35,24 @@ CREATE TABLE IF NOT EXISTS `bookmark` (
   KEY `fk_bookmark_category1` (`category_id`),
   KEY `fk_bookmark_bookmark_type1` (`bookmark_type_id`),
   KEY `fk_bookmark_bookmark1` (`parent`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
 
 --
 -- Dumping data for table `bookmark`
 --
 
 INSERT INTO `bookmark` (`id`, `name`, `url`, `position`, `parent`, `user_id`, `category_id`, `bookmark_type_id`) VALUES
-(1, 'Book dans perso', 'http://www.spope.fr', 1, NULL, 1, 1, 1),
-(2, 'Autre book', 'http://www.google.com', 0, NULL, 1, 1, 1),
-(3, 'Autre book 2', 'http://www.facebook.com', 0, NULL, 1, 2, 1);
+(1, 'Book dans perso', 'http://www.spope.fr', 0, NULL, 1, 1, 1),
+(2, 'Autre book', 'http://www.google.com', 3, NULL, 1, 1, 1),
+(4, 'Thinkster', 'http://www.thinkster.io', 1, NULL, 1, 1, 1),
+(5, 'll', 'http://www.thinkster.io', 4, NULL, 1, 1, 1),
+(13, 'Spope', 'http://spope.fr', 2, NULL, 1, 2, 1),
+(24, 'TESTa', 'http://api.jquery.com/trigger/', 2, NULL, 1, 1, 1),
+(26, 'Korben', 'http://korben.info/', 1, NULL, 1, 2, 1),
+(27, 'The Dailymars', 'http://www.dailymars.net/', 3, NULL, 1, 2, 1),
+(28, 'Journal du geek', 'http://www.journaldugeek.com/', 0, NULL, 1, 2, 1),
+(29, 'Folder', '', 5, NULL, 1, 1, 2),
+(30, 'Bitch', 'http://desyeuxdebitch.wordpress.com/', 6, 29, 1, 1, 1);
 
 -- --------------------------------------------------------
 
