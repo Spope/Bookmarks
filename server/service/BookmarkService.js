@@ -98,6 +98,10 @@ module.exports = {
             .then(function(bookmark) {
 
                 defer.resolve(bookmark);
+            }).catch(function(error){
+                //If an error is thrown during the promise based execution, it will be catch here.
+                //If not, the error will be invisible.
+                console.log(error);
             });
         });
 
