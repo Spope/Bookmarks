@@ -149,13 +149,16 @@ module.exports = {
                         returnPromise.reject(err);
                     }
 
-                    updateBookPromise.resolve(rows[0]);
+                    module.exports.__updateChildrenCategory(idUser, bookmark, oldBookmark).then(function(data) {
+                        updateBookPromise.resolve(rows[0]);
+                    })
+
+                    
                 });
             });
 
             var updateOldCategoryPromise = Q.defer();
             updateBookPromise.promise.then(function(update) {
-                
                 //Update of the old categroy. Each bookmark after the removed on are de-incremented
                 var updateOldPosition = "";
                 updateOldPosition = 'UPDATE bookmark SET '+
@@ -198,20 +201,24 @@ module.exports = {
         return returnPromise.promise;
     },
 
-    __updateChildrenCategory: function(idUser, bookmark) {
+    
+    __updateChildrenCategory: function(idUser, bookmark, oldBookmark) {
 
         var defer = Q.defer();
+        this.getBookmarks(idUser, oldBookmark.category_id, bookmark.id).then(function(bookmarks) {
 
-        this.getBookmarks(idUser, bookmark.category_id, bookmark.id).then(function(bookmarks) {
-
+            if(bookmarks.length == 0) {
+                defer.resolve();
+            }
             /**
              * TODO : Create a callback for this async recursive loop.
              */
             for(var i in bookmarks) {
+                
                 if(bookmarks[i].bookmark_type_id == 2){
-                    module.exports.__updateChildrenCategory(idUser, bookmarks[i]);
+                    childFn ++;
+                    module.exports.__updateChildrenCategory(idUser, bookmarks[i], oldBookmark);
                 }
-
                 var sql = 'UPDATE bookmark SET '+
                     'position = '+i+', '+
                     'category_id = '+connection.escape(bookmark.category_id)+' '+
@@ -219,11 +226,17 @@ module.exports = {
                     'AND user_id ='+parseInt(idUser);
 
                 connection.query(sql, function(err, rows, fields) {
+                    if(childFn > 0) childFn--;
                     if(err) {
 
                     }
+
+                    if(childFn == 0) {
+                        defer.resolve();
+                    }
                 });
             }
+
         });
 
         return defer.promise;
@@ -313,3 +326,5 @@ module.exports = {
         return deferred.promise;
     }
 };
+
+var childFn = 0;

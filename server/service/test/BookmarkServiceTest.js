@@ -9,7 +9,7 @@ describe('BookmarkService', function() {
 
     //Configuration of test data
     beforeEach(function(done) {
-        this.timeout(5000);
+        this.timeout(10000);
         if(connection.config.database.search('_test') == -1) {
             throw new Error("It seems that this is not a test database (and this will perform a massivre DROP...)");
         }
@@ -208,7 +208,7 @@ describe('BookmarkService', function() {
 
         describe('Change category of a bookmark', function() {
             beforeEach(function(done) {
-                this.timeout(5000);
+                this.timeout(10000);
                 var bookmark = {
                     "id":4,
                     "name":"Thinkster",
@@ -321,9 +321,11 @@ describe('BookmarkService', function() {
                 bookmarkService.getBookmarks(1, 2, 29).then(function(bookmarks) {
 
                     assert.equal(bookmarks.length, 2);
+                    console.log(bookmarks);
 
                     for(var i in bookmarks) {
                         assert.equal(bookmarks[i].category_id, 2);
+                        console.log(bookmarks[i].name);
                     }
 
                     done();
