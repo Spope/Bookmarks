@@ -1,18 +1,17 @@
 module.exports = function(mysql, test){
 
-    var dataBaseName = 'bookmarks';
-    if(test) {
-        dataBaseName = 'bookmarks_test';
-    }
-    
-    var connection = mysql.createConnection({
+    var data = {
         host     : 'localhost',
-        database : dataBaseName,
+        database : 'bookmarks',
         user     : 'USER',
-        password : 'PASS',
-    });
+        password : 'PSWD',
+    };
+    if(test) {
+        data.database = 'bookmarks_test';
+        data.multipleStatements = true;
+    }
 
-    connection.connect();
+    connection.connect(data);
 
     return connection;
 }
