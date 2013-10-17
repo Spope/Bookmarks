@@ -11,7 +11,9 @@ module.exports = function(mysql, test){
         data.multipleStatements = true;
     }
 
-    connection.connect(data);
+    var connection = mysql.createConnection(data);
+
+    connection.connect();
 
     return connection;
 }
