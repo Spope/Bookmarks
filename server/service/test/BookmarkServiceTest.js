@@ -283,6 +283,55 @@ describe('BookmarkService', function() {
             });
         });
 
+        describe('Change folder category', function() {
+
+            beforeEach(function(done) {
+                this.timeout(5000);
+                var bookmark = {
+                    "id":29,
+                    "name":"Folder",
+                    "url":"",
+                    "position":2,
+                    "parent":null,
+                    "user_id":1,
+                    "category_id":2,
+                    "bookmark_type_id":2,
+                    "showEditBtn":true
+                };
+
+                bookmarkService.editBookmark(1, bookmark).then(function(bookmark) {
+                    done();
+
+                }).done(null, done);
+            });
+
+            it('should have update the bookmark', function(done) {
+                bookmarkService.getBookmark(1, 29).then(function(response) {
+
+                    assert.equal(response.name, 'Folder');
+                    assert.equal(response.position, 2);
+                    assert.equal(response.category_id, 2);
+
+                    done();
+
+                }).done(null, done);
+            });
+
+            it('should have update the children bookmarks category', function(done) {
+                bookmarkService.getBookmarks(1, 2, 29).then(function(bookmarks) {
+
+                    assert.equal(bookmarks.length, 2);
+
+                    for(var i in bookmarks) {
+                        assert.equal(bookmarks[i].category_id, 2);
+                    }
+
+                    done();
+
+                }).done(null, done);
+            });
+        });
+
         describe('Change bookmark infos, category, and name', function() {
 
             beforeEach(function(done) {

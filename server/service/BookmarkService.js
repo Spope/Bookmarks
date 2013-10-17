@@ -113,8 +113,14 @@ module.exports = {
         var returnPromise = Q.defer();
         if(bookmark.category_id != oldBookmark.category_id) {
 
+            var parentValue = 'IS NULL';
+            if(bookmark.parent) {
+                parentValue = '= '+parseInt(idParent);
+            }
             //I retrieve the total of bookmark into the new category
-            var getCount = "SELECT COUNT(id) AS count FROM bookmark WHERE category_id = "+parseInt(bookmark.category_id);
+            var getCount = 'SELECT COUNT(id) AS count FROM bookmark '+
+                'WHERE category_id = '+parseInt(bookmark.category_id)+' '+
+                'AND parent '+parentValue;
             var getCountPromise = Q.defer();
             connection.query(getCount, function(err, rows, fields) {
                 if(err){
@@ -155,8 +161,8 @@ module.exports = {
                 updateOldPosition = 'UPDATE bookmark SET '+
                     'position = position-1 '+
                     'WHERE category_id = '+connection.escape(oldBookmark.category_id)+' ';
-                    if(bookmark.parent != null){
-                        updateOldPosition += 'AND parent = '+connection.escape(bookmark.parent)+' ';
+                    if(oldBookmark.parent != null){
+                        updateOldPosition += 'AND parent = '+connection.escape(oldBookmark.parent)+' ';
                     } else {
                         updateOldPosition += 'AND parent is NULL ';
                     }
@@ -190,6 +196,37 @@ module.exports = {
         }
 
         return returnPromise.promise;
+    },
+
+    __updateChildrenCategory: function(idUser, bookmark) {
+
+        var defer = Q.defer();
+
+        this.getBookmarks(idUser, bookmark.category_id, bookmark.id).then(function(bookmarks) {
+
+            /**
+             * TODO : Create a callback for this async recursive loop.
+             */
+            for(var i in bookmarks) {
+                if(bookmarks[i].bookmark_type_id == 2){
+                    module.exports.__updateChildrenCategory(idUser, bookmarks[i]);
+                }
+
+                var sql = 'UPDATE bookmark SET '+
+                    'position = '+i+', '+
+                    'category_id = '+connection.escape(bookmark.category_id)+' '+
+                    'WHERE id = '+connection.escape(bookmarks[i].id)+' '+
+                    'AND user_id ='+parseInt(idUser);
+
+                connection.query(sql, function(err, rows, fields) {
+                    if(err) {
+
+                    }
+                });
+            }
+        });
+
+        return defer.promise;
     },
 
     __updatePosition: function(idUser, bookmark, oldBookmark) {
