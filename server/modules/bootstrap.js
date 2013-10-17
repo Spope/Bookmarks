@@ -7,9 +7,9 @@ module.exports = {
         return this.mysql;
     },
 
-    getConnection : function(){
+    getConnection : function(test){
         if(!this.connection){
-            this.connection = require('../db/connection')(this.getMysql());
+            this.connection = require('../db/connection')(this.getMysql(), test);
         }
 
         return this.connection;
