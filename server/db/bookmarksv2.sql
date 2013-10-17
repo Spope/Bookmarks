@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 16, 2013 at 03:51 PM
+-- Generation Time: Oct 17, 2013 at 11:06 AM
 -- Server version: 5.5.32-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.7
 
@@ -12,7 +12,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Database: `bookmarks`
+-- Database: `bookmarks_test`
 --
 
 -- --------------------------------------------------------
@@ -21,6 +21,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `bookmark`
 --
 
+DROP TABLE IF EXISTS `bookmark`;
 CREATE TABLE IF NOT EXISTS `bookmark` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -60,6 +61,7 @@ INSERT INTO `bookmark` (`id`, `name`, `url`, `position`, `parent`, `user_id`, `c
 -- Table structure for table `bookmark_type`
 --
 
+DROP TABLE IF EXISTS `bookmark_type`;
 CREATE TABLE IF NOT EXISTS `bookmark_type` (
   `id` int(11) NOT NULL,
   `label` varchar(45) DEFAULT NULL,
@@ -80,6 +82,7 @@ INSERT INTO `bookmark_type` (`id`, `label`) VALUES
 -- Table structure for table `category`
 --
 
+DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
@@ -106,6 +109,7 @@ INSERT INTO `category` (`id`, `name`, `parent`, `root`, `user_id`) VALUES
 -- Table structure for table `search_engine`
 --
 
+DROP TABLE IF EXISTS `search_engine`;
 CREATE TABLE IF NOT EXISTS `search_engine` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -128,6 +132,7 @@ INSERT INTO `search_engine` (`id`, `name`, `url`, `logo`) VALUES
 -- Table structure for table `user`
 --
 
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL,
@@ -152,6 +157,7 @@ INSERT INTO `user` (`id`, `username`, `password`, `token`, `email`, `roles`) VAL
 -- Table structure for table `user_search_engine`
 --
 
+DROP TABLE IF EXISTS `user_search_engine`;
 CREATE TABLE IF NOT EXISTS `user_search_engine` (
   `user_id` int(11) NOT NULL,
   `search_engine_id` int(11) NOT NULL,
