@@ -1,7 +1,7 @@
 module.exports = function(mysql, test){
 
     var dataBaseName = 'bookmarks';
-    if(!test) {
+    if(test) {
         dataBaseName = 'bookmarks_test';
     }
     
