@@ -23,7 +23,7 @@ module.exports = {
 
         connection.query(sql, function(err, rows, fields){
             if(err){
-                deferred.reject(err);
+                defer.reject(err);
             }
             defer.resolve(rows);
         });
@@ -128,6 +128,7 @@ module.exports = {
             var updateBookPromise = Q.defer();
             var tempPosition;
             getCountPromise.promise.then(function(count) {
+                
                 tempPosition = count;
                 //I temporary set the bookmark as the last of the new category
                 var updateCategory = 'UPDATE bookmark SET '+
@@ -135,8 +136,8 @@ module.exports = {
                     'category_id = '+connection.escape(bookmark.category_id)+' '+
                     'WHERE id = '+connection.escape(bookmark.id)+' '+
                     'AND user_id ='+parseInt(idUser);
-
                 connection.query(updateCategory, function(err, rows, fields) {
+                    
                     if(err){
                         console.log(err);
                         returnPromise.reject(err);
@@ -148,6 +149,7 @@ module.exports = {
 
             var updateOldCategoryPromise = Q.defer();
             updateBookPromise.promise.then(function(update) {
+                
                 //Update of the old categroy. Each bookmark after the removed on are de-incremented
                 var updateOldPosition = "";
                 updateOldPosition = 'UPDATE bookmark SET '+
