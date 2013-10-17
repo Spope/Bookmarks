@@ -15,7 +15,7 @@ directives.directive("sortable", ['BookmarkService', function(BookmarkService){
                         setNewOrder(ui);
 
                         scope.$apply(attrs.save).then(function(data) {
-                            var parent = BookmarkService.get(scope.bookmark.parent);
+                            var parent = BookmarkService.getParent(scope.bookmark.parent);
                             BookmarkService.getByCategory(scope.bookmark.category_id, parent, false);
                         });
                     }
