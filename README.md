@@ -1,3 +1,5 @@
+**Warning, this project is under heavy development and is not usable for now.**
+
 #Personal bookmarks manager
 
 Build on top of Angular / Node.
