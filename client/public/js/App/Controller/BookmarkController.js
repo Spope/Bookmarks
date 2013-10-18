@@ -60,7 +60,11 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'moda
 
     $scope.setParent = function(parent) {
 
-        $scope.backElement = $scope.currentParent;
+        if(parent != 'root') {
+            $scope.backElement = BookmarkService.getParent(parent);
+        } else {
+            parent = null;
+        }
 
         $scope.currentParent = parent;
 

@@ -95,8 +95,8 @@ services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkServi
             });
         },
 
-        getParent: function(id) {
-            LocalBookmarkService.getParent(id);
+        getParent: function(bookmark) {
+            return LocalBookmarkService.getParent(bookmark);
         },
 
 

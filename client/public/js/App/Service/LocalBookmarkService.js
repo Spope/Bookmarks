@@ -44,17 +44,23 @@ services.factory('LocalBookmarkService', [ function() {
             }
         },
 
-        getParent: function(id) {
-
+        getParent: function(bookmark) {
             for(var cat in this.bookmarks) {
                 for(var parent in this.bookmarks[cat]) {
                     for(var book in this.bookmarks[cat][parent]) {
-                        if(this.bookmarks[cat][parent][book].id == id) {
-                            return parent;
+                        if(this.bookmarks[cat][parent][book].id == bookmark.id) {
+
+                            if(!this.bookmarks[cat][parent][book].parent) {
+                                return parent;
+                            } else {
+                                return this.get(this.bookmarks[cat][parent][book].parent);
+                            }
                         }
                     }
                 }
             }
+
+            return null;
         },
 
 
