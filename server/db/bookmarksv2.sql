@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 17, 2013 at 11:57 AM
+-- Generation Time: Oct 18, 2013 at 10:10 AM
 -- Server version: 5.5.32-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.7
 
@@ -12,7 +12,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Database: `bookmarks`
+-- Database: `bookmarks_test`
 --
 
 -- --------------------------------------------------------
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `bookmark` (
   KEY `fk_bookmark_category1` (`category_id`),
   KEY `fk_bookmark_bookmark_type1` (`bookmark_type_id`),
   KEY `fk_bookmark_bookmark1` (`parent`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
 
 --
 -- Dumping data for table `bookmark`
@@ -54,7 +54,9 @@ INSERT INTO `bookmark` (`id`, `name`, `url`, `position`, `parent`, `user_id`, `c
 (28, 'Journal du geek', 'http://www.journaldugeek.com/', 0, NULL, 1, 2, 1),
 (29, 'Folder', '', 5, NULL, 1, 1, 2),
 (30, 'Bitch', 'http://desyeuxdebitch.wordpress.com/', 0, 29, 1, 1, 1),
-(35, 'Repo', 'https://github.com/Spope/bookmarks', 1, 29, 1, 1, 1);
+(35, 'Repo', 'https://github.com/Spope/bookmarks', 1, 29, 1, 1, 1),
+(36, 'Sub folder', '', 2, 29, 1, 1, 2),
+(37, 'Joies du codes', 'http://lesjoiesducode.tumblr.com/', 0, 36, 1, 1, 1);
 
 -- --------------------------------------------------------
 
