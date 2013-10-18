@@ -38,11 +38,11 @@ describe('BookmarkService', function() {
         });
 
         //Get bookmarks into a parent folder
-        it('should return the 2 bookmarks from the category 1 with parent 29', function(done) {
+        it('should return the 3 bookmarks from the category 1 with parent 29', function(done) {
             this.timeout(6000);
             bookmarkService.getBookmarks(1, 1, 29).then(function(bookmarks) {
 
-                assert.equal(2, bookmarks.length);
+                assert.equal(3, bookmarks.length);
                 done();
             }).done(null, done);
             
@@ -97,7 +97,7 @@ describe('BookmarkService', function() {
 
             bookmarkService.addBookmark(bookmark).then(function(bookmark) {
 
-                assert.equal(bookmark.id, 36);
+                assert.equal(bookmark.id, 38);
                 assert.equal(bookmark.parent, null);
                 assert.equal(bookmark.position, 6);
 
@@ -123,7 +123,7 @@ describe('BookmarkService', function() {
 
             bookmarkService.addBookmark(bookmark).then(function(bookmark) {
 
-                assert.equal(bookmark.id, 36);
+                assert.equal(bookmark.id, 38);
                 assert.equal(bookmark.parent, 29);
                 assert.equal(bookmark.position, 2);
 
@@ -320,8 +320,24 @@ describe('BookmarkService', function() {
             it('should have update the children bookmarks category', function(done) {
                 bookmarkService.getBookmarks(1, 2, 29).then(function(bookmarks) {
 
-                    assert.equal(bookmarks.length, 2);
-                    console.log(bookmarks);
+                    assert.equal(bookmarks.length, 3);
+
+                    for(var i in bookmarks) {
+                        assert.equal(bookmarks[i].category_id, 2);
+                    }
+
+                    done();
+
+                }).done(null, done);
+            });
+
+            it('should have updated the children into the sub-folder named "Sub folder"', function(done) {
+                //bookmarkService.getBookmark(1, 37).then(function(bookmark) {
+                    //console.log(bookmark);
+                //});
+                bookmarkService.getBookmarks(1, 2, 36).then(function(bookmarks) {
+
+                    assert.equal(bookmarks.length, 1);
 
                     for(var i in bookmarks) {
                         assert.equal(bookmarks[i].category_id, 2);
@@ -331,6 +347,7 @@ describe('BookmarkService', function() {
                     done();
 
                 }).done(null, done);
+
             });
         });
 

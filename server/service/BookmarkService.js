@@ -201,43 +201,81 @@ module.exports = {
         return returnPromise.promise;
     },
 
+    getChildrenBookmarks: function(idUser, bookmark, first) {
+        if(first) {
+            defer = Q.defer();
+            childrenBookmarks = new Array();
+        }else{
+            subDefer[childFn] = Q.defer();
+        }
+
+        this.getBookmarks(idUser, bookmark.category_id, bookmark.id).then(function(bookmarks) {
+
+            for(var i in bookmarks) {
+                if(bookmarks[i].bookmark_type_id == 2) {
+
+                    childFn++;
+
+                    module.exports.getChildrenBookmarks(idUser, bookmarks[i], false).then(function(books) {
+                        childFn--;
+                    }).catch(function(err){console.log(err)});
+                }
+            }
+            childrenBookmarks = childrenBookmarks.concat(bookmarks);
+
+            if(childFn == 0) {
+                defer.resolve(bookmarks);
+            }else{
+                subDefer[childFn].resolve(bookmarks);
+            }
+
+        }).catch(function(err){console.log(err)});
+
+        if(childFn == 0) {
+
+            return defer.promise;
+        }else{
+
+            return subDefer[childFn].promise;
+        }
+    },
+
     
     __updateChildrenCategory: function(idUser, bookmark, oldBookmark) {
 
         var defer = Q.defer();
-        this.getBookmarks(idUser, oldBookmark.category_id, bookmark.id).then(function(bookmarks) {
+        module.exports.getChildrenBookmarks(idUser, oldBookmark, true).then(function(bookmarks) {
 
-            if(bookmarks.length == 0) {
+            //console.log('done');
+            var count = childrenBookmarks.length;
+
+            if(childrenBookmarks.length == 0) {
                 defer.resolve();
             }
-            /**
-             * TODO : Create a callback for this async recursive loop.
-             */
-            for(var i in bookmarks) {
-                
-                if(bookmarks[i].bookmark_type_id == 2){
-                    childFn ++;
-                    module.exports.__updateChildrenCategory(idUser, bookmarks[i], oldBookmark);
-                }
+            
+            for(var i in childrenBookmarks) {
+
                 var sql = 'UPDATE bookmark SET '+
                     'position = '+i+', '+
                     'category_id = '+connection.escape(bookmark.category_id)+' '+
-                    'WHERE id = '+connection.escape(bookmarks[i].id)+' '+
+                    'WHERE id = '+connection.escape(childrenBookmarks[i].id)+' '+
                     'AND user_id ='+parseInt(idUser);
 
                 connection.query(sql, function(err, rows, fields) {
-                    if(childFn > 0) childFn--;
+                    count--;
+                    console.log(count);
                     if(err) {
-
+                        console.log(err);
+                        defer.reject(err);
                     }
 
-                    if(childFn == 0) {
+                    if(count == 0) {
                         defer.resolve();
                     }
                 });
             }
 
-        });
+        }).catch(function(err){console.log(err)});
 
         return defer.promise;
     },
@@ -328,3 +366,6 @@ module.exports = {
 };
 
 var childFn = 0;
+var defer;
+var subDefer = new Array();
+var childrenBookmarks = new Array();
