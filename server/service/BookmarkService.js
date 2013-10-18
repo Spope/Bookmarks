@@ -224,7 +224,7 @@ module.exports = {
             childrenBookmarks = childrenBookmarks.concat(bookmarks);
 
             if(childFn == 0) {
-                defer.resolve(bookmarks);
+                defer.resolve(childrenBookmarks);
             }else{
                 subDefer[childFn].resolve(bookmarks);
             }
@@ -247,23 +247,22 @@ module.exports = {
         module.exports.getChildrenBookmarks(idUser, oldBookmark, true).then(function(bookmarks) {
 
             //console.log('done');
-            var count = childrenBookmarks.length;
+            var count = bookmarks.length;
 
-            if(childrenBookmarks.length == 0) {
+            if(bookmarks.length == 0) {
                 defer.resolve();
             }
             
-            for(var i in childrenBookmarks) {
+            for(var i in bookmarks) {
 
                 var sql = 'UPDATE bookmark SET '+
                     'position = '+i+', '+
                     'category_id = '+connection.escape(bookmark.category_id)+' '+
-                    'WHERE id = '+connection.escape(childrenBookmarks[i].id)+' '+
+                    'WHERE id = '+connection.escape(bookmarks[i].id)+' '+
                     'AND user_id ='+parseInt(idUser);
 
                 connection.query(sql, function(err, rows, fields) {
                     count--;
-                    console.log(count);
                     if(err) {
                         console.log(err);
                         defer.reject(err);

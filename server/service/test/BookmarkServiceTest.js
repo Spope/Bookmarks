@@ -332,16 +332,12 @@ describe('BookmarkService', function() {
             });
 
             it('should have updated the children into the sub-folder named "Sub folder"', function(done) {
-                //bookmarkService.getBookmark(1, 37).then(function(bookmark) {
-                    //console.log(bookmark);
-                //});
                 bookmarkService.getBookmarks(1, 2, 36).then(function(bookmarks) {
 
                     assert.equal(bookmarks.length, 1);
 
                     for(var i in bookmarks) {
                         assert.equal(bookmarks[i].category_id, 2);
-                        console.log(bookmarks[i].name);
                     }
 
                     done();
