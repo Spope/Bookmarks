@@ -44,7 +44,6 @@ module.exports = function(app) {
     app.post('/api/user/:idUser/bookmark', bootstrap.getSecurity().checkAuth, function(req, res) {
         var bookmark = req.body;
         bookmark.user_id = req.session.user_id;
-        bookmark.bookmark_type_id = 1;
 
         bookmarkService.addBookmark(bookmark).then(function(bookmark){
             res.json(bookmark);
@@ -55,7 +54,6 @@ module.exports = function(app) {
     app.put('/api/user/:idUser/bookmark', bootstrap.getSecurity().checkAuth, function(req, res) {
         var bookmark = req.body;
         bookmark.user_id = req.session.user_id;
-        bookmark.bookmark_type_id = 1;
 
         var defered = bookmarkService.editBookmark(req.session.user_id, bookmark);
         defered.then(function(bookmark){

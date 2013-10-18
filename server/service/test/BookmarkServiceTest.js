@@ -338,6 +338,7 @@ describe('BookmarkService', function() {
 
                     for(var i in bookmarks) {
                         assert.equal(bookmarks[i].category_id, 2);
+                        assert.equal(bookmarks[i].name, 'Joies du codes');
                     }
 
                     done();

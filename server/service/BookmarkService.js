@@ -149,9 +149,14 @@ module.exports = {
                         returnPromise.reject(err);
                     }
 
-                    module.exports.__updateChildrenCategory(idUser, bookmark, oldBookmark).then(function(data) {
+                    if(bookmark.bookmark_type_id == 2) {
+                        //If this is a folder, I change the category to every children
+                        module.exports.__updateChildrenCategory(idUser, bookmark, oldBookmark).then(function(data) {
+                            updateBookPromise.resolve(rows[0]);
+                        })
+                    } else if(bookmark.bookmark_type_id == 1) {
                         updateBookPromise.resolve(rows[0]);
-                    })
+                    }
 
                     
                 });

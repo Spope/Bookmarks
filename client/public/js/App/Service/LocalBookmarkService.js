@@ -51,7 +51,7 @@ services.factory('LocalBookmarkService', [ function() {
                         if(this.bookmarks[cat][parent][book].id == bookmark.id) {
 
                             if(!this.bookmarks[cat][parent][book].parent) {
-                                return parent;
+                                return parent == 'root' ? null : parent;
                             } else {
                                 return this.get(this.bookmarks[cat][parent][book].parent);
                             }
