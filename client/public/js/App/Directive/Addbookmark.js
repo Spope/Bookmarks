@@ -53,7 +53,11 @@ directives.directive("addbookmark", function(){
                 if(scope.currentParent) {
                     scope.newBookmark.parent = scope.currentParent.id;
                 }
-                scope.postBookmark(scope.newBookmark, attrs.addbookmark, function() {
+
+                scope.newBookmark.category_id = attrs.addbookmark;
+                scope.newBookmark.bookmark_type_id = 1;
+
+                scope.postBookmark(scope.newBookmark, function() {
                     //bookmark is saved, I reset the form
                     scope.newBookmark.url = "";
                     scope.newBookmark.name = "";

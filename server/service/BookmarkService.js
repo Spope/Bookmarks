@@ -59,7 +59,8 @@ module.exports = {
 
         connection.query('INSERT INTO bookmark SET ?', bookmark, function(err, rows, field){
             if(err){
-                deferred.reject(err);
+                console.log(err);
+                defer.reject(err);
             }
 
             var sql = 'SELECT * FROM bookmark '+
@@ -69,11 +70,74 @@ module.exports = {
 
             connection.query(sql, function(err, rows, field){
                 if(err){
-                    deferred.reject(err);
+                    defer.reject(err);
                 }
                 defer.resolve(rows[0]);
             });
         });
+
+        return defer.promise;
+    },
+
+    deleteBookmark: function(idUser, bookmark) {
+        var defer = Q.defer();
+
+        this.__recursiveDelete(idUser, bookmark).then(function(data) {
+
+            connection.query('DELETE FROM bookmark WHERE '+
+                    'id = '+parseInt(bookmark.id)+' '+
+                    'AND user_id = '+parseInt(idUser)+' '+
+                    'LIMIT 1', function(err, rows, field){
+                if(err){
+                    console.log(err);
+                    defer.reject(err);
+                }
+
+                defer.resolve(bookmark.id);
+            });
+        });
+
+        return defer.promise;
+    },
+
+
+    __recursiveDelete: function(idUser, bookmark) {
+
+        var defer = Q.defer();
+
+        module.exports.getChildrenBookmarks(idUser, bookmark, true).then(function(bookmarks) {
+
+            //console.log('done');
+            var count = bookmarks.length;
+
+            if(bookmarks.length == 0) {
+                defer.resolve();
+            }
+
+            //Remove childs first
+            bookmarks = bookmarks.reverse();
+
+            for(var i in bookmarks) {
+
+                var sql = 'DELETE FROM bookmark WHERE '+
+                    'id = '+parseInt(bookmarks[i].id)+' '+
+                    'AND user_id = '+parseInt(idUser)+' '+
+                    'LIMIT 1';
+
+                connection.query(sql, function(err, rows, fields) {
+                    count--;
+                    if(err) {
+                        console.log(err);
+                        defer.reject(err);
+                    }
+
+                    if(count == 0) {
+                        defer.resolve();
+                    }
+                });
+            }
+
+        }).catch(function(err){console.log(err)});
 
         return defer.promise;
     },

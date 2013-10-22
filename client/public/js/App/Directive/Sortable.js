@@ -1,11 +1,13 @@
-directives.directive("sortable", ['BookmarkService', function(BookmarkService){
+directives.directive("sortable", ['BookmarkService', 'modalService', function(BookmarkService, modalService){
     return {
         restrict: "A",
         link: function(scope, element, attrs) {
-
             element.sortable({
                 items:"li:not(.bookmark-back)",
                 connectWith: "."+attrs.sortable,
+                start: function(e, ui) {
+                    $('.bin').css('visibility', 'visible');
+                },
                 stop: function (e, ui) {
                     //Avoid sort when book has changed of category
                     if (this === ui.item.parent()[0]) {
@@ -20,21 +22,34 @@ directives.directive("sortable", ['BookmarkService', function(BookmarkService){
                         });
                     }
 
+                    $('.bin').css('visibility', 'hidden');
+
                 },
                 remove: function(e, ui) {
                     e.stopPropagation();
                 },
                 receive: function(e, ui) {
                     e.stopPropagation();
-
                     var id = ui.item.data('bookmark');
-                    scope.bookmark = BookmarkService.get(id);
-                    scope.bookmark.category_id = scope.category.id;
-                    setNewOrder(ui);
 
-                    scope.$apply(attrs.save).then(function(data) {
-                        BookmarkService.getByCategory(scope.bookmark.category_id, scope.bookmark.parent, false);
-                    });
+                    if($(ui.item).parent().hasClass('bin')) {
+
+                        //removing a book
+                        var bookmark = BookmarkService.get(id);
+                        scope.deleteBookmark = bookmark;
+                        scope.$apply(attrs.remove);
+                        
+
+                    } else {
+                        //Sorting bookmarks
+                        scope.bookmark = BookmarkService.get(id);
+                        scope.bookmark.category_id = scope.category.id;
+                        setNewOrder(ui);
+
+                        scope.$apply(attrs.save).then(function(data) {
+                            BookmarkService.getByCategory(scope.bookmark.category_id, scope.bookmark.parent, false);
+                        });
+                    }
                 }
             });
 

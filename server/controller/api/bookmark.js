@@ -62,4 +62,21 @@ module.exports = function(app) {
 
     });
 
+    app.delete('/api/user/:idUser/bookmark/:idBookmark', bootstrap.getSecurity().checkAuth, function(req, res) {
+
+        if(req.params.idBookmark && req.params.idBookmark > 0){
+            bookmarkService.getBookmark(req.session.user_id, req.params.idBookmark).then(function(bookmark) {
+
+                bookmarkService.deleteBookmark(req.session.user_id, bookmark).then(function(bookmark){
+                    return res.json(bookmark);
+                })
+
+            }).catch(function(err) {console.log(err)});
+        }else{
+            res.statusCode = 404;
+
+            return res.send('Error, parameter is not valid');
+        }
+    });
+
 }

@@ -115,6 +115,22 @@ services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkServi
             )
 
             return promise;
+        },
+
+        remove: function(bookmark) {
+
+            var promise = $http.delete('/api/user/'+UserService.user.id+'/bookmark/'+bookmark.id)
+            .then(
+                function(response) {
+                    return response;
+                },
+                function(response) {
+                    console.log("Error on removing the bookmark");
+                    return {};
+                }
+            );
+
+            return promise;
         }
     }
 

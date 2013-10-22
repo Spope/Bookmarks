@@ -1,4 +1,4 @@
-controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'modalService', 'LocalCategoryService', 'LocalBookmarkService', function ($scope, BookmarkService, modalService, LocalCategoryService, LocalBookmarkService) {
+controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'modalService', 'LocalCategoryService', 'LocalBookmarkService', '$q', function ($scope, BookmarkService, modalService, LocalCategoryService, LocalBookmarkService, $q) {
     
     //retrieving bookmarks from DB
     $scope.currentParent = null;
@@ -8,10 +8,10 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'moda
         $scope.bookmarks = BookmarkService.getByCategory($scope.idCategory, $scope.currentParent);
     }
 
-    $scope.postBookmark = function(bookmark, idCategory, callback){
+    $scope.postBookmark = function(bookmark, callback){
 
-        bookmark.category_id = idCategory;
-        bookmark.position = BookmarkService.getByCategory(idCategory, $scope.currentParent).length;
+        
+        bookmark.position = BookmarkService.getByCategory(bookmark.category_id, $scope.currentParent).length;
 
         BookmarkService.post(bookmark).then(function(data) {
             if(data.id) {
@@ -21,6 +21,7 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'moda
             }
         });
     }
+    var postBookmark = $scope.postBookmark;
 
     var saveBookmark = function(bookmark) {
 
@@ -29,6 +30,18 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'moda
 
     $scope.saveBookmark = saveBookmark;
 
+    $scope.setParent = function(parent) {
+
+        if(parent) {
+            $scope.backElement = BookmarkService.getParent(parent);
+        }
+
+        $scope.currentParent = parent;
+
+        $scope.loadBookmarks();
+    };
+
+    //Modal stuffs
     $scope.editBookmark = function(bookmark) {
 
         var modalController = function($scope, $modalInstance, LocalBookmarkService) {
@@ -44,29 +57,126 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'moda
                 BookmarkService.get($scope.bookmark.id, false);
             });
         };
+        var template = 'js/App/View/Bookmarks/partial/Modal/editFolder.html';
+        var title = 'Edit a folder';
+        if(bookmark.bookmark_type_id == 1) {
+            template = 'js/App/View/Bookmarks/partial/Modal/editBookmark.html';
+            title = 'Edit a bookmark';
+        }
 
         var modalDefault = {
-            template: 'js/App/View/Bookmarks/partial/Modal/editBookmark.html',
+            template: template,
             controller: modalController
         }
 
         var modalOptions = {
-            bookmark: bookmark
+            bookmark: bookmark,
+            title: title
         };
 
         modalService.showModal(modalDefault, modalOptions);
 
     }
 
-    $scope.setParent = function(parent) {
+    $scope.addFolder = function(idCategory, parent) {
 
-        if(parent) {
-            $scope.backElement = BookmarkService.getParent(parent);
+        var modalController = function($scope, $modalInstance, LocalBookmarkService) {
+            $scope.save = function() {
+                postBookmark($scope.bookmark, function(){
+                    $modalInstance.modal('hide');
+                });
+            }
+
+            $modalInstance.on('hide.bs.modal', function(e) {
+                //When modal is leaved, book can be changed but not saved, so I retrieve db info to update display
+                //This will retrieve the bookmark into the db (cache=false) and resetting it
+                BookmarkService.getByCategory(idCategory, parent, false);
+            });
+        };
+
+        var modalDefault = {
+            template: 'js/App/View/Bookmarks/partial/Modal/editFolder.html',
+            controller: modalController
         }
 
-        $scope.currentParent = parent;
+        var bookmark = {};
+        bookmark.bookmark_type_id = 2;
+        bookmark.category_id = idCategory;
+        if(parent) {
+            bookmark.parent = parent.id;
+        }
 
-        $scope.loadBookmarks();
-    };
+        var modalOptions = {
+            bookmark: bookmark,
+            title: 'Create a folder'
+        };
+
+        modalService.showModal(modalDefault, modalOptions);
+
+    }
+
+    $scope.removeBookmark = function(bookmark) {
+
+        var bookmark = $scope.deleteBookmark;
+        
+
+        if(bookmark.bookmark_type_id == 2) {
+
+            removeFolder(bookmark).then(function(data) {
+                deleteBookmark(bookmark);
+            });
+        } else {
+
+            deleteBookmark(bookmark);
+        }
+
+    }
+
+    //Alert the popUp 'It will remove children bookmark'
+    //and start delete on confirm
+    var removeFolder = function(folder) {
+
+        var deferrerd = $q.defer();
+        var modalController = function($scope, $modalInstance, BookmarkService, $q) {
+
+            $scope.confirm = function() {
+                deferrerd.resolve();
+                $modalInstance.modal('hide');
+            }
+
+            $modalInstance.on('hide.bs.modal', function(e) {
+                deferrerd.reject();
+            });
+        };
+
+        var modalDefault = {
+            template: 'js/App/View/Bookmarks/partial/Modal/confirmBox.html',
+            controller: modalController
+        }
+
+        var modalOptions = {
+            title: 'Warning',
+            content: 'This is a folder, every bookmarks it contain will be removed.'
+        };
+
+        modalService.showModal(modalDefault, modalOptions);
+
+        return deferrerd.promise;
+    }
+
+    var deleteBookmark = function(bookmark) {
+
+        var idCategory = bookmark.category_id;
+        var parent;
+        if(bookmark.parent) {
+            parent = BookmarkService.get(bookmark.parent);
+        }
+
+        BookmarkService.remove(bookmark).then(function(data) {
+            BookmarkService.getByCategory(idCategory, parent, false);
+        });
+    }
+
+    
     
 }]);

@@ -5,13 +5,14 @@
 <div class="categories-list-general" ng-controller="CategoryController">
     <ul class="categories-list">
         <li class="category-li" ng-repeat="category in categories">
-            <div class="category-general" ng-mouseenter="formAdd=true" ng-mouseleave="formAdd=false">
+            <div class="category-general" ng-mouseenter="formAdd=true" ng-mouseleave="formAdd=false" ng-controller="BookmarkController" ng-init="idCategory=category.id;loadBookmarks()">
                 <div class="category-header">
                     <h2>{{category.name}}</h2>
+                    <a ng-click="addFolder(category.id, currentParent)"><img src="/img/bookmark/folder.png" /></a>
                 </div>
-                <div class="bookmarks-list-general" ng-controller="BookmarkController" ng-init="idCategory=category.id;loadBookmarks()">
+                <div class="bookmarks-list-general" >
 
-                    <ul class="bookmarks-list" sortable="bookmarks-list" save="saveBookmark(bookmark)">
+                    <ul class="bookmarks-list connection" sortable="connection" save="saveBookmark(bookmark)" >
                         <li ng-show="currentParent" class="bookmark-back">
                             <a href="" ng-click="setParent(backElement)">
                                 &lt; {{currentParent.name}}
@@ -53,3 +54,6 @@
         </li>
     </ul>
 </div>
+<ul class="bin connection" sortable="connection" remove="removeBookmark()" ng-controller="BookmarkController">
+    <li>zzz</li>
+</ul>

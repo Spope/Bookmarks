@@ -1,0 +1,12 @@
+<!-- Modal (external ./partials/modal.html or inline ng-template) -->
+<div class="modal-header">
+    <h3>{{title}}</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+</div>
+<div class="modal-body">
+    {{content}}
+</div>
+<div class="modal-action">
+    <button type="button" class="btn cancel" ng-click="cancel()">Cancel</button>
+    <button type="button" class="btn" ng-click="confirm()">Confirm</button>
+</div>
