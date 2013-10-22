@@ -72,6 +72,7 @@ module.exports = {
                 if(err){
                     defer.reject(err);
                 }
+
                 defer.resolve(rows[0]);
             });
         });
@@ -82,8 +83,9 @@ module.exports = {
     deleteBookmark: function(idUser, bookmark) {
         var defer = Q.defer();
 
+        //Removing every children bookmarks / folder
         this.__recursiveDelete(idUser, bookmark).then(function(data) {
-
+            //removing the bookmark / folder
             connection.query('DELETE FROM bookmark WHERE '+
                     'id = '+parseInt(bookmark.id)+' '+
                     'AND user_id = '+parseInt(idUser)+' '+
@@ -93,7 +95,26 @@ module.exports = {
                     defer.reject(err);
                 }
 
-                defer.resolve(bookmark.id);
+                //Updating the other bookmark position
+                updatePosition = 'UPDATE bookmark set '+
+                    'position = position-1 '+
+                    'WHERE category_id = '+connection.escape(bookmark.category_id)+' ';
+                    if(bookmark.parent != null){
+                        updatePosition += 'AND parent = '+connection.escape(bookmark.parent)+' ';
+                    } else {
+                        updatePosition += 'AND parent is null ';
+                    }
+                    updatePosition += 'AND position >='+connection.escape(bookmark.position)+' '+
+                    'AND user_id ='+idUser;
+                connection.query(updatePosition, function(err, rows, field){
+                    if(err){
+                        console.log(err);
+                        defer.reject(err);
+                    }
+
+                    defer.resolve(bookmark.id);
+                });
+
             });
         });
 

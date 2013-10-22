@@ -69,7 +69,7 @@ module.exports = function(app) {
 
                 bookmarkService.deleteBookmark(req.session.user_id, bookmark).then(function(bookmark){
                     return res.json(bookmark);
-                })
+                });
 
             }).catch(function(err) {console.log(err)});
         }else{

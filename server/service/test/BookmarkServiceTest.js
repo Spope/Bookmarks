@@ -367,7 +367,7 @@ describe('BookmarkService', function() {
                 bookmarkService.editBookmark(1, bookmark).then(function(bookmark) {
                     done();
 
-                }).done(null, done());
+                }).done(null, done);
             });
 
             it('should have update the bookmark', function(done) {
@@ -382,6 +382,78 @@ describe('BookmarkService', function() {
                 }).done(null, done);
             });
         });
+    });
+
+    //////////////
+    
+    describe('removeBookmark (on a bookmark)', function() {
+
+        beforeEach(function(done) {
+            bookmarkService.getBookmark(1, 13).then(function(bookmark) {
+
+                bookmarkService.deleteBookmark(1, bookmark).then(function(data) {
+                    done();
+
+                }).done(null, done);
+            }).done(null, done);
+        });
+
+        it('should remove a bookmark into the category 1 without parent', function(done) {
+
+            bookmarkService.getBookmark(1, 13).then(function(bookmark) {
+
+                assert.equal(bookmark, undefined);
+                done();
+
+            }).done(null, done);
+        });
+
+        it('should have updated the other bookmarks position', function(done) {
+
+            bookmarkService.getBookmark(1, 27).then(function(bookmark) {
+
+                assert.equal(bookmark.position, 2);
+                done();
+
+            }).done(null, done);
+        });
+
+    });
+
+    /////////////
+
+    describe('removeBookmark (on a folder)', function() {
+
+        beforeEach(function(done) {
+            bookmarkService.getBookmark(1, 29).then(function(bookmark) {
+
+                bookmarkService.deleteBookmark(1, bookmark).then(function(data) {
+                    done();
+
+                }).done(null, done);
+            }).done(null, done);
+        });
+
+        it('should remove a children bookmark into the folder 29', function(done) {
+
+            bookmarkService.getBookmark(1, 35).then(function(bookmark) {
+
+                assert.equal(bookmark, undefined);
+                done();
+
+            }).done(null, done);
+        });
+
+        it('should have removed the subfolder into the folder 29', function(done) {
+
+            bookmarkService.getBookmark(1, 36).then(function(bookmark) {
+
+                assert.equal(bookmark, undefined);
+                done();
+
+            }).done(null, done);
+        });
+
     });
 
 });
