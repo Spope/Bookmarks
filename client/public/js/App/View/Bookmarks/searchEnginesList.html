@@ -2,11 +2,11 @@
     <div class="search-engine-list-int">
 
         <div ng-repeat="searchEngine in searchEngines" class="search-engine">
-            <img ng-src="/img/search-engines/{{searchEngine.logo}}" alt="{{searchEngine.name}}" ng-class="{selected: selectedSearchEngine.id==searchEngine.id}" ng-click="setSelectedSearchEngine(searchEngine.id)"/>
+            <img ng-src="/img/search-engines/{{searchEngine.logo}}" alt="{{searchEngine.name}}" ng-class="{selected: selectedSearchEngine.id==searchEngine.id}" ng-click="setSelectedSearchEngine(searchEngine)"/>
         </div>
 
         <form ng-submit="searchFn()" class="form-search">
-            <input type="text" class="input-search" ng-model="search.search" />
+            <input type="text" class="input-search" ng-model="search.search" ng-change="setSearchBookmark()" />
             <button class="btn-search" type="submit"><i></i></button>
         </form>
 

@@ -5,7 +5,7 @@ module.exports = function(app) {
 
     app.get('/api/user/:idUser/searchEngines', bootstrap.getSecurity().checkAuth, function(req, res){
 
-        var sql = 'SELECT search_engine.* FROM search_engine '+
+        var sql = 'SELECT search_engine.*, user_search_engine.default FROM search_engine '+
             'LEFT JOIN user_search_engine ON user_search_engine.search_engine_id = search_engine.id '+
             'WHERE user_search_engine.user_id = '+connection.escape(req.session.user_id)+' '+
             'ORDER BY name ASC';

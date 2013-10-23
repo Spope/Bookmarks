@@ -1,4 +1,4 @@
-controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'modalService', 'LocalCategoryService', 'LocalBookmarkService', '$q', function ($scope, BookmarkService, modalService, LocalCategoryService, LocalBookmarkService, $q) {
+controllers.controller('BookmarkController', ['$rootScope', '$scope', 'BookmarkService', 'modalService', 'LocalCategoryService', 'LocalBookmarkService', '$q', function ($rootScope, $scope, BookmarkService, modalService, LocalCategoryService, LocalBookmarkService, $q) {
     
     $scope.currentParent = null;
     $scope.backElement = null;

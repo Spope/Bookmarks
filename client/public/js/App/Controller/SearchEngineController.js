@@ -1,11 +1,21 @@
-controllers.controller('SearchEngineController', ['$scope', 'SearchEngineService', '$window', function($scope, SearchEngineService, $window){
+controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'SearchEngineService', '$window', function($rootScope, $scope, SearchEngineService, $window){
 
     $scope.search = {search: ""};
+
+    $scope.setSearchBookmark = function() {
+        if($scope.updateSearchBookmark) {
+            $rootScope.searchBookmark = {
+                name: $scope.search.search
+            };
+        }
+    }
 
     //retrieving searchengines from DB
     SearchEngineService.get().then(function(data) {
         $scope.searchEngines = data;
-        $scope.selectedSearchEngine = $scope.searchEngines[0];
+        $scope.selectedSearchEngine = $scope.searchEngines.filter(function(value) {
+            return value.default;
+        })[0];
     });
 
     //search
@@ -16,12 +26,16 @@ controllers.controller('SearchEngineController', ['$scope', 'SearchEngineService
         }
     }
 
-    $scope.setSelectedSearchEngine = function(id) {
-        $scope.selectedSearchEngine = $scope.searchEngines.filter(function(value, index) {
-            return value.id == id;
-        })[0];
+    $scope.setSelectedSearchEngine = function(searchEngine) {
+        $scope.selectedSearchEngine = searchEngine;
 
-        $scope.selectedSearchEngine;
+        if($scope.selectedSearchEngine.url == "bookmarks") {
+
+            $scope.updateSearchBookmark = true;
+        } else {
+            $rootScope.searchBookmark = null;
+            $scope.updateSearchBookmark = false;
+        }
     }
 
 }]);

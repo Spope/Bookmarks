@@ -18,7 +18,7 @@
                                 &lt; {{currentParent.name}}
                             </a>
                         </li>
-                        <li ng-repeat="bookmark in bookmarks" class="bookmark" bookmarkEl data-bookmark="{{bookmark.id}}">
+                        <li ng-repeat="bookmark in bookmarks | filter: searchBookmark" class="bookmark" bookmarkEl data-bookmark="{{bookmark.id}}">
                             <div ng-switch on="bookmark.bookmark_type_id">
                                 <div ng-switch-when="1">
                                     <a class="btn-edit-bookmark pointer" ng-click="editBookmark(bookmark)">
