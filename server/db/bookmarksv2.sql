@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 18, 2013 at 10:10 AM
+-- Generation Time: Oct 23, 2013 at 03:15 PM
 -- Server version: 5.5.32-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.7
 
@@ -12,7 +12,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Database: `bookmarks_test`
+-- Database: `bookmarks`
 --
 
 -- --------------------------------------------------------
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `search_engine` (
   `url` varchar(300) NOT NULL,
   `logo` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `search_engine`
@@ -127,7 +127,8 @@ CREATE TABLE IF NOT EXISTS `search_engine` (
 
 INSERT INTO `search_engine` (`id`, `name`, `url`, `logo`) VALUES
 (1, 'Google', 'http://www.google.fr/search?q={q}', 'google.png'),
-(2, 'Amazon', 'http://www.amazon.fr/s/ref=nb_sb_noss_1?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Daps&field-keywords={q}', 'amazon.png');
+(2, 'Amazon', 'http://www.amazon.fr/s/ref=nb_sb_noss_1?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Daps&field-keywords={q}', 'amazon.png'),
+(3, 'Bookmarks', 'bookmarks', 'bookmarks.png');
 
 -- --------------------------------------------------------
 
@@ -176,7 +177,8 @@ CREATE TABLE IF NOT EXISTS `user_search_engine` (
 
 INSERT INTO `user_search_engine` (`user_id`, `search_engine_id`, `default`) VALUES
 (1, 1, 1),
-(1, 2, 0);
+(1, 2, 0),
+(1, 3, 0);
 
 --
 -- Constraints for dumped tables
