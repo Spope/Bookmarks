@@ -194,18 +194,18 @@ module.exports = {
     },
 
     __updateCategory: function(idUser, bookmark, oldBookmark) {
-
         var returnPromise = Q.defer();
         if(bookmark.category_id != oldBookmark.category_id) {
 
             var parentValue = 'IS NULL';
             if(bookmark.parent) {
-                parentValue = '= '+parseInt(idParent);
+                parentValue = '= '+parseInt(bookmark.parent);
             }
             //I retrieve the total of bookmark into the new category
             var getCount = 'SELECT COUNT(id) AS count FROM bookmark '+
                 'WHERE category_id = '+parseInt(bookmark.category_id)+' '+
                 'AND parent '+parentValue;
+            console.log("getCount : "+getCount);
             var getCountPromise = Q.defer();
             connection.query(getCount, function(err, rows, fields) {
                 if(err){
@@ -224,9 +224,16 @@ module.exports = {
                 //I temporary set the bookmark as the last of the new category
                 var updateCategory = 'UPDATE bookmark SET '+
                     'position = '+tempPosition+', '+
-                    'category_id = '+connection.escape(bookmark.category_id)+' '+
+                    'category_id = '+connection.escape(bookmark.category_id)+', ';
+                    //
+                    var parent = 'NULL';
+                    if(bookmark.parent) {
+                        parent = connection.escape(bookmark.parent);
+                    }
+                    updateCategory += 'parent = '+parent+' '+
                     'WHERE id = '+connection.escape(bookmark.id)+' '+
                     'AND user_id ='+parseInt(idUser);
+                console.log("updateCategory : "+updateCategory);
                 connection.query(updateCategory, function(err, rows, fields) {
                     
                     if(err){

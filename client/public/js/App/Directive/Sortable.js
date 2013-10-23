@@ -5,6 +5,7 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
             element.sortable({
                 items:"li:not(.bookmark-back)",
                 connectWith: "."+attrs.sortable,
+                helper: 'clone',
                 start: function(e, ui) {
                     $('.bin').css('visibility', 'visible');
                 },
@@ -27,6 +28,7 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                 },
                 remove: function(e, ui) {
                     e.stopPropagation();
+                    
                 },
                 receive: function(e, ui) {
                     e.stopPropagation();
@@ -44,11 +46,17 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                         //Sorting bookmarks
                         scope.bookmark = BookmarkService.get(id);
                         scope.bookmark.category_id = scope.category.id;
+                        var parent;
+                        if(scope.currentParent) {
+                            parent = scope.currentParent.id;
+                        }
+                        scope.bookmark.parent = parent;
                         setNewOrder(ui);
 
-                        scope.$apply(attrs.save).then(function(data) {
-                            BookmarkService.getByCategory(scope.bookmark.category_id, scope.bookmark.parent, false);
+                        scope.$apply(attrs.save).then(function(test) {
+                            ui.item.remove();
                         });
+
                     }
                 }
             });

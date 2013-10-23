@@ -1,16 +1,19 @@
 controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'modalService', 'LocalCategoryService', 'LocalBookmarkService', '$q', function ($scope, BookmarkService, modalService, LocalCategoryService, LocalBookmarkService, $q) {
     
-    //retrieving bookmarks from DB
     $scope.currentParent = null;
     $scope.backElement = null;
 
-    $scope.loadBookmarks = function() {
-        $scope.bookmarks = BookmarkService.getByCategory($scope.idCategory, $scope.currentParent);
+    //retrieving bookmarks from DB
+    $scope.loadBookmarks = function(force) {
+        var cache;
+        if(force === false) {
+            var cache = false;
+        }
+        $scope.bookmarks = BookmarkService.getByCategory($scope.idCategory, $scope.currentParent, cache);
     }
 
     $scope.postBookmark = function(bookmark, callback){
 
-        
         bookmark.position = BookmarkService.getByCategory(bookmark.category_id, $scope.currentParent).length;
 
         BookmarkService.post(bookmark).then(function(data) {
@@ -25,7 +28,11 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'moda
 
     var saveBookmark = function(bookmark) {
 
-        return BookmarkService.update(bookmark);
+        return BookmarkService.update(bookmark).then(function(data) {
+            $scope.loadBookmarks(false);
+
+            return $scope.bookmarks;
+        });
     }
 
     $scope.saveBookmark = saveBookmark;
