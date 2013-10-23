@@ -205,7 +205,6 @@ module.exports = {
             var getCount = 'SELECT COUNT(id) AS count FROM bookmark '+
                 'WHERE category_id = '+parseInt(bookmark.category_id)+' '+
                 'AND parent '+parentValue;
-            console.log("getCount : "+getCount);
             var getCountPromise = Q.defer();
             connection.query(getCount, function(err, rows, fields) {
                 if(err){
@@ -233,7 +232,6 @@ module.exports = {
                     updateCategory += 'parent = '+parent+' '+
                     'WHERE id = '+connection.escape(bookmark.id)+' '+
                     'AND user_id ='+parseInt(idUser);
-                console.log("updateCategory : "+updateCategory);
                 connection.query(updateCategory, function(err, rows, fields) {
                     
                     if(err){

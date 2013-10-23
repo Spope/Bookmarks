@@ -4,11 +4,7 @@ controllers.controller('BookmarkController', ['$scope', 'BookmarkService', 'moda
     $scope.backElement = null;
 
     //retrieving bookmarks from DB
-    $scope.loadBookmarks = function(force) {
-        var cache;
-        if(force === false) {
-            var cache = false;
-        }
+    $scope.loadBookmarks = function(cache) {
         $scope.bookmarks = BookmarkService.getByCategory($scope.idCategory, $scope.currentParent, cache);
     }
 

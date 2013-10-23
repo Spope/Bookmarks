@@ -28,7 +28,9 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                 },
                 remove: function(e, ui) {
                     e.stopPropagation();
-                    
+                    //reload bookmarks into the category that lose a bookmarks
+                    //(needed for folder)
+                    ui.item.scope().loadBookmarks(false);
                 },
                 receive: function(e, ui) {
                     e.stopPropagation();
