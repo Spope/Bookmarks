@@ -17,10 +17,8 @@ controllers.controller('RegisterController', ['$scope', '$http', '$location', 'U
 
         $http(config)
         .success(function(data, status, headers, config) {
-            /*
-            if (data && status == 200) {
-                UserService.isLogged = true;
-                UserService.user     = data;
+            
+            if (data && status == 200 && data == 'OK') {
                 //Redirect to home
                 var redirect = '/';
                 if($location.search().redirect){
@@ -28,13 +26,9 @@ controllers.controller('RegisterController', ['$scope', '$http', '$location', 'U
                 }
                 $location.path(redirect).search({});
             } else {
-                UserService.isLogged = false;
-                UserService.user     = null;
-                if(!autolog) {
-                    $scope.loginError = true;
-                }
+                $scope.loginError = true;
             }
-            */
+            
         })
         .error(function(data, status, headers, config) {
             UserService.isLogged = false;

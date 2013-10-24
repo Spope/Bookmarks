@@ -86,7 +86,7 @@ module.exports = {
         validator.check(user.username).is(/^[A-z][A-z0-9]*$/);
         validator.check(user.username).len(3, 30);
 
-        if(validator._errors) {
+        if(validator._errors && validator._errors.length > 0) {
             res.send("input error");
 
             return false;
