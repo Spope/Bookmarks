@@ -29,6 +29,14 @@ bookmarkApp.config(['$routeProvider', function($routeProvider) {
                 level: 0
             }
         }).
+        when('/register', {
+            templateUrl: 'js/App/View/register.html',
+            controller: 'RegisterController',
+            access: {
+                level: 0
+            }
+            
+        }).
         otherwise({redirectTo: '/'});
 }]);
 
