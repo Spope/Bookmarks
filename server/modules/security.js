@@ -3,6 +3,7 @@ var crypto = require('crypto');
 var connection = bootstrap.getConnection();
 var moment = require('moment');
 var searchEngineService = require('../service/SearchEngineService');
+var Validator = require('validator').Validator;
 
 module.exports = {
 
@@ -75,6 +76,21 @@ module.exports = {
         user.created  = moment().format('YYYY-MM-DD HH:mm:ss');
         user.token    = md5(generateSalt(32));
         user.roles    = 1;
+
+        var validator = new Validator();
+
+        validator.error = function(msg) {
+            console.log(msg);
+        }
+        validator.check(user.email).isEmail();
+        validator.check(user.username).is(/^[A-z][A-z0-9]*$/);
+        validator.check(user.username).len(3, 30);
+
+        if(validator._errors) {
+            res.send("input error");
+
+            return false;
+        }
 
         connection.query('INSERT INTO user SET ?', user, function(err, rows, field) {
 
