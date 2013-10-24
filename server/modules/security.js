@@ -1,6 +1,8 @@
 var bootstrap = require('./bootstrap');
 var crypto = require('crypto');
 var connection = bootstrap.getConnection();
+var moment = require('moment');
+var searchEngineService = require('../service/SearchEngineService');
 
 module.exports = {
 
@@ -65,6 +67,22 @@ module.exports = {
                 }
             })
         }
+    },
+
+    register: function(req, res, user, next) {
+
+        user.password = saltAndHash(user.password);
+        user.created  = moment().format('YYYY-MM-DD HH:mm:ss');
+        user.token    = md5(generateSalt(32));
+        user.roles    = 1;
+
+        connection.query('INSERT INTO user SET ?', user, function(err, rows, field) {
+
+            searchEngineService.initUser(rows.insertId).then(function(result) {
+                res.send(200);
+            }).catch(function(err){console.log(err)});
+        });
+        
     }
 }
 
@@ -84,10 +102,10 @@ var validatePassword = function(plainPass, hashedPass, callback) {
 }
 
 
-var generateSalt = function() {
+var generateSalt = function(length) {
 	var set = '0123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ';
 	var salt = '';
-	for (var i = 0; i < 10; i++) {
+	for (var i = 0; i < length; i++) {
 		var p = Math.floor(Math.random() * set.length);
 		salt += set[p];
 	}
@@ -95,7 +113,7 @@ var generateSalt = function() {
 }
 
 
-var saltAndHash = function(pass, callback) {
-	var salt = generateSalt();
-	callback(salt + md5(pass + salt));
+var saltAndHash = function(pass) {
+	var salt = generateSalt(10);
+	return (salt + md5(pass + salt));
 }

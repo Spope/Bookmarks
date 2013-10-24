@@ -17,6 +17,7 @@ controllers.controller('RegisterController', ['$scope', '$http', '$location', 'U
 
         $http(config)
         .success(function(data, status, headers, config) {
+            /*
             if (data && status == 200) {
                 UserService.isLogged = true;
                 UserService.user     = data;
@@ -33,13 +34,12 @@ controllers.controller('RegisterController', ['$scope', '$http', '$location', 'U
                     $scope.loginError = true;
                 }
             }
+            */
         })
         .error(function(data, status, headers, config) {
             UserService.isLogged = false;
             UserService.user     = null;
-            if(!autolog) {
                 $scope.loginError = true;
-            }
         });
     }
 
