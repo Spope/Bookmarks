@@ -129,6 +129,8 @@ services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkServi
                     return {};
                 }
             );
+            //the localbookmarkservice is update into the controller.
+            //It could be done here too.
 
             return promise;
         }

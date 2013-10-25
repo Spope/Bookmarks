@@ -59,5 +59,23 @@ module.exports = function(app) {
     });
 
 
+    app.delete('/api/user/:idUser/category/:idCategory', bootstrap.getSecurity().checkAuth, function(req, res) {
+
+        if(req.params.idCategory && req.params.idCategory > 0){
+            categoryService.getCategory(req.session.user_id, req.params.idCategory).then(function(category) {
+
+                categoryService.deleteCategory(req.session.user_id, category).then(function(bookmark){
+                    return res.json(category);
+                });
+
+            }).catch(function(err) {console.log(err)});
+        }else{
+            res.statusCode = 404;
+
+            return res.send('Error, parameter is not valid');
+        }
+    });
+
+
     
 }

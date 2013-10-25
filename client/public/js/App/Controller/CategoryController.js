@@ -1,4 +1,4 @@
-controllers.controller('CategoryController', ['$scope', 'CategoryService', 'modalService', function ($scope, CategoryService, modalService) {
+controllers.controller('CategoryController', ['$scope', 'CategoryService', 'modalService', '$q', function ($scope, CategoryService, modalService, $q) {
 
     //retrieving categories from DB
     $scope.loadCategory = function() {
@@ -87,4 +87,43 @@ controllers.controller('CategoryController', ['$scope', 'CategoryService', 'moda
     }
 
     $scope.saveCategory = saveCategory;
+
+    $scope.removeCategory = function(category) {
+
+        confirmDelete(category).then(function(data){
+            CategoryService.remove(category);
+        });
+    }
+
+    //Alert the popUp 'It will remove children bookmark'
+    //and start delete on confirm
+    var confirmDelete = function(category) {
+
+        var deferrerd = $q.defer();
+        var modalController = function($scope, $modalInstance) {
+
+            $scope.confirm = function() {
+                deferrerd.resolve();
+                $modalInstance.modal('hide');
+            }
+
+            $modalInstance.on('hide.bs.modal', function(e) {
+                deferrerd.reject();
+            });
+        };
+
+        var modalDefault = {
+            template: 'js/App/View/Bookmarks/partial/Modal/confirmBox.html',
+            controller: modalController
+        }
+
+        var modalOptions = {
+            title: 'Warning',
+            content: 'This is a category, every bookmarks it contain will be removed.'
+        };
+
+        modalService.showModal(modalDefault, modalOptions);
+
+        return deferrerd.promise;
+    }
 }]);

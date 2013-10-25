@@ -90,5 +90,31 @@ module.exports = {
         });
 
         return defer.promise;
+    },
+
+    deleteCategory: function(idUser, category) {
+        var defer = Q.defer();
+
+        connection.query('DELETE FROM bookmark WHERE category_id = '+connection.escape(category.id)+' AND user_id='+connection.escape(idUser), function(err, rows, field){
+            if(err){
+                console.log(err);
+                defer.reject(err);
+            }
+
+            var sql = 'DELETE FROM category '+
+                'WHERE user_id = '+connection.escape(idUser)+' '+
+                'AND id = '+connection.escape(category.id)+' '+
+                'LIMIT 1';
+
+            connection.query(sql, function(err, rows, field){
+                if(err){
+                    defer.reject(err);
+                }
+
+                defer.resolve(rows);
+            });
+        });
+
+        return defer.promise;
     }
 }

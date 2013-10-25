@@ -43,6 +43,15 @@ services.factory('LocalCategoryService', [ function() {
             this.categories.push(category);
 
             return true;
+        },
+
+        remove: function(category) {
+            for(var i in this.categories) {
+                if(this.categories[i].id == category.id) {
+                    this.categories.splice(i, 1);
+                    console.log(this.categories);
+                }
+            }
         }
 
     }

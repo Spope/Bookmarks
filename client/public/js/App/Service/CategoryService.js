@@ -106,6 +106,23 @@ services.factory('CategoryService', ['UserService', 'LocalCategoryService', '$ht
             )
 
             return promise;
+        },
+
+        remove: function(category) {
+
+            var promise = $http.delete('/api/user/'+UserService.user.id+'/category/'+category.id)
+            .then(
+                function(response) {
+                    LocalCategoryService.remove(category);
+                    return response;
+                },
+                function(response) {
+                    console.log("Error on removing the category");
+                    return {};
+                }
+            );
+
+            return promise;
         }
     }
 
