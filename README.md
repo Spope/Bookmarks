@@ -47,7 +47,7 @@ Less files can also been compiled and browser refreshed each time a less file is
 
     grunt watch
 
-##Contributor
+##Contributors
 * [Spope](https://github.com/Spope) Client / Server side.
 * [Pilikouk](http://pilikouk.fr/) Less / Design
 
