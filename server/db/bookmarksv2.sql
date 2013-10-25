@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 23, 2013 at 03:15 PM
+-- Generation Time: Oct 25, 2013 at 11:02 AM
 -- Server version: 5.5.32-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.7
 
@@ -90,21 +90,19 @@ CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `parent` int(11) NOT NULL,
-  `root` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_category_user1` (`user_id`),
-  KEY `fk_category_parent1` (`parent`),
-  KEY `fk_category_root1` (`root`)
+  KEY `fk_category_parent1` (`parent`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `category`
 --
 
-INSERT INTO `category` (`id`, `name`, `parent`, `root`, `user_id`) VALUES
-(1, 'Perso', 1, 1, 1),
-(2, 'Cool cool cool', 2, 2, 1);
+INSERT INTO `category` (`id`, `name`, `parent`, `user_id`) VALUES
+(1, 'Perso', 1, 1),
+(2, 'Cool cool cool', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -197,8 +195,6 @@ ALTER TABLE `bookmark`
 -- Constraints for table `category`
 --
 ALTER TABLE `category`
-  ADD CONSTRAINT `fk_category_root` FOREIGN KEY (`root`) REFERENCES `category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_category_root1` FOREIGN KEY (`parent`) REFERENCES `category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_category_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --

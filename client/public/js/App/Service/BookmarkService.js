@@ -88,7 +88,7 @@ services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkServi
             return promise.then(function(data) {
 
                 if(!LocalBookmarkService.addBookmark(data)) {
-                    console.error("can't refresh data after post");
+                    console.error("can't refresh data after post bookmark");
                 }
 
                 return data;

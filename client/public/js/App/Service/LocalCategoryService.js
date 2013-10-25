@@ -17,6 +17,13 @@ services.factory('LocalCategoryService', [ function() {
         setCategories: function (categories) {
 
             this.categories = categories;
+        },
+
+        addCategory: function (category) {
+
+            this.categories.push(category);
+
+            return true;
         }
 
     }

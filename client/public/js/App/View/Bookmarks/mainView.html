@@ -3,6 +3,7 @@
     <ng-include src="'js/App/View/Bookmarks/searchEnginesList.html'" ng-controller="SearchEngineController"></ng-include>
 </div>
 <div class="categories-list-general" ng-controller="CategoryController">
+    <a ng-click="addCategory()">+</a>
     <ul class="categories-list">
         <li class="category-li" ng-repeat="category in categories">
             <div class="category-general" ng-mouseenter="formAdd=true" ng-mouseleave="formAdd=false" ng-controller="BookmarkController" ng-init="idCategory=category.id;loadBookmarks()">
@@ -55,5 +56,5 @@
     </ul>
 </div>
 <ul class="bin connection" sortable="connection" remove="removeBookmark()" ng-controller="BookmarkController">
-    <li>zzz</li>
+    <li></li>
 </ul>

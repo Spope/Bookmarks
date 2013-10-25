@@ -1,0 +1,15 @@
+<!-- Modal (external ./partials/modal.html or inline ng-template) -->
+<div class="modal-header">
+    <h3>{{title}}</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+</div>
+<div class="modal-body">
+    <form>
+        <div class="edit-category-group">
+            <label>Name : <input type="text" class="edit-category-name" ng-model="newCategory.name" placeholder="Name" /></label>
+        </div>
+    </form>
+</div>
+<div class="modal-action">
+    <button type="button" class="btn" ng-click="save()">Save</button>
+</div>

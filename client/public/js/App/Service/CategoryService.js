@@ -32,6 +32,30 @@ services.factory('CategoryService', ['UserService', 'LocalCategoryService', '$ht
                     return LocalCategoryService.getCategories();
                 }
             }
+        },
+
+        post: function(category) {
+
+            var promise = $http.post('/api/user/'+UserService.user.id+'/category', category)
+            .then(
+                    function(response) {
+
+                    return response.data;
+                },
+                function(data) {
+                    console.error("Can't add a category");
+                    return {}
+                }
+            )
+
+            return promise.then(function(data) {
+
+                if(!LocalCategoryService.addCategory(data)) {
+                    console.error("can't refresh data after post category");
+                }
+
+                return data;
+            });
         }
     }
 

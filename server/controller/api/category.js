@@ -1,16 +1,15 @@
 var bootstrap = require('../../modules/bootstrap');
 var connection = bootstrap.getConnection();
+var categoryService = require('../../service/CategoryService');
 
 module.exports = function(app) {
 
     app.get('/api/user/:idUser/categories', bootstrap.getSecurity().checkAuth, function(req, res){
 
         if(req.params.idUser == req.session.user_id) {
-            var sql = 'SELECT * FROM category '+
-                'WHERE user_id = '+connection.escape(req.session.user_id)+' ';
-                'ORDER BY position';
-            connection.query(sql, function(err, rows, fields){
-                return res.json(rows);
+            categoryService.getUserCategory(req.session.user_id).then(function(categories) {
+
+                res.json(categories);
             });
         }else{
 
@@ -20,22 +19,32 @@ module.exports = function(app) {
 
     });
 
+    app.post('/api/user/:idUser/category', bootstrap.getSecurity().checkAuth, function(req, res){
 
-    app.get('/api/categories/:id', bootstrap.getSecurity().checkAuth, function(req, res){
-        if(req.params.id && req.params.id > 0){
-            var sql = 'SELECT * FROM category '+
-                'WHERE user_id ='+connection.escape(req.session.user_id)+' '+
-                'AND id = '+connection.escape(req.params.id)+' '+
-                'LIMIT 1';
+        var category = req.body;
+        category.user_id = req.session.user_id;
 
-            connection.query(sql, function(err, rows, field){
-                    res.json(rows);
-            });
-
-        }else{
-            res.statusCode = 404;
-
-            return res.send('Error, parameter is not valid');
-        }
+        categoryService.addCategory(category).then(function(category){
+            res.json(category);
+        });
     });
+
+
+    //app.get('/api/categories/:id', bootstrap.getSecurity().checkAuth, function(req, res){
+        //if(req.params.id && req.params.id > 0){
+            //var sql = 'SELECT * FROM category '+
+                //'WHERE user_id ='+connection.escape(req.session.user_id)+' '+
+                //'AND id = '+connection.escape(req.params.id)+' '+
+                //'LIMIT 1';
+
+            //connection.query(sql, function(err, rows, field){
+                    //res.json(rows);
+            //});
+
+        //}else{
+            //res.statusCode = 404;
+
+            //return res.send('Error, parameter is not valid');
+        //}
+    //});
 }
