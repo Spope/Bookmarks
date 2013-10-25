@@ -1,0 +1,13 @@
+module.exports = {
+
+    db: {
+        host: "localhost",
+        database: "bookmarks",
+        user: "USER",
+        password: "PASSWD",
+        //
+        database_test: "bookmarks_test"
+    },
+
+    port: 1337
+}

@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var config = require('./config/config');
 
 var hbs = require('hbs');
 
@@ -26,4 +27,4 @@ app.all('/', function(req, res) {
     res.render('index');
 });
 
-app.listen(1337);
+app.listen(config.port);

@@ -1,3 +1,5 @@
+var config = require('../config/config');
+
 module.exports = {
     getMysql      : function(){
         if(!this.mysql){
@@ -9,7 +11,7 @@ module.exports = {
 
     getConnection : function(test){
         if(!this.connection){
-            this.connection = require('../db/connection')(this.getMysql(), test);
+            this.connection = require('../db/connection')(this.getMysql(), config.db, test);
         }
 
         return this.connection;
