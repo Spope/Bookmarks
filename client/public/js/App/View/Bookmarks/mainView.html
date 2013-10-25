@@ -7,17 +7,19 @@
     <ul class="categories-list">
         <li class="category-li" ng-repeat="category in categories">
             <div class="category-general" ng-mouseenter="formAdd=true" ng-mouseleave="formAdd=false" ng-controller="BookmarkController" ng-init="idCategory=category.id;loadBookmarks()">
-                <div class="category-header">
+                <div class="category-header" ng-mouseenter="showAction=true" ng-mouseleave="showAction=false">
                     <h2>{{category.name}}</h2>
-                    <a ng-click="addFolder(category.id, currentParent)">
-                        <img src="/img/bookmark/folder.png" />
-                    </a>
-                    <a ng-click="editCategory(category)">
-                        <img src="/img/bookmark/pen.png" />
-                    </a>
-                    <a ng-click="removeCategory(category)">
-                        <img src="/img/bookmark/delete.png" />
-                    </a>
+                    <div ng-show="showAction" class="category-action">
+                        <a ng-click="addFolder(category.id, currentParent)">
+                            <img src="/img/bookmark/folder.png" />
+                        </a>
+                        <a ng-click="editCategory(category)">
+                            <img src="/img/bookmark/pen.png" />
+                        </a>
+                        <a ng-click="removeCategory(category)">
+                            <img src="/img/bookmark/delete.png" />
+                        </a>
+                    </div>
                 </div>
                 <div class="bookmarks-list-general" >
 
