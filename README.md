@@ -35,7 +35,7 @@ Go into client/ and run
 ##Configuration
 The only thing to configure right now is the MySQL connection.
 
-* Duplicate the server/db/connection.js.dist and rename it to connection.js
+* Duplicate the server/config/config.js.dist and rename it to config.js
 * Set your parameters into that file
 
 The CSS is written with Less and compiled with grunt. To compile the Less, got to server/ and run
