@@ -1,4 +1,3 @@
-
 **Warning, this project is under heavy development and is not usable for now.**
 
 #Personal bookmarks manager
@@ -47,4 +46,8 @@ This will compile **client/public/less/main.less** to **client/public/css/main.c
 Less files can also been compiled and browser refreshed each time a less file is updated by running
 
     grunt watch
+
+##Contributor
+* [Spope](https://github.com/Spope) Client / Server side.
+* [Pilikouk](http://pilikouk.fr/) Less / Design
 
