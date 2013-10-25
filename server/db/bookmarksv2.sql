@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `password`, `token`, `email`, `roles`) VALUES
+INSERT INTO `user` (`id`, `username`, `password`, `token`, `email`, `roles`, `created`, `updated`) VALUES
   
 (1, 'Spope', '4Cu69UxllQa21865268e327e71a083ba85ca241ed4', '6b1c1c06fef0ea4d1e4ddc4d1dcbd900', 'pinaudt@gmail.com', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
