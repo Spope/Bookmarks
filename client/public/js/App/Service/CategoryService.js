@@ -34,6 +34,39 @@ services.factory('CategoryService', ['UserService', 'LocalCategoryService', '$ht
             }
         },
 
+        get: function(id, cache) {
+
+            if(!UserService.isLogged) {
+
+                return null;
+            } else {
+
+                if(LocalCategoryService.get(id) === false || cache === false) {
+                    var promise = $http.get('/api/user/'+UserService.user.id+'/category/'+id)
+                    .then(
+                        function(response) {
+
+                            return response.data;
+                        },
+                        function(data) {
+                            console.error("Can't retrieve category");
+                            return {}
+                        }
+                    );
+
+                    return promise.then(function(data) {
+
+                        LocalCategoryService.setCategory(data);
+
+                        return data;
+                    });
+                } else {
+
+                    return LocalCategoryService.get(id);
+                }
+            }
+        },
+
         post: function(category) {
 
             var promise = $http.post('/api/user/'+UserService.user.id+'/category', category)
@@ -56,6 +89,23 @@ services.factory('CategoryService', ['UserService', 'LocalCategoryService', '$ht
 
                 return data;
             });
+        },
+
+        update: function(category) {
+
+            var promise = $http.put('/api/user/'+UserService.user.id+'/category', category)
+            .then(
+                function(response) {
+
+                    return response.data;
+                },
+                function(data) {
+                    console.error("Can't update a category");
+                    return {}
+                }
+            )
+
+            return promise;
         }
     }
 

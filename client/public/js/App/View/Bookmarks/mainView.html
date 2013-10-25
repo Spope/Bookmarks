@@ -9,7 +9,12 @@
             <div class="category-general" ng-mouseenter="formAdd=true" ng-mouseleave="formAdd=false" ng-controller="BookmarkController" ng-init="idCategory=category.id;loadBookmarks()">
                 <div class="category-header">
                     <h2>{{category.name}}</h2>
-                    <a ng-click="addFolder(category.id, currentParent)"><img src="/img/bookmark/folder.png" /></a>
+                    <a ng-click="addFolder(category.id, currentParent)">
+                        <img src="/img/bookmark/folder.png" />
+                    </a>
+                    <a ng-click="editCategory(category)">
+                        <img src="/img/bookmark/pen.png" />
+                    </a>
                 </div>
                 <div class="bookmarks-list-general" >
 

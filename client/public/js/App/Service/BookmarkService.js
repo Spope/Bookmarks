@@ -54,7 +54,7 @@ services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkServi
                             return response.data;
                         },
                         function(data) {
-                            console.error("Can't retrieve bookmarks");
+                            console.error("Can't retrieve bookmark");
                             return {}
                         }
                     );

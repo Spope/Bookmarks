@@ -1,13 +1,17 @@
 controllers.controller('CategoryController', ['$scope', 'CategoryService', 'modalService', function ($scope, CategoryService, modalService) {
 
     //retrieving categories from DB
-    $scope.categories = CategoryService.getAll();
+    $scope.loadCategory = function() {
+        $scope.categories = CategoryService.getAll();
+    }
+
+    $scope.loadCategory();
 
     $scope.addCategory = function() {
 
         var modalController = function($scope, $modalInstance, LocalBookmarkService) {
             $scope.save = function() {
-                postCategory($scope.newCategory, function(data) {
+                postCategory($scope.category, function(data) {
                     $modalInstance.modal('hide');
                 });
             }
@@ -45,4 +49,42 @@ controllers.controller('CategoryController', ['$scope', 'CategoryService', 'moda
         });
     }
     var postCategory = $scope.postCategory;
+
+    $scope.editCategory = function(category) {
+
+        var modalController = function($scope, $modalInstance, LocalBookmarkService) {
+            $scope.save = function() {
+                saveCategory($scope.category).then(function(data) {
+                    $modalInstance.modal('hide');
+                });
+            }
+
+            $modalInstance.on('hide.bs.modal', function(e) {
+                //When modal is leaved, book can be changed but not saved, so I retrieve db info to update display
+                //This will retrieve the bookmark into the db (cache=false) and resetting it
+                CategoryService.get($scope.category.id, false);
+            });
+        };
+        var template = 'js/App/View/Bookmarks/partial/Modal/editCategory.html';
+        var title = 'Edit a category';
+
+        var modalDefault = {
+            template: template,
+            controller: modalController
+        }
+
+        var modalOptions = {
+            category: category,
+            title: title
+        };
+
+        modalService.showModal(modalDefault, modalOptions);
+    }
+
+    var saveCategory = function(category) {
+
+        return CategoryService.update(category).then(function(data) {});
+    }
+
+    $scope.saveCategory = saveCategory;
 }]);
