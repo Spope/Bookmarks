@@ -91,7 +91,6 @@ module.exports = {
 
             return false;
         }
-        console.log(user);
 
         connection.query('INSERT INTO user SET ?', user, function(err, rows, field) {
 
