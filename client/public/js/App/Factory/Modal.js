@@ -58,11 +58,11 @@ services.factory('$modal', ['$rootScope', '$compile', '$http', '$timeout', '$q',
         });
 
         // Support autofocus attribute
-        $modal.on('shown', function(ev) {
+        $modal.on('shown.bs.modal', function(ev) {
           $('input[autofocus], textarea[autofocus]', $modal).first().trigger('focus');
         });
         // Auto-remove $modal created via service
-        $modal.on('hidden', function(ev) {
+        $modal.on('hide.bs.modal', function(ev) {
           if(!options.persist) scope.$destroy();
         });
 

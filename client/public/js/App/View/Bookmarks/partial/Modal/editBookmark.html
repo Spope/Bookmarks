@@ -4,15 +4,17 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 </div>
 <div class="modal-body">
-    <form>
+    <form ng-submit="save()">
         <div class="edit-bookmark-group">
-            <label>Name : <input type="text" class="edit-bookmark-name" ng-model="bookmark.name" placeholder="Name" /></label>
+            <label>Name : <input type="text" class="edit-bookmark-name" ng-model="bookmark.name" placeholder="Name" autofocus="autofocus" /></label>
         </div>
         <div class="edit-bookmark-group">
             <label>Url : <input type="text" class="edit-bookmark-url" ng-model="bookmark.url" placeholder="Url" type="url" /></label>
         </div>
+
+        <div class="modal-action">
+            <button type="button" type="submit" class="btn" >Save</button>
+        </div>
     </form>
 </div>
-<div class="modal-action">
-    <button type="button" class="btn" ng-click="save()">Save</button>
-</div>
+
