@@ -91,9 +91,13 @@ module.exports = {
 
             return false;
         }
+        console.log(user);
 
         connection.query('INSERT INTO user SET ?', user, function(err, rows, field) {
 
+            if(err) {
+                console.log(err);
+            }
             searchEngineService.initUser(rows.insertId).then(function(result) {
                 res.send(200);
             }).catch(function(err){console.log(err)});

@@ -142,6 +142,8 @@ CREATE TABLE IF NOT EXISTS `user` (
   `token` varchar(32) NOT NULL,
   `email` varchar(45) NOT NULL,
   `roles` varchar(255) NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQUE_username` (`username`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
@@ -151,7 +153,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `token`, `email`, `roles`) VALUES
-(1, 'Spope', '4Cu69UxllQa21865268e327e71a083ba85ca241ed4', '6b1c1c06fef0ea4d1e4ddc4d1dcbd900', 'pinaudt@gmail.com', '1');
+  
+(1, 'Spope', '4Cu69UxllQa21865268e327e71a083ba85ca241ed4', '6b1c1c06fef0ea4d1e4ddc4d1dcbd900', 'pinaudt@gmail.com', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
