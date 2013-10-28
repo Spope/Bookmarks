@@ -62,14 +62,5 @@ module.exports = function(app) {
     }
 
 
-    app.post('/api/register', function (req, res) {
-        var user = {};
-        user.username = req.body.login;
-        user.password = req.body.password;
-        user.email    = req.body.email;
-
-        bootstrap.getSecurity().register(req, res, user, function(result){
-            res.json(200);
-        });
-    });
+    
 }

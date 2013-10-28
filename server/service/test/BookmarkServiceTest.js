@@ -27,9 +27,9 @@ describe('BookmarkService', function() {
     describe('getBookmarks', function() {
 
         //Get Bookmarks from a category
-        it('should return the 6 bookmarks from the category 1 without parent', function(done) {
+        it('should return the 6 bookmarks from the category 2 without parent', function(done) {
             this.timeout(6000);
-            bookmarkService.getBookmarks(1, 1).then(function(bookmarks) {
+            bookmarkService.getBookmarks(1, 2).then(function(bookmarks) {
 
                 assert.equal(6, bookmarks.length);
                 done();
@@ -38,9 +38,9 @@ describe('BookmarkService', function() {
         });
 
         //Get bookmarks into a parent folder
-        it('should return the 3 bookmarks from the category 1 with parent 29', function(done) {
+        it('should return the 3 bookmarks from the category 2 with parent 29', function(done) {
             this.timeout(6000);
-            bookmarkService.getBookmarks(1, 1, 29).then(function(bookmarks) {
+            bookmarkService.getBookmarks(1, 2, 29).then(function(bookmarks) {
 
                 assert.equal(3, bookmarks.length);
                 done();
@@ -54,7 +54,7 @@ describe('BookmarkService', function() {
     describe('getBookmark', function() {
 
         //get a single bookmark
-        it('should return the bookmark id 4 from the category 1, and his name should be Thinkster', function(done) {
+        it('should return the bookmark id 4 from the category 2, and his name should be Thinkster', function(done) {
             this.timeout(6000);
             bookmarkService.getBookmark(1, 4).then(function(bookmark) {
 
@@ -66,7 +66,7 @@ describe('BookmarkService', function() {
         });
 
         //get a single bookmark into a parent folder
-        it('should return the bookmark id 35 from the category 1 into parent 29, and his name should be Repo', function(done) {
+        it('should return the bookmark id 35 from the category 2 into parent 29, and his name should be Repo', function(done) {
             this.timeout(6000);
             bookmarkService.getBookmark(1, 35).then(function(bookmark) {
 
@@ -82,13 +82,13 @@ describe('BookmarkService', function() {
     
     describe('addBookmark', function() {
 
-        it('should add a bookmark into the category 1 without parent', function(done) {
+        it('should add a bookmark into the category 2 without parent', function(done) {
 
             //variables from POST
             var bookmark = {
                 "url"              : "http://www.test.com/",
                 "name"             : "Hello",
-                "category_id"      : "1",
+                "category_id"      : "2",
                 "position"         : 6,
                 "bookmark_type_id" : 1
             };
@@ -107,13 +107,13 @@ describe('BookmarkService', function() {
         });
 
         //Adding a bookmark into a parent folder
-        it('should add a bookmark into the category 1 with parent 29', function(done) {
+        it('should add a bookmark into the category 2 with parent 29', function(done) {
 
             //variables from POST
             var bookmark = {
                 "url"              : "http://www.test.com/",
                 "name"             : "Hello",
-                "category_id"      : "1",
+                "category_id"      : "2",
                 "position"         : 2,
                 "parent"           : 29,
                 "bookmark_type_id" : 1
@@ -146,7 +146,7 @@ describe('BookmarkService', function() {
                 "position":1,
                 "parent":null,
                 "user_id":1,
-                "category_id":1,
+                "category_id":2,
                 "bookmark_type_id":1,
                 "showEditBtn":false
             };
@@ -176,7 +176,7 @@ describe('BookmarkService', function() {
                 "position":3,
                 "parent":null,
                 "user_id":1,
-                "category_id":1,
+                "category_id":2,
                 "bookmark_type_id":1,
                 "showEditBtn":true
             };
@@ -192,7 +192,7 @@ describe('BookmarkService', function() {
 
             bookmarkService.editBookmark(1, bookmark).then(function(bookmark) {
 
-                bookmarkService.getBookmarks(1, 1).then(function(response) {
+                bookmarkService.getBookmarks(1, 2).then(function(response) {
 
                     for(var i in response) {
                         assert.equal(response[i].id, correctValue[i].id);
@@ -216,7 +216,7 @@ describe('BookmarkService', function() {
                     "position":2,
                     "parent":null,
                     "user_id":1,
-                    "category_id":2,
+                    "category_id":3,
                     "bookmark_type_id":1,
                     "showEditBtn":true
                 };
@@ -230,7 +230,7 @@ describe('BookmarkService', function() {
 
                 bookmarkService.getBookmark(1, 4).then(function(bookmark) {
 
-                    assert.equal(bookmark.category_id, 2);
+                    assert.equal(bookmark.category_id, 3);
                     done();
 
                 }).done(null, done);
@@ -238,7 +238,7 @@ describe('BookmarkService', function() {
 
             it('should have update correctly the bookmark position into its new category', function(done) {
 
-                bookmarkService.getBookmarks(1, 2).then(function(response) {
+                bookmarkService.getBookmarks(1, 3).then(function(response) {
 
                     var correctValue = [
                         {id:28, position:0},
@@ -261,7 +261,7 @@ describe('BookmarkService', function() {
 
             it('should have update correctly the bookmark position into its old category', function(done) {
 
-                bookmarkService.getBookmarks(1, 1).then(function(response) {
+                bookmarkService.getBookmarks(1, 2).then(function(response) {
 
                     var correctValue = [
                         {id:1, position:0},
@@ -294,7 +294,7 @@ describe('BookmarkService', function() {
                     "position":2,
                     "parent":null,
                     "user_id":1,
-                    "category_id":2,
+                    "category_id":3,
                     "bookmark_type_id":2,
                     "showEditBtn":true
                 };
@@ -310,7 +310,7 @@ describe('BookmarkService', function() {
 
                     assert.equal(response.name, 'Folder');
                     assert.equal(response.position, 2);
-                    assert.equal(response.category_id, 2);
+                    assert.equal(response.category_id, 3);
 
                     done();
 
@@ -318,12 +318,12 @@ describe('BookmarkService', function() {
             });
 
             it('should have update the children bookmarks category', function(done) {
-                bookmarkService.getBookmarks(1, 2, 29).then(function(bookmarks) {
+                bookmarkService.getBookmarks(1, 3, 29).then(function(bookmarks) {
 
                     assert.equal(bookmarks.length, 3);
 
                     for(var i in bookmarks) {
-                        assert.equal(bookmarks[i].category_id, 2);
+                        assert.equal(bookmarks[i].category_id, 3);
                     }
 
                     done();
@@ -332,12 +332,12 @@ describe('BookmarkService', function() {
             });
 
             it('should have updated the children into the sub-folder named "Sub folder"', function(done) {
-                bookmarkService.getBookmarks(1, 2, 36).then(function(bookmarks) {
+                bookmarkService.getBookmarks(1, 3, 36).then(function(bookmarks) {
 
                     assert.equal(bookmarks.length, 1);
 
                     for(var i in bookmarks) {
-                        assert.equal(bookmarks[i].category_id, 2);
+                        assert.equal(bookmarks[i].category_id, 3);
                         assert.equal(bookmarks[i].name, 'Joies du codes');
                     }
 
@@ -359,7 +359,7 @@ describe('BookmarkService', function() {
                     "position":2,
                     "parent":null,
                     "user_id":1,
-                    "category_id":2,
+                    "category_id":3,
                     "bookmark_type_id":1,
                     "showEditBtn":true
                 };
@@ -375,7 +375,7 @@ describe('BookmarkService', function() {
 
                     assert.equal(bookmark.name, 'Test');
                     assert.equal(bookmark.position, 2);
-                    assert.equal(bookmark.category_id, 2);
+                    assert.equal(bookmark.category_id, 3);
 
                     done();
 

@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 25, 2013 at 11:02 AM
+-- Generation Time: Oct 28, 2013 at 02:45 PM
 -- Server version: 5.5.32-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.7
 
@@ -43,20 +43,20 @@ CREATE TABLE IF NOT EXISTS `bookmark` (
 --
 
 INSERT INTO `bookmark` (`id`, `name`, `url`, `position`, `parent`, `user_id`, `category_id`, `bookmark_type_id`) VALUES
-(1, 'Book dans perso', 'http://www.spope.fr', 0, NULL, 1, 1, 1),
-(2, 'Autre book', 'http://www.google.com', 3, NULL, 1, 1, 1),
-(4, 'Thinkster', 'http://www.thinkster.io', 1, NULL, 1, 1, 1),
-(5, 'll', 'http://www.thinkster.io', 4, NULL, 1, 1, 1),
-(13, 'Spope', 'http://spope.fr', 2, NULL, 1, 2, 1),
-(24, 'TESTa', 'http://api.jquery.com/trigger/', 2, NULL, 1, 1, 1),
-(26, 'Korben', 'http://korben.info/', 1, NULL, 1, 2, 1),
-(27, 'The Dailymars', 'http://www.dailymars.net/', 3, NULL, 1, 2, 1),
-(28, 'Journal du geek', 'http://www.journaldugeek.com/', 0, NULL, 1, 2, 1),
-(29, 'Folder', '', 5, NULL, 1, 1, 2),
-(30, 'Bitch', 'http://desyeuxdebitch.wordpress.com/', 0, 29, 1, 1, 1),
-(35, 'Repo', 'https://github.com/Spope/bookmarks', 1, 29, 1, 1, 1),
-(36, 'Sub folder', '', 2, 29, 1, 1, 2),
-(37, 'Joies du codes', 'http://lesjoiesducode.tumblr.com/', 0, 36, 1, 1, 1);
+(1, 'Book dans perso', 'http://www.spope.fr', 0, NULL, 1, 2, 1),
+(2, 'Autre book', 'http://www.google.com', 3, NULL, 1, 2, 1),
+(4, 'Thinkster', 'http://www.thinkster.io', 1, NULL, 1, 2, 1),
+(5, 'll', 'http://www.thinkster.io', 4, NULL, 1, 2, 1),
+(13, 'Spope', 'http://spope.fr', 2, NULL, 1, 3, 1),
+(24, 'TESTa', 'http://api.jquery.com/trigger/', 2, NULL, 1, 2, 1),
+(26, 'Korben', 'http://korben.info/', 1, NULL, 1, 3, 1),
+(27, 'The Dailymars', 'http://www.dailymars.net/', 3, NULL, 1, 3, 1),
+(28, 'Journal du geek', 'http://www.journaldugeek.com/', 0, NULL, 1, 3, 1),
+(29, 'Folder', '', 5, NULL, 1, 2, 2),
+(30, 'Bitch', 'http://desyeuxdebitch.wordpress.com/', 0, 29, 1, 2, 1),
+(35, 'Repo', 'https://github.com/Spope/bookmarks', 1, 29, 1, 2, 1),
+(36, 'Sub folder', '', 2, 29, 1, 2, 2),
+(37, 'Joies du codes', 'http://lesjoiesducode.tumblr.com/', 0, 36, 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -87,22 +87,23 @@ INSERT INTO `bookmark_type` (`id`, `label`) VALUES
 
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   `parent` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_category_user1` (`user_id`),
   KEY `fk_category_parent1` (`parent`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `category`
 --
 
 INSERT INTO `category` (`id`, `name`, `parent`, `user_id`) VALUES
-(1, 'Perso', 1, 1),
-(2, 'Cool cool cool', 2, 1);
+(1, '__default', 0, 1),
+(2, 'Perso', 1, 1),
+(3, 'Cool cool cool', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -153,7 +154,6 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `token`, `email`, `roles`, `created`, `updated`) VALUES
-  
 (1, 'Spope', '4Cu69UxllQa21865268e327e71a083ba85ca241ed4', '6b1c1c06fef0ea4d1e4ddc4d1dcbd900', 'pinaudt@gmail.com', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------

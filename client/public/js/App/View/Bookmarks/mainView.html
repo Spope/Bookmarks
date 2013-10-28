@@ -3,6 +3,36 @@
     <ng-include src="'js/App/View/Bookmarks/searchEnginesList.html'" ng-controller="SearchEngineController"></ng-include>
 </div>
 <div class="categories-list-general" ng-controller="CategoryController">
+
+
+    <div class="favorite-category" >
+        <ul class="favorite-list" ng-controller="BookmarkController" ng-init="idCategory=favorite.id;loadBookmarks()">
+            <li ng-repeat="bookmark in bookmarks | filter: searchBookmark" class="favorite-bookmark connection" sortable="connection" save="saveBookmark(bookmark)" data-category="{{favorite.id}}" >
+                <div ng-switch on="bookmark.bookmark_type_id">
+                    <div ng-switch-when="1">
+                        <a class="btn-edit-bookmark pointer" ng-click="editBookmark(bookmark)">
+                            <img src="/img/bookmark/pen.png" ng-show="bookmark.showEditBtn" />
+                        </a>
+                        <a class="url-bookmark" ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">
+                            <img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" />
+                            {{bookmark.name}}
+                        </a>
+                    </div>
+                    <div ng-switch-when="2">
+                        <a class="btn-edit-bookmark pointer" ng-click="editBookmark(bookmark)">
+                            <img src="/img/bookmark/pen.png" ng-show="bookmark.showEditBtn" />
+                        </a>
+                        <a class="url-bookmark" href="" title="{{bookmark.name}}" ng-click="setParent(bookmark)">
+                            <img src="/img/bookmark/folder.png" />
+                            {{bookmark.name}}
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
     <a ng-click="addCategory()">+</a>
     <ul class="categories-list">
         <li class="category-li" ng-repeat="category in categories" ng-controller="BookmarkController" ng-init="idCategory=category.id;loadBookmarks()">

@@ -1,5 +1,6 @@
 var bootstrap = require('../../modules/bootstrap');
 var connection = bootstrap.getConnection();
+var userService = require('../../service/UserService');
 
 module.exports = function(app) {
 
@@ -52,5 +53,19 @@ module.exports = function(app) {
 
             return res.send('Error, parameter is not valid');
         }
+    });
+
+
+    app.post('/api/register', function (req, res) {
+        var user = {};
+        user.username = req.body.login;
+        user.password = req.body.password;
+        user.email    = req.body.email;
+
+        userService.register(user).then(function(data) {
+
+            res.send('OK');
+
+        }).catch(function(err) {console.log(err)});
     });
 }

@@ -70,69 +70,31 @@ module.exports = {
         }
     },
 
-    register: function(req, res, user, next) {
+    saltAndHash: function(pass) {
+        var salt = this.generateSalt(10);
+        return (salt + this.md5(pass + salt));
+    },
 
-        user.password = saltAndHash(user.password);
-        user.created  = moment().format('YYYY-MM-DD HH:mm:ss');
-        user.token    = md5(generateSalt(32));
-        user.roles    = 1;
+    md5: function(str) {
+        return crypto.createHash('md5').update(str).digest('hex');
+    },
 
-        var validator = new Validator();
-
-        validator.error = function(msg) {
-            console.log(msg);
+    generateSalt: function(length) {
+        var set = '0123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ';
+        var salt = '';
+        for (var i = 0; i < length; i++) {
+            var p = Math.floor(Math.random() * set.length);
+            salt += set[p];
         }
-        validator.check(user.email).isEmail();
-        validator.check(user.username).is(/^[A-z][A-z0-9]*$/);
-        validator.check(user.username).len(3, 30);
-
-        if(validator._errors && validator._errors.length > 0) {
-            res.send("input error");
-
-            return false;
-        }
-
-        connection.query('INSERT INTO user SET ?', user, function(err, rows, field) {
-
-            if(err) {
-                console.log(err);
-            }
-            searchEngineService.initUser(rows.insertId).then(function(result) {
-                res.send(200);
-            }).catch(function(err){console.log(err)});
-        });
-        
+        return salt;
     }
 }
 
 
 
 
-
-var md5 = function(str) {
-    return crypto.createHash('md5').update(str).digest('hex');
-}
-
-
 var validatePassword = function(plainPass, hashedPass, callback) {
 	var salt = hashedPass.substr(0, 10);
-	var validHash = salt + md5(plainPass + salt);
+	var validHash = salt + module.exports.md5(plainPass + salt);
 	callback.call(null, hashedPass === validHash);
-}
-
-
-var generateSalt = function(length) {
-	var set = '0123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ';
-	var salt = '';
-	for (var i = 0; i < length; i++) {
-		var p = Math.floor(Math.random() * set.length);
-		salt += set[p];
-	}
-	return salt;
-}
-
-
-var saltAndHash = function(pass) {
-	var salt = generateSalt(10);
-	return (salt + md5(pass + salt));
 }

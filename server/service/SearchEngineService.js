@@ -62,7 +62,7 @@ module.exports = {
 
                     count--;
                     if(count == 0) {
-                        defer.resolve();
+                        defer.resolve(idUser);
                     }
                 });
             }
