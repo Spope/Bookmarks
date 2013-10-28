@@ -7,6 +7,11 @@ controllers.controller('CategoryController', ['$scope', 'CategoryService', 'moda
 
     $scope.loadCategory();
 
+    $scope.$on('RefreshBookmarks', function(e, args) {
+        e.stopPropagation();
+        $scope.$broadcast('RefreshBookmarks2', args);
+    });
+
     $scope.addCategory = function() {
 
         var modalController = function($scope, $modalInstance, LocalBookmarkService) {

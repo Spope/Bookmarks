@@ -11,6 +11,11 @@
         <div class="edit-bookmark-group">
             <label>Url : <input type="text" class="edit-bookmark-url" ng-model="bookmark.url" placeholder="Url" type="url" /></label>
         </div>
+        <div class="edit-bookmark-group">
+            <label>Category : 
+                <select ng-model="bookmark.category_id" ng-options="c.id as c.name for c in categories"></select>
+            </label>
+        </diV>
 
         <div class="modal-action">
             <button type="submit" class="btn" >Save</button>

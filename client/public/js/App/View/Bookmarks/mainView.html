@@ -5,8 +5,8 @@
 <div class="categories-list-general" ng-controller="CategoryController">
     <a ng-click="addCategory()">+</a>
     <ul class="categories-list">
-        <li class="category-li" ng-repeat="category in categories">
-            <div class="category-general" ng-mouseenter="formAdd=true" ng-mouseleave="formAdd=false" ng-controller="BookmarkController" ng-init="idCategory=category.id;loadBookmarks()">
+        <li class="category-li" ng-repeat="category in categories" ng-controller="BookmarkController" ng-init="idCategory=category.id;loadBookmarks()">
+            <div class="category-general" ng-mouseenter="formAdd=true" ng-mouseleave="formAdd=false" >
                 <div class="category-header" ng-mouseenter="showAction=true" ng-mouseleave="showAction=false">
                     <h2>{{category.name}}</h2>
                     <div ng-show="showAction" class="category-action">
