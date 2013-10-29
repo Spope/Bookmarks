@@ -13,14 +13,16 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                     //Avoid sort when book has changed of category
                     if (this === ui.item.parent()[0]) {
                         var id = ui.item.data('bookmark');
-
                         scope.bookmark = BookmarkService.get(id);
+                        var oldPosition = scope.bookmark.position;
                         setNewOrder(ui);
-
-                        scope.$apply(attrs.save).then(function(data) {
-                            var parent = BookmarkService.getParent(scope.bookmark);
-                            BookmarkService.getByCategory(scope.bookmark.category_id, parent, false);
-                        });
+                        //Avoid an update if postion isn't changed
+                        if(scope.bookmark.position != oldPosition) {
+                            scope.$apply(attrs.save).then(function(data) {
+                                var parent = BookmarkService.getParent(scope.bookmark);
+                                BookmarkService.getByCategory(scope.bookmark.category_id, parent, false);
+                            });
+                        }
                     }
 
                     $('.bin').css('visibility', 'hidden');
@@ -44,6 +46,11 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                     } else {
                         //Sorting bookmarks
                         scope.bookmark = BookmarkService.get(id);
+                        //If dropped a folder into the favorite category > undo
+                        if(scope.category.id == scope.favorite.id && scope.bookmark.bookmark_type_id != 1) {
+                            $(ui.sender).sortable('cancel');
+                            return false;
+                        }
                         scope.bookmark.category_id = scope.category.id;
                         var parent;
                         if(scope.currentParent) {
