@@ -4,7 +4,7 @@ controllers.controller('CategoryController', ['$scope', 'CategoryService', 'moda
     $scope.loadCategory = function() {
         var getter = CategoryService.getAll();
     
-        $scope.favorite = getter.then(function(data) {
+        getter.then(function(data) {
             $scope.categories = data;
             $scope.favorite = $scope.categories[0];
             $scope.categories.splice(0, 1);

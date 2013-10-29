@@ -7,6 +7,9 @@
 ul {
   list-style: none;
 }
+.clr {
+  clear: both;
+}
 .modal-backdrop {
   background: rgba(0, 0, 0, 0.3);
   position: fixed;
@@ -31,6 +34,13 @@ ul {
   display: none;
 }
 /** This is sale it need to be ranged */
+.favorite-category {
+  border: 1px solid gray;
+  height: 20px;
+}
+.favorite-list li {
+  display: inline-block;
+}
 .category-general {
   float: left;
   border: 1px solid gray;

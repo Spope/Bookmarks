@@ -5,12 +5,19 @@ controllers.controller('BookmarkController', ['$rootScope', '$scope', 'BookmarkS
 
     //retrieving bookmarks from DB
     $scope.loadBookmarks = function(cache) {
-        $scope.bookmarks = BookmarkService.getByCategory($scope.idCategory, $scope.currentParent, cache);
+        $scope.bookmarks = BookmarkService.getByCategory($scope.category.id, $scope.currentParent, cache);
     }
+
+    $scope.$watch('category', function() {
+        if($scope.category && $scope.category.id) {
+            $scope.loadBookmarks();
+        }
+    });
+    //$scope.loadBookmarks();
 
     $scope.$on('RefreshBookmarks2', function(e, args) {
         e.preventDefault();
-        if(args == $scope.idCategory) {
+        if(args == $scope.category.id) {
             $scope.loadBookmarks(false);
         }
     });
@@ -34,7 +41,7 @@ controllers.controller('BookmarkController', ['$rootScope', '$scope', 'BookmarkS
         return BookmarkService.update(bookmark).then(function(data) {
             $scope.loadBookmarks(false);
             //If the bookmarks has a new category
-            if(bookmark.category_id != $scope.idCategory) {
+            if(bookmark.category_id != $scope.category.id) {
                 //Sending event to parent scope which will stop and send it to all children scope.
                 //Only the scope of the category will be updated.
                 $scope.$emit('RefreshBookmarks', bookmark.category_id);
