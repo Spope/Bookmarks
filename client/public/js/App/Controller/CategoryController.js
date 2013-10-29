@@ -2,13 +2,13 @@ controllers.controller('CategoryController', ['$scope', 'CategoryService', 'moda
 
     //retrieving categories from DB
     $scope.loadCategory = function() {
-        var getter = CategoryService.getAll();
-    
-        getter.then(function(data) {
+        var next = function(data) {
             $scope.categories = data;
             $scope.favorite = $scope.categories[0];
             $scope.categories.splice(0, 1);
-        });
+        };
+
+        var getter = CategoryService.getAll(next);
     }
 
     $scope.loadCategory();
