@@ -3,6 +3,8 @@
 /server/config/config.js
 /server/node_modules/*
 
+/server/db/databaseConversion/config.php
+
 *~
 *.lock
 *.DS_Store

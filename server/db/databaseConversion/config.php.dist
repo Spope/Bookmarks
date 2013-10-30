@@ -1,0 +1,11 @@
+<?php
+define ('SERVER', 'localhost');
+define ('USER', 'user');
+define ('PASSWORD', 'password');
+define ('BASE_NAME', 'bookmark_old');
+
+define ('SERVER_N', 'localhost');
+define ('USER_N', 'user');
+define ('PASSWORD_N', 'password');
+define ('BASE_NAME_N', 'bookmarks');
+?>
