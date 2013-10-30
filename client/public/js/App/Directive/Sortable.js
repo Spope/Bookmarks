@@ -8,6 +8,7 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                 helper: 'clone',
                 start: function(e, ui) {
                     $('.bin').css('visibility', 'visible');
+                    scope.sorting = true;
                 },
                 stop: function (e, ui) {
                     //Avoid sort when book has changed of category
@@ -26,6 +27,7 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                     }
 
                     $('.bin').css('visibility', 'hidden');
+                    scope.sorting = false;
 
                 },
                 remove: function(e, ui) {

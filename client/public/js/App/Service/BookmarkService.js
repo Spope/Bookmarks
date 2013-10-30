@@ -1,6 +1,6 @@
 services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkService', function(UserService, $http, LocalBookmarkService) {
     var service = {
-        getByCategory: function(idCategory, parent, cache) {
+        getByCategory: function(idCategory, parent, cache, next) {
 
             if(!UserService.isLogged) {
 
@@ -18,6 +18,9 @@ services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkServi
                     .then(
                         function(response) {
 
+                            if(typeof(next) == 'function') {
+                                next();
+                            }
                             return response.data;
                         },
                         function(data) {

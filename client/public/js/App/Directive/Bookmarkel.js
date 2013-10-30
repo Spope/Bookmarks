@@ -13,11 +13,10 @@ directives.directive("bookmarkel", function(){
                     element.children().children().children('.url-bookmark').css('padding-left', '3px');
                     scope.$apply();
                 })
-                
             });
 
             element.bind('mouseleave', function(e) {
-                
+
                 if(scope.bookmark.showEditBtn) {
                     scope.bookmark.showEditBtn = false;
                     scope.$apply();
@@ -28,7 +27,6 @@ directives.directive("bookmarkel", function(){
                 element.children().children().children('.url-bookmark').stop().animate({
                     paddingLeft: 0
                 }, 200)
-                
             });
         }
     }

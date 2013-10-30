@@ -5,7 +5,7 @@ controllers.controller('BookmarkController', ['$rootScope', '$scope', 'BookmarkS
 
     //retrieving bookmarks from DB
     $scope.loadBookmarks = function(cache) {
-        $scope.bookmarks = BookmarkService.getByCategory($scope.category.id, $scope.currentParent, cache);
+        $scope.bookmarks = BookmarkService.getByCategory($scope.category.id, $scope.currentParent, cache, $scope.mansory);
     }
 
     $scope.$watch('category', function() {
@@ -24,7 +24,7 @@ controllers.controller('BookmarkController', ['$rootScope', '$scope', 'BookmarkS
 
     $scope.postBookmark = function(bookmark, callback){
 
-        bookmark.position = BookmarkService.getByCategory(bookmark.category_id, $scope.currentParent).length;
+        bookmark.position = BookmarkService.getByCategory(bookmark.category_id, $scope.currentParent, true, $scope.mansory).length;
 
         BookmarkService.post(bookmark).then(function(data) {
             if(data.id) {

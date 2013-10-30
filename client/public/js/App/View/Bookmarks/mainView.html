@@ -14,7 +14,7 @@
                             <img src="/img/bookmark/pen.png" ng-show="bookmark.showEditBtn" />
                         </a>
                         <a class="url-bookmark" ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">
-                            <img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" height="16" width="16"/>
+                            <!--<img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" height="16" width="16"/>-->
                             {{bookmark.name}}
                         </a>
                     </div>
@@ -35,7 +35,7 @@
 
 
     <a ng-click="addCategory()">+</a>
-    <ul class="categories-list">
+    <ul class="categories-list" mansory="206">
         <li class="category-li" ng-repeat="category in categories" ng-controller="BookmarkController">
             <div class="category-general">
                 <div class="category-header" ng-mouseenter="showAction=true" ng-mouseleave="showAction=false">
@@ -67,7 +67,7 @@
                                             <img src="/img/bookmark/pen.png" ng-show="bookmark.showEditBtn"  />
                                     </a>
                                     <a class="url-bookmark" ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">
-                                        <img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" height="16" width="16" />
+                                        <!--<img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" height="16" width="16" />-->
                                         {{bookmark.name|truncate:24}}
                                     </a>
                                 </div>

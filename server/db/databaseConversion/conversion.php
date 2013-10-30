@@ -1,4 +1,5 @@
 <?php
+//http://devserver2.com/thomas/bookmarks/server/db/databaseConversion/conversion.php
 include('config.php');
 
 $connexion = connect_bd(SERVER,USER,PASSWORD,BASE_NAME);
