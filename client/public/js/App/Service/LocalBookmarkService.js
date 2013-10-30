@@ -108,6 +108,8 @@ services.factory('LocalBookmarkService', [ function() {
             } else {
                 parent = parent;
             }
+            if(!this.bookmarks[idCategory]) { this.bookmarks[idCategory] = new Array()}
+            if(!this.bookmarks[idCategory][parent]) { this.bookmarks[idCategory][parent] = new Array()}
 
             if(this.bookmarks[idCategory][parent]) {
 

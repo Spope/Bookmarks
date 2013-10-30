@@ -1,4 +1,4 @@
-controllers.controller('CategoryController', ['$scope', 'CategoryService', 'modalService', '$q', function ($scope, CategoryService, modalService, $q) {
+controllers.controller('CategoryController', ['$rootScope', '$scope', 'CategoryService', 'modalService', '$q', 'BookmarkService', function ($rootScope, $scope, CategoryService, modalService, $q, BookmarkService) {
 
     //retrieving categories from DB
     $scope.loadCategory = function() {
@@ -6,12 +6,23 @@ controllers.controller('CategoryController', ['$scope', 'CategoryService', 'moda
             $scope.categories = data;
             $scope.favorite = $scope.categories[0];
             $scope.categories.splice(0, 1);
+            //
         };
 
         var getter = CategoryService.getAll(next);
     }
 
     $scope.loadCategory();
+
+    //Loading every bookmarks
+    $rootScope.initStep = 0;
+    $rootScope.pageLoad = true;
+    BookmarkService.pageLoad(function() {
+        $rootScope.initStep = $scope.categories.length;
+        $rootScope.pageLoad = false;
+    });
+
+
 
     $scope.$on('RefreshBookmarks', function(e, args) {
         e.stopPropagation();

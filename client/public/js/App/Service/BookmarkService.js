@@ -1,5 +1,35 @@
 services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkService', function(UserService, $http, LocalBookmarkService) {
     var service = {
+        pageLoad: function(next) {
+
+            var url = '/api/user/'+UserService.user.id+'/bookmarks';
+            var promise = $http.get(url)
+                .then(
+                    function(response) {
+
+                        
+                        var bookmarks = response.data;
+
+                        for(var i in bookmarks) {
+                            LocalBookmarkService.addBookmark(bookmarks[i]);
+                        }
+
+                        if(typeof(next) == 'function') {
+                            next();
+                        }
+
+                        return response.data;
+                    },
+                    function(data) {
+                        console.error("Can't retrieve bookmarks");
+                        return {}
+                    }
+                );
+
+            return promise;
+        },
+
+
         getByCategory: function(idCategory, parent, cache, next) {
 
             if(!UserService.isLogged) {

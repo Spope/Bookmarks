@@ -5,15 +5,25 @@ controllers.controller('BookmarkController', ['$rootScope', '$scope', 'BookmarkS
 
     //retrieving bookmarks from DB
     $scope.loadBookmarks = function(cache) {
-        $scope.bookmarks = BookmarkService.getByCategory($scope.category.id, $scope.currentParent, cache, $scope.mansory);
+        var next = $scope.mansory;
+        if($rootScope.initStep > 1) {
+            $rootScope.initStep--;
+            next = null;
+        }
+        $scope.bookmarks = BookmarkService.getByCategory($scope.category.id, $scope.currentParent, cache, next);
+
+        if($rootScope.initStep == 1) {
+            $scope.mansory();
+        }
     }
 
-    $scope.$watch('category', function() {
-        if($scope.category && $scope.category.id) {
-            $scope.loadBookmarks();
+    $rootScope.$watch('pageLoad', function() {
+        if($rootScope.pageLoad === false) {
+            if($scope.category && $scope.category.id) {
+                $scope.loadBookmarks();
+            }
         }
     });
-    //$scope.loadBookmarks();
 
     $scope.$on('RefreshBookmarks2', function(e, args) {
         e.preventDefault();

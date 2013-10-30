@@ -49,6 +49,25 @@ module.exports = {
         return defer.promise;
     },
 
+    getAllBookmarks: function(idUser) {
+
+        var defer = Q.defer();
+
+        var sql = 'SELECT * FROM bookmark '+
+            'WHERE user_id = '+connection.escape(idUser)+' '+
+            'AND parent IS NULL '+
+            'ORDER BY position ASC';
+
+        connection.query(sql, function(err, rows, field){
+            if(err){
+                deferred.reject(err);
+            }
+            defer.resolve(rows);
+        });
+
+        return defer.promise;
+    },
+
 
 
 
