@@ -34,6 +34,8 @@ mysql_close($connexion);
 //////////////////
 //////IMPORT
 //////////////////
+
+//category
 $connexion2 = connect_bd(SERVER_N,USER_N,PASSWORD_N,BASE_NAME_N);
 $categoryConversion = array();
 foreach($categories as $k=>$v) {
@@ -42,19 +44,43 @@ foreach($categories as $k=>$v) {
     $categoryConversion[$v['id']] = mysql_insert_id();
 }
 
+
+//bookmark
+$bookmarkConversion = array();
 $sql = "SELECT id FROM category WHERE name = '__default' AND user_id = ".$idUser." LIMIT 1";
 $result = mysql_query($sql);
 $row = mysql_fetch_assoc($result);
 $idFav = $row['id'];
-foreach($bookmarks as $k=>$v) {
-    $idParent = $v['idParent'] == 0 ? 'NULL' : "'".$v['idParent']."'";
-    $idCategory = $v['idCategorie'] == 0 ? $idFav : $categoryConversion[$v['idCategorie']];
 
-    $sql = "INSERT INTO bookmark (name, url, position, parent, user_id, category_id, bookmark_type_id) 
-        VALUES ('".$v['nom']."', '".$v['url']."','".$v['position']."',".$idParent.", '".$v['user']."', '".$idCategory."', '".($v['type']+1)."')";
+convertB($bookmarks);
 
-    echo $sql."<br /><br />";
+function convertB($bookmarks) {
 
-    mysql_query($sql);
+    GLOBAL $bookmarkConversion;
+    GLOBAL $categoryConversion;
+    GLOBAL $idFav;
+
+    foreach($bookmarks as $k=>$v) {
+        if($v['idParent'] == 0 || isset($bookmarkConversion[$v['idParent']])) {
+
+            $idParent = $v['idParent'] == 0 ? 'NULL' : "'".$bookmarkConversion[$v['idParent']]."'";
+            $idCategory = $v['idCategorie'] == 0 ? $idFav : $categoryConversion[$v['idCategorie']];
+
+            $sql = "INSERT INTO bookmark (name, url, position, parent, user_id, category_id, bookmark_type_id) 
+                VALUES ('".$v['nom']."', '".$v['url']."','".$v['position']."',".$idParent.", '".$v['user']."', '".$idCategory."', '".($v['type']+1)."')";
+
+            mysql_query($sql);
+
+            $bookmarkConversion[$v['id']] = mysql_insert_id();
+
+            unset($bookmarks[$k]);
+        }
+    }
+
+    if(count($bookmarks) > 0) {
+
+            convertB($bookmarks);
+        }
 }
+
 ?>
