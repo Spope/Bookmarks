@@ -93,14 +93,16 @@ controllers.controller('BookmarkController', ['$rootScope', '$scope', 'BookmarkS
             controller: modalController
         }
 
-        var modalOptions = {
-            bookmark: bookmark,
-            categories: CategoryService.getAll(),
-            title: title
-        };
+        CategoryService.getAll(function(categories) {
 
-        modalService.showModal(modalDefault, modalOptions);
+            var modalOptions = {
+                bookmark: bookmark,
+                categories: categories,
+                title: title
+            };
 
+            modalService.showModal(modalDefault, modalOptions);
+        });
     }
 
     $scope.addFolder = function(idCategory, parent) {
