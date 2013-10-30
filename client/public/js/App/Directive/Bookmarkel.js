@@ -10,7 +10,7 @@ directives.directive("bookmarkel", function(){
                 }, 200, function () {
                     //append editButton
                     scope.bookmark.showEditBtn = true;
-                    element.children().children().children('.url-bookmark').css('padding-left', '6px');
+                    element.children().children().children('.url-bookmark').css('padding-left', '3px');
                     scope.$apply();
                 })
                 
