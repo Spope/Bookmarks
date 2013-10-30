@@ -4,12 +4,14 @@ directives.directive("addbookmark", function(){
         link: function(scope, element, attrs){
             scope.newBookmark = {};
 
-            scope.$watch('formAdd', function () {
-                if(scope.formAdd) {
+            $(element).parent().bind({
+                mouseenter: function () {
+                
                     element.parent().parent().addClass("hover");
                     element.stop();
-                    element.slideDown(100);
-                } else {
+                    element.slideDown(200);
+                },
+                mouseleave: function() {
                     element.parent().parent().removeClass("hover");
                     element.stop();
                     element.slideUp(100);
