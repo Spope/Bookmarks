@@ -39,7 +39,8 @@ mysql_close($connexion);
 $connexion2 = connect_bd(SERVER_N,USER_N,PASSWORD_N,BASE_NAME_N);
 $categoryConversion = array();
 foreach($categories as $k=>$v) {
-    $sql = "INSERT INTO category (name, parent, user_id) VALUES ('".$v['nom']."', '".$v['idParent']."','".$v['user']."')";
+    $name = html_entity_decode($v['nom']);
+    $sql = "INSERT INTO category (name, parent, user_id) VALUES ('".$name."', '".$v['idParent']."','".$v['user']."')";
     mysql_query($sql);
     $categoryConversion[$v['id']] = mysql_insert_id();
 }
@@ -65,9 +66,10 @@ function convertB($bookmarks) {
 
             $idParent = $v['idParent'] == 0 ? 'NULL' : "'".$bookmarkConversion[$v['idParent']]."'";
             $idCategory = $v['idCategorie'] == 0 ? $idFav : $categoryConversion[$v['idCategorie']];
+            $name = html_entity_decode($v['nom']);
 
             $sql = "INSERT INTO bookmark (name, url, position, parent, user_id, category_id, bookmark_type_id) 
-                VALUES ('".$v['nom']."', '".$v['url']."','".$v['position']."',".$idParent.", '".$v['user']."', '".$idCategory."', '".($v['type']+1)."')";
+                VALUES ('".$name."', '".$v['url']."','".$v['position']."',".$idParent.", '".$v['user']."', '".$idCategory."', '".($v['type']+1)."')";
 
             mysql_query($sql);
 

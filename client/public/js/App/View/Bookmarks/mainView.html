@@ -57,7 +57,7 @@
                     <ul class="bookmarks-list connection" sortable="connection" save="saveBookmark(bookmark)" data-category="{{category.id}}">
                         <li ng-show="currentParent" class="bookmark-back">
                             <a href="" ng-click="setParent(backElement)">
-                                &lt; {{currentParent.name}}
+                                &lt; {{currentParent.name|truncate:24}}
                             </a>
                         </li>
                         <li ng-repeat="bookmark in bookmarks | filter: searchBookmark" class="bookmark" bookmarkEl data-bookmark="{{bookmark.id}}">
@@ -68,7 +68,7 @@
                                     </a>
                                     <a class="url-bookmark" ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">
                                         <img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" height="16" width="16" />
-                                        {{bookmark.name}}
+                                        {{bookmark.name|truncate:24}}
                                     </a>
                                 </div>
                                 <div ng-switch-when="2">
@@ -77,7 +77,7 @@
                                     </a>
                                     <a class="url-bookmark" href="" title="{{bookmark.name}}" ng-click="setParent(bookmark)">
                                         <img src="/img/bookmark/folder.png" />
-                                        {{bookmark.name}}
+                                        {{bookmark.name|truncate:24}}
                                     </a>
                                 </div>
                             </div>
