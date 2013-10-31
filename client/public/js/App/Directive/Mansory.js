@@ -1,24 +1,26 @@
-directives.directive("mansory", [ function(){
+directives.directive("mansory", [ '$timeout', function($timeout){
     return {
         restrict: "A",
         link: function(scope, element, attrs) {
 
             var options = {
-                gutterX: 20,
-                gutterY: 20,
-                paddingX: 0,
-                paddingY: 0,
-                enableDrag: false
+                layoutMode: 'masonryColumnShift',
+                masonry: {
+                }
             };
+
             if(attrs.mansory) {
-                options.colWidth = parseInt(attrs.mansory)
+                options.masonry.columnWidth = parseInt(attrs.mansory)
             }
 
-            $(element).shapeshift(options);
+            element.isotope(options);
 
             scope.mansory = function() {
-                console.log("mansory");
-                $(element).trigger("ss-rearrange");
+
+                //Hack to wait the render to finish
+                $timeout(function(){
+                    element.isotope('reloadItems').isotope();
+                });
             }
         }
     }

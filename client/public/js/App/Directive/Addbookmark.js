@@ -9,12 +9,16 @@ directives.directive("addbookmark", function(){
                 
                     element.parent().parent().addClass("hover");
                     element.stop();
-                    element.slideDown(200);
+                    element.slideDown(200, function(){
+                        $('.categories-list').isotope('shiftColumnOfItem', element.parent().parent().parent()[0] );
+                    });
                 },
                 mouseleave: function() {
                     element.parent().parent().removeClass("hover");
                     element.stop();
-                    element.slideUp(100);
+                    element.slideUp(100, function(){
+                        $('.categories-list').isotope('shiftColumnOfItem', element.parent().parent().parent()[0] );
+                    });
                 }
             });
 
