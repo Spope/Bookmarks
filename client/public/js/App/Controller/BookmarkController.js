@@ -10,12 +10,15 @@ controllers.controller('BookmarkController', ['$rootScope', '$scope', 'BookmarkS
             $rootScope.initStep--;
             next = null;
         }
-        $scope.bookmarks = BookmarkService.getByCategory($scope.category.id, $scope.currentParent, cache, next);
+        if($scope.category) {
+            $scope.bookmarks = BookmarkService.getByCategory($scope.category.id, $scope.currentParent, cache, next);
+        }
 
         if($rootScope.initStep == 1) {
             $scope.mansory();
         }
     }
+    $scope.loadBookmarks();
 
     $rootScope.$watch('pageLoad', function() {
         if($rootScope.pageLoad === false) {

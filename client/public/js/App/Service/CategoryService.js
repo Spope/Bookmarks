@@ -1,5 +1,47 @@
-services.factory('CategoryService', ['UserService', 'LocalCategoryService', '$http', function(UserService, LocalCategoryService, $http) {
+services.factory('CategoryService', ['UserService', 'LocalCategoryService', '$http', 'LocalBookmarkService', function(UserService, LocalCategoryService, $http, LocalBookmarkService) {
     var service = {
+
+        pageLoad: function(next) {
+
+            var url = '/api/user/'+UserService.user.id+'/load';
+            var promise = $http.get(url)
+                .then(
+                    function(response) {
+
+                        
+                        var categories = response.data;
+
+                        for(var i in categories) {
+                            var category = categories[i];
+                            LocalCategoryService.addCategory(category);
+
+                            for(var b in category.bookmarks) {
+                                LocalBookmarkService.addBookmark(category.bookmarks[b]);
+                            }
+                        }
+
+                        if(typeof(next) == 'function') {
+                            next(categories.length);
+                        }
+
+                        //return response.data;
+                    },
+                    function(data) {
+                        console.error("Can't retrieve bookmarks");
+                        return {}
+                    }
+                );
+
+            return promise;
+        },
+
+
+
+
+
+
+
+
         getAll: function(next) {
 
             if(!UserService.isLogged) {
@@ -13,7 +55,9 @@ services.factory('CategoryService', ['UserService', 'LocalCategoryService', '$ht
                     .success(
                         function(data, status, headers, config) {
 
-                            next(data);
+                            if(typeof(next) == "function") {
+                                next(data);
+                            }
                     }).error(
                         function(data, status, headers, config) {
                             console.error("Can't retrieve categories");
@@ -22,7 +66,9 @@ services.factory('CategoryService', ['UserService', 'LocalCategoryService', '$ht
                     );
 
                 } else {
-                    next(LocalCategoryService.getCategories());
+                    if(typeof(next) == "function") {
+                        next(LocalCategoryService.getCategories());
+                    }
                 }
             }
         },

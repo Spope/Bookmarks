@@ -41,16 +41,7 @@ module.exports = function(app) {
         }
     });
 
-    //page load
-    app.get('/api/user/:idUser/bookmarks', bootstrap.getSecurity().checkAuth, function(req, res){
-
-        var request = bookmarkService.getAllBookmarks(req.session.user_id);
-        request.then(function(bookmarks){
-
-            res.json(bookmarks);
-        });
-
-    });
+    
 
     app.post('/api/user/:idUser/bookmark', bootstrap.getSecurity().checkAuth, function(req, res) {
         var bookmark = req.body;

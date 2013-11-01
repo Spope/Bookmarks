@@ -22,6 +22,12 @@ directives.directive("mansory", [ '$timeout', function($timeout){
                     element.isotope('reloadItems').isotope();
                 });
             }
+
+            scope.refreshMansort = function() {
+                $timeout(function(){
+                    element.isotope('reLayout').isotope();
+                });
+            }
         }
     }
 }]);

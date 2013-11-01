@@ -1,7 +1,7 @@
 services.factory('LocalCategoryService', [ function() {
 
     var service = {
-        categories: false,
+        categories: [],
 
         getCategories: function() {
 

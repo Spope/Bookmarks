@@ -4,6 +4,20 @@ var categoryService = require('../../service/CategoryService');
 
 module.exports = function(app) {
 
+
+    //page load
+    app.get('/api/user/:idUser/load', bootstrap.getSecurity().checkAuth, function(req, res){
+
+        var request = categoryService.pageLoad(req.session.user_id);
+        request.then(function(bookmarks){
+
+            res.json(bookmarks);
+        });
+
+    });
+
+
+
     app.get('/api/user/:idUser/categories', bootstrap.getSecurity().checkAuth, function(req, res){
 
         if(req.params.idUser == req.session.user_id) {

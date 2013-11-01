@@ -42,6 +42,65 @@ module.exports = {
         return defer.promise;
     },
 
+    pageLoad: function(idUser){
+
+        var defer = Q.defer();
+
+        var sql = "SELECT "+
+            "`category`.`id`, `category`.`name`, `category`.`user_id`, "+
+            "`bookmark`.`id`, `bookmark`.`name`, `bookmark`.`url`, `bookmark`.`position`, `bookmark`.`parent`, `bookmark`.`user_id`, `bookmark`.`category_id`, `bookmark`.`bookmark_type_id` "+
+
+            "FROM `category` "+
+            "JOIN `bookmark` on `bookmark`.`category_id` = `category`.`id` "+
+
+            "WHERE `category`.`user_id` = 1 "+
+            "AND `bookmark`.`parent` IS NULL "+
+
+            "ORDER BY `bookmark`.`position`";
+
+        //nestTable to retrieve table name for the join
+        var options = {sql: sql, nestTables: '_'};
+        connection.query(options, function(err, rows, field){
+
+            var out = new Array();
+            var cc = null;
+            for(var i in rows){
+                if(rows[i]) {
+                    var tc = {
+                        id: rows[i].category_id,
+                        name: rows[i].category_name,
+                        user_id: rows[i].category_user_id,
+                        bookmarks: []
+                    }
+                    if(!out[tc.id]) {
+                        out[tc.id] = tc
+                    };
+
+                    var tb = {
+                        id: rows[i].bookmark_id,
+                        name: rows[i].bookmark_name,
+                        url: rows[i].bookmark_url,
+                        position: rows[i].bookmark_position,
+                        parent: rows[i].bookmark_parent,
+                        user_id: rows[i].bookmark_user_id,
+                        category_id: rows[i].bookmark_category_id,
+                        bookmark_type_id: rows[i].bookmark_bookmark_type_id,
+                    };
+                    out[tc.id].bookmarks.push(tb)
+                }
+                
+            }
+            //remove null key => ["", "", 2, "", 4]
+            out = out.filter(function() { return true; });
+            defer.resolve(out);
+        });
+
+        return defer.promise;
+    },
+
+
+
+
     editCategory: function(idUser, category) {
 
         var defer = Q.defer();

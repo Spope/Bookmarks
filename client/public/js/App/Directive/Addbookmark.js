@@ -6,10 +6,10 @@ directives.directive("addbookmark", function(){
 
             $(element).parent().bind({
                 mouseenter: function () {
-                
+
                     element.parent().parent().addClass("hover");
                     element.stop();
-                    element.slideDown(200, function(){
+                    element.slideDown(100, function(){
                         $('.categories-list').isotope('shiftColumnOfItem', element.parent().parent().parent()[0] );
                     });
                 },
