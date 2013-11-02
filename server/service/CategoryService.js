@@ -66,14 +66,14 @@ module.exports = {
             var cc = null;
             for(var i in rows){
                 if(rows[i]) {
-                    var tc = {
-                        id: rows[i].category_id,
-                        name: rows[i].category_name,
-                        user_id: rows[i].category_user_id,
-                        bookmarks: []
-                    }
-                    if(!out[tc.id]) {
-                        out[tc.id] = tc
+
+                    if(!out[rows[i].category_id]) {
+                        out[rows[i].category_id] = {
+                            id: rows[i].category_id,
+                            name: rows[i].category_name,
+                            user_id: rows[i].category_user_id,
+                            bookmarks: []
+                        }
                     };
 
                     var tb = {
@@ -86,7 +86,7 @@ module.exports = {
                         category_id: rows[i].bookmark_category_id,
                         bookmark_type_id: rows[i].bookmark_bookmark_type_id,
                     };
-                    out[tc.id].bookmarks.push(tb)
+                    out[rows[i].category_id].bookmarks.push(tb)
                 }
                 
             }
