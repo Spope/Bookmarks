@@ -6,9 +6,8 @@
         </div>
 
         <form ng-submit="searchFn()" class="form-search">
-            <input type="text" class="input-search" ng-model="search.search" ng-change="setSearchBookmark()" />
+            <input type="text" class="input-search" ng-model="search.value" ng-change="setSearchBookmark()" typeahead datasets="refreshDataset" active="searchBookmark" />
             <button class="btn-search" type="submit"><i></i></button>
         </form>
-
     </div>
 </div>

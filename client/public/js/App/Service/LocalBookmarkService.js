@@ -63,6 +63,30 @@ services.factory('LocalBookmarkService', [ function() {
             return null;
         },
 
+        //Format a dataset for typeahead
+        getDataset: function() {
+
+            var out = [];
+
+            for(var cat in this.bookmarks) {
+                for(var parent in this.bookmarks[cat]) {
+                    for(var book in this.bookmarks[cat][parent]) {
+                        if(this.bookmarks[cat][parent][book].bookmark_type_id != 2) {
+                            out.push({
+                                value    : this.bookmarks[cat][parent][book].name,
+                                token    : this.bookmarks[cat][parent][book].name.split(' '),
+                                category : cat,
+                                parent   : parent,
+                                url      : this.bookmarks[cat][parent][book].url
+                            });
+                        }
+                    }
+                }
+            }
+
+            return out;
+        },
+
 
 
 

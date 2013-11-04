@@ -11,7 +11,8 @@
       "angular-resource" : "latest",
       "angular-mocks"    : "latest",
       "jquery"           : "latest",
-      "jquery-ui"        : "latest"
+      "jquery-ui"        : "latest",
+      "typeahead.js"     : "latest"
   },
   "license": "MIT",
   "private": true
