@@ -28,6 +28,11 @@ directives.directive("bookmarkel", function(){
                     paddingLeft: 0
                 }, 200)
             });
+
+            //Hack to trigger mouse leave when clicking on a folder
+            element.bind('mousedown', function(e) {
+                $(this).trigger('mouseleave');
+            });
         }
     }
 });
