@@ -6,6 +6,7 @@ directives.directive("mansory", [ '$timeout', function($timeout){
             var options = {
                 layoutMode: 'masonryColumnShift',
                 masonry: {
+                    gutterWidth: 10
                 }
             };
 
@@ -19,7 +20,7 @@ directives.directive("mansory", [ '$timeout', function($timeout){
 
                 //Hack to wait the render to finish
                 $timeout(function(){
-                    element.isotope('reloadItems').isotope();
+                    element.isotope('reloadItems').isotope(options);
                 });
             }
 

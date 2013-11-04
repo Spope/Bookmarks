@@ -77,8 +77,8 @@ ul {
   display: inline-block;
 }
 .category-general {
-  width: 100%;
   padding: 3px;
+  border: 1px solid gray;
 }
 .categories-list {
   margin: 0 auto;
@@ -87,8 +87,7 @@ ul {
   width: 200px;
   display: block;
   vertical-align: top;
-  margin: 5px;
-  border: 1px solid gray;
+  margin: 0;
 }
 .bin {
   width: 150px;

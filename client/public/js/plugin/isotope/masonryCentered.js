@@ -3,11 +3,15 @@
   // custom layout mode
   $.Isotope.prototype._masonryColumnShiftReset = function() {
 
+    
+
     ////CENTER
     // layout-specific props
     this.masonry = {};
     // FIXME shouldn't have to call this again
     this._getCenteredMasonryColumns();
+    
+
     var i = this.masonry.cols;
     this.masonry.colYs = [];
     while (i--) {
@@ -69,6 +73,7 @@
 // worker method that places brick in the columnSet
     // with the the minY
     $.Isotope.prototype._masonryPlaceBrick = function( $brick, setY ) {
+      var gutter = this.options.masonry && this.options.masonry.gutterWidth || 0;
       // get the minimum Y value from the columns
       var minimumY = Math.min.apply( Math, setY ),
           shortCol = 0;
@@ -89,7 +94,7 @@
       this.masonryColumnShift.columnBricks[i].push( $brick[0] );
 
       // apply setHeight to necessary columns
-      var setHeight = minimumY + $brick.outerHeight(true),
+      var setHeight = minimumY + $brick.outerHeight(true) + gutter,
           setSpan = this.masonry.cols + 1 - len;
       for ( i=0; i < setSpan; i++ ) {
         this.masonry.colYs[ shortCol + i ] = setHeight;
@@ -99,8 +104,9 @@
     };
   
  $.Isotope.prototype._masonryColumnShiftGetContainerSize = function() {
+    var gutter = this.options.masonry && this.options.masonry.gutterWidth || 0;
     //Shift
-    var containerHeight = Math.max.apply( Math, this.masonryColumnShift.colYs );
+    var containerHeight = Math.max.apply( Math, this.masonryColumnShift.colYs ) + gutter;
 
     //Center
     var unusedCols = 0,
@@ -140,21 +146,23 @@
     if ( !isFinite(columnIndex) ) {
       return;
     }
+    var gutter = this.options.masonry && this.options.masonry.gutterWidth || 0;
+
     var props = this.masonryColumnShift;
     var columnBricks = props.columnBricks[ columnIndex ];
     var $brick;
-    var x = props.columnWidth * columnIndex;
+    var x = this.masonry.columnWidth * columnIndex;
     var y = 0;
     for (var i=0, len = columnBricks.length; i < len; i++) {
       $brick = $( columnBricks[i] );
       this._pushPosition( $brick, x, y );
-      y += $brick.outerHeight(true);
+      y += $brick.outerHeight(true) + gutter;
     }
 
     // set the size of the container
     if ( this.options.resizesContainer ) {
       var containerStyle = this._masonryColumnShiftGetContainerSize();
-      containerStyle.height = Math.max( y, containerStyle.height );
+      containerStyle.height = Math.max( y, containerStyle.height ) + gutter;
       this.styleQueue.push({ $el: this.element, style: containerStyle });
     }
 
@@ -166,6 +174,7 @@
     this.width = this.element.width();
     
     var parentWidth = this.element.parent().width();
+    var gutter = this.options.masonry && this.options.masonry.gutterWidth || 0;
     
                   // i.e. options.masonry && options.masonry.columnWidth
     var colW = this.options.masonry && this.options.masonry.columnWidth ||
@@ -173,6 +182,8 @@
                   this.$filteredAtoms.outerWidth(true) ||
                   // if there's no items, use size of container
                   parentWidth;
+
+    colW += gutter
     
     var cols = Math.floor( parentWidth / colW );
     cols = Math.max( cols, 1 );
@@ -182,3 +193,5 @@
     // i.e. this.masonry.columnWidth = ...
     this.masonry.columnWidth = colW;
   };
+
+
