@@ -7,8 +7,20 @@
 ul {
   list-style: none;
 }
+small {
+  font-size: 0.8em;
+}
+small * {
+  font-size: 1em;
+}
 .clr {
   clear: both;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
 }
 .modal-backdrop {
   background: rgba(0, 0, 0, 0.3);
@@ -97,4 +109,15 @@ ul {
   bottom: 0;
   right: 0;
   visibility: hidden;
+}
+ul.search-bookmark-results-list {
+  background: white;
+  z-index: 3;
+}
+ul.search-bookmark-results-list li.search-bookmark-result {
+  padding: 3px;
+}
+ul.search-bookmark-results-list li.active {
+  background: #096AAB;
+  color: white;
 }

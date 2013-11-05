@@ -5,7 +5,8 @@ services.factory('LocalCategoryService', [ function() {
 
         getCategories: function() {
 
-            return this.categories;
+            //wil break the reference
+            return [].concat(this.categories);
         },
 
         get: function(id) {
@@ -49,7 +50,6 @@ services.factory('LocalCategoryService', [ function() {
             for(var i in this.categories) {
                 if(this.categories[i].id == category.id) {
                     this.categories.splice(i, 1);
-                    console.log(this.categories);
                 }
             }
         }

@@ -54,7 +54,7 @@ module.exports = {
             "JOIN `bookmark` on `bookmark`.`category_id` = `category`.`id` "+
 
             "WHERE `category`.`user_id` = 1 "+
-            "AND `bookmark`.`parent` IS NULL "+
+            //"AND `bookmark`.`parent` IS NULL "+
 
             "ORDER BY `bookmark`.`position`";
 

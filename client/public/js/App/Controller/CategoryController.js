@@ -4,7 +4,7 @@ controllers.controller('CategoryController', ['$rootScope', '$scope', 'CategoryS
         CategoryService.getAll(function(data) {
             $scope.categories = data;
             $scope.favorite = $scope.categories[0];
-            $scope.categories.splice(0, 1);
+            $scope.categories = data.splice(1);
         });
     }
     //retrieving categories from DB

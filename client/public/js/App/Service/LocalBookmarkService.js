@@ -73,7 +73,7 @@ services.factory('LocalBookmarkService', [ function() {
                     for(var book in this.bookmarks[cat][parent]) {
                         if(this.bookmarks[cat][parent][book].bookmark_type_id != 2) {
                             out.push({
-                                value    : this.bookmarks[cat][parent][book].name,
+                                name     : this.bookmarks[cat][parent][book].name,
                                 token    : this.bookmarks[cat][parent][book].name.split(' '),
                                 category : cat,
                                 parent   : parent,
