@@ -14,19 +14,15 @@ directives.directive("mansory", [ '$timeout', function($timeout){
                 options.masonry.columnWidth = parseInt(attrs.mansory)
             }
 
-            element.isotope(options);
-
             scope.mansory = function() {
-
                 //Hack to wait the render to finish
                 $timeout(function(){
-                    element.isotope('reloadItems').isotope(options);
-                });
-            }
-
-            scope.refreshMansort = function() {
-                $timeout(function(){
-                    element.isotope('reLayout').isotope();
+                    if(element.hasClass('isotope')){
+                        element.isotope('reloadItems').isotope(options);
+                    }else{
+                        element.isotope(options);
+                    }
+                    
                 });
             }
         }

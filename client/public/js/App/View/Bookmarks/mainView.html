@@ -10,7 +10,7 @@
     <ng-include src="'js/App/View/Bookmarks/searchEnginesList.html'" ng-controller="SearchEngineController"></ng-include>
 
 </div>
-<div class="categories-list-general" ng-controller="CategoryController">
+<div class="categories-list-general" ng-controller="CategoryController" ng-cloak>
 
     <div class="favorite-category" >
         <ul class="favorite-list connection" ng-controller="FavoriteController" sortable="connection" save="saveBookmark(bookmark)" data-category="{{favorite.id}}">
