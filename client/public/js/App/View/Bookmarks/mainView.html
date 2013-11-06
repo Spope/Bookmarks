@@ -58,11 +58,16 @@
                     <!-- new bookmark form -->
                     <div class="category-add-bookmark" addbookmark="{{category.id}}">
                         <form>
-                            <label><input type="radio" name="type" value="1" ng-model="newBookmark.bookmark_type_id" />Bookmark</label>
-                            <label><input type="radio" name="type" value="2" ng-model="newBookmark.bookmark_type_id" />Folder</label>
+                            <label>
+                                <input type="radio" name="bookmark_type_id" value="1" ng-model="newBookmark.bookmark_type_id" />Bookmark
+                            </label>
+                            <label>
+                                <input type="radio" name="bookmark_type_id" value="2" ng-model="newBookmark.bookmark_type_id" />Folder
+                            </label>
 
-                            <input class="input-add-bookmark" type="url" ng-required ng-model="tmpValue" placeholder="{{placeholder}}" />
-                            <button class="btn-add-bookmark btn-add-bookmark-url" type="button">Add</button>
+                            <input class="input-add-bookmark input-add-bookmark-url" type="url" ng-required ng-model="newBookmark.url" placeholder="url" />
+                            <input class="input-add-bookmark input-add-bookmark-name" type="text" ng-required ng-model="newBookmark.name" placeholder="name" ng-show="false" />
+                            <button class="btn-add-bookmark btn-add-bookmark" type="button">Add</button>
                         </form>
                     </div>
 

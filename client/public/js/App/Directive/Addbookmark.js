@@ -2,9 +2,10 @@ directives.directive("addbookmark", ['$window', function($window){
     return {
         restrict: "A",
         link: function(scope, element, attrs){
-            $input = element.find('.input-add-bookmark');
+            $inputUrl = element.find('.input-add-bookmark-url');
+            $inputName = element.find('.input-add-bookmark-name');
             scope.newBookmark = {bookmark_type_id:1};
-            scope.placeholder = "url";
+            scope.tmpValue = "";
 
             scope.$watch('showAdd', function() {
                 if(scope.showAdd){
@@ -16,7 +17,7 @@ directives.directive("addbookmark", ['$window', function($window){
 
                     $($window).bind('keypress', function(e) {
                         if(e.keyCode === 27) {
-                            scope.$apply(function() {scope.showAdd = false;});
+                            resetForm();
                         }
                     });
 
@@ -24,19 +25,20 @@ directives.directive("addbookmark", ['$window', function($window){
                         
                         if(e.target.value == 1) {
                             scope.$apply(function() {
-                                scope.placeholder = "url";
-                                $input.attr('type', 'url');
+                                $inputUrl.show().focus();
+                                $inputName.hide();
                             });
                         }
                         if(e.target.value == 2) {
                             scope.$apply(function() {
-                                scope.placeholder = "name";
-                                $input.attr('type', 'text');
+                                $inputUrl.hide();
+                                $inputName.show().focus();
                             });
                         }
                     });
 
-                    firstStep();
+                    bindUrl();
+                    bindName();
 
                 } else {
                     element.stop();
@@ -46,45 +48,27 @@ directives.directive("addbookmark", ['$window', function($window){
                 }
             });
 
-            var firstStep = function() {
-                $input.focus().bind('keypress', function(e) {
+            var bindUrl = function() {
+                
+                $inputUrl.focus().unbind('keypress').bind('keypress', function(e) {
                     if(e.keyCode === 13) {
-                        console.log('FirstStep');
                         e.preventDefault();
+                        $inputUrl.hide();
+                        $inputName.show().focus();
 
-                        if(scope.newBookmark.bookmark_type_id == 1) {
-                            lastStep();
-                        }
-                        if(scope.newBookmark.bookmark_type_id == 2) {
-                            scope.newBookmark.name = scope.tmpValue;
-                        }
-
-                        return false;
                     }
                 });
             }
 
-            var lastStep = function() {
+            var bindName = function() {
 
-                scope.$apply(function(){
-                    scope.newBookmark.url = scope.tmpValue;
-                    scope.tmpValue = "a";
-                    scope.placeholder = "name (optional)";
-                    $input.attr('type', 'text');
-
-                    $input.unbind('keypress');
-
-                });
-
-                $input.bind('keypress', function(e) {
+                $inputName.unbind('keypress').bind('keypress', function(e) {
                     if(e.keyCode === 13) {
                         console.log('LastStep');
                         e.preventDefault();
+                        console.log(scope.newBookmark);
 
-                        scope.newBookmark.name = scope.tmpValue;
-                        console.log(scope.tmpValue);
-
-                        //sendBook();
+                        sendBook();
 
                         return false;
                     }
@@ -98,14 +82,27 @@ directives.directive("addbookmark", ['$window', function($window){
                 }
 
                 scope.newBookmark.category_id = attrs.addbookmark;
-
+                resetForm();
+/*
                 scope.postBookmark(scope.newBookmark, function() {
                     //bookmark is saved, I reset the form
                     scope.tmpValue = "";
                     scope.showAdd = false;
                 });
-
+*/
                 return false;
+            }
+
+            var resetForm = function() {
+                
+                scope.$apply(function() {
+                    $inputName.unbind().hide();
+                    $inputUrl.unbind().show();
+                    scope.showAdd = false;
+                    scope.newBookmark = {bookmark_type_id:1};
+                    bindUrl();
+                    bindName();
+                });
             }
         }
     };
