@@ -4,7 +4,7 @@ directives.directive("addbookmark", ['$window', function($window){
         link: function(scope, element, attrs){
             $inputUrl = element.find('.input-add-bookmark-url');
             $inputName = element.find('.input-add-bookmark-name');
-            scope.newBookmark = {bookmark_type_id:1};
+            scope.newBookmark = {bookmark_type_id:1, url:"", name:""};
             scope.tmpValue = "";
 
             scope.$watch('showAdd', function() {
@@ -82,27 +82,21 @@ directives.directive("addbookmark", ['$window', function($window){
                 }
 
                 scope.newBookmark.category_id = attrs.addbookmark;
-                resetForm();
-/*
+                
                 scope.postBookmark(scope.newBookmark, function() {
                     //bookmark is saved, I reset the form
-                    scope.tmpValue = "";
-                    scope.showAdd = false;
+                    resetForm();
                 });
-*/
+
                 return false;
             }
 
             var resetForm = function() {
                 
-                scope.$apply(function() {
-                    $inputName.unbind().hide();
-                    $inputUrl.unbind().show();
-                    scope.showAdd = false;
-                    scope.newBookmark = {bookmark_type_id:1};
-                    bindUrl();
-                    bindName();
-                });
+                $inputName.hide();
+                $inputUrl.show();
+                scope.showAdd = false;
+                scope.newBookmark = {bookmark_type_id:1, url:"", name:""};
             }
         }
     };
