@@ -30,7 +30,7 @@ directives.directive("bookmarkel", function(){
             });
 
             //Hack to trigger mouse leave when clicking on a folder
-            element.bind('mousedown', function(e) {
+            element.bind('mouseup', function(e) {
                 $(this).trigger('mouseleave');
             });
         }
