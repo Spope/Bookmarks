@@ -1,20 +1,44 @@
-directives.directive("addbookmark", function(){
+directives.directive("addbookmark", ['$window', function($window){
     return {
         restrict: "A",
         link: function(scope, element, attrs){
-            scope.newBookmark = {};
+            $input = element.find('.input-add-bookmark');
+            scope.newBookmark = {bookmark_type_id:1};
+            scope.placeholder = "url";
 
-            $(element).parent().bind({
-                mouseenter: function () {
+            scope.$watch('showAdd', function() {
+                if(scope.showAdd){
 
-                    element.parent().parent().addClass("hover");
                     element.stop();
                     element.slideDown(100, function(){
                         $('.categories-list').isotope('shiftColumnOfItem', element.parent().parent().parent()[0] );
                     });
-                },
-                mouseleave: function() {
-                    element.parent().parent().removeClass("hover");
+
+                    $($window).bind('keypress', function(e) {
+                        if(e.keyCode === 27) {
+                            scope.$apply(function() {scope.showAdd = false;});
+                        }
+                    });
+
+                    element.find("input[name='bookmark_type_id']:radio").bind('click', function(e) {
+                        
+                        if(e.target.value == 1) {
+                            scope.$apply(function() {
+                                scope.placeholder = "url";
+                                $input.attr('type', 'url');
+                            });
+                        }
+                        if(e.target.value == 2) {
+                            scope.$apply(function() {
+                                scope.placeholder = "name";
+                                $input.attr('type', 'text');
+                            });
+                        }
+                    });
+
+                    firstStep();
+
+                } else {
                     element.stop();
                     element.slideUp(100, function(){
                         $('.categories-list').isotope('shiftColumnOfItem', element.parent().parent().parent()[0] );
@@ -23,54 +47,66 @@ directives.directive("addbookmark", function(){
             });
 
             var firstStep = function() {
-                if(scope.newBookmark.url != "" && element.find('.add-bookmark-url').hasClass('ng-valid')) {
-                    element.find('.add-bookmark-url, .btn-add-bookmark-url').hide();
-                    element.find('.add-bookmark-name, .btn-add-bookmark-name').show();
-                    element.find('.add-bookmark-name').focus();
-                }
+                $input.focus().bind('keypress', function(e) {
+                    if(e.keyCode === 13) {
+                        console.log('FirstStep');
+                        e.preventDefault();
+
+                        if(scope.newBookmark.bookmark_type_id == 1) {
+                            lastStep();
+                        }
+                        if(scope.newBookmark.bookmark_type_id == 2) {
+                            scope.newBookmark.name = scope.tmpValue;
+                        }
+
+                        return false;
+                    }
+                });
             }
 
             var lastStep = function() {
-                element.find('.add-bookmark-url, .btn-add-bookmark-url').show();
-                element.find('.add-bookmark-name, .btn-add-bookmark-name').hide();
+
+                scope.$apply(function(){
+                    scope.newBookmark.url = scope.tmpValue;
+                    scope.tmpValue = "a";
+                    scope.placeholder = "name (optional)";
+                    $input.attr('type', 'text');
+
+                    $input.unbind('keypress');
+
+                });
+
+                $input.bind('keypress', function(e) {
+                    if(e.keyCode === 13) {
+                        console.log('LastStep');
+                        e.preventDefault();
+
+                        scope.newBookmark.name = scope.tmpValue;
+                        console.log(scope.tmpValue);
+
+                        //sendBook();
+
+                        return false;
+                    }
+                });
             }
 
-            element.find('.btn-add-bookmark-url').bind('click', function(event) {
-                firstStep();
-            })
-            element.find('.add-bookmark-url').bind('keypress', function(e) {
-                if(e.keyCode == 13) {
-                    firstStep();
-                    //trigger the html5 validation
-                    e.target.blur();
-                    e.target.focus();
-                    e.preventDefault();
-
-                    return false;
-                }
-            })
-
-            element.find('.btn-add-bookmark-name').bind('click', function(event) {
-                lastStep();
-            })
-
-            scope.send = function() {
+            var sendBook = function() {
 
                 if(scope.currentParent) {
                     scope.newBookmark.parent = scope.currentParent.id;
                 }
 
                 scope.newBookmark.category_id = attrs.addbookmark;
-                scope.newBookmark.bookmark_type_id = 1;
 
                 scope.postBookmark(scope.newBookmark, function() {
                     //bookmark is saved, I reset the form
-                    scope.newBookmark.url = "";
-                    scope.newBookmark.name = "";
+                    scope.tmpValue = "";
+                    scope.showAdd = false;
                 });
 
                 return false;
             }
         }
     };
-});
+}]);
