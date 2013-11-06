@@ -40,13 +40,10 @@
         <li class="category-li" ng-repeat="category in categories" ng-controller="BookmarkController">
             <div class="category-general">
                 <div class="category-header" ng-mouseenter="showAction=true" ng-mouseleave="showAction=false">
-                    <h2>{{category.name}}</h2>
+                    <h2 categoryedit>{{category.name}}</h2>
                     <div ng-show="showAction" class="category-action">
                         <a ng-click="addFolder(category.id, currentParent)">
                             <img src="/img/bookmark/folder.png" />
-                        </a>
-                        <a ng-click="editCategory(category)">
-                            <img src="/img/bookmark/pen.png" />
                         </a>
                         <a ng-click="removeCategory(category)">
                             <img src="/img/bookmark/delete.png" />
@@ -65,7 +62,7 @@
                             <div ng-switch on="bookmark.bookmark_type_id">
                                 <div ng-switch-when="1">
                                     <a class="btn-edit-bookmark pointer" ng-click="editBookmark(bookmark)">
-                                            <img src="/img/bookmark/pen.png" ng-show="bookmark.showEditBtn"  />
+                                        <img src="/img/bookmark/pen.png" ng-show="bookmark.showEditBtn"  />
                                     </a>
                                     <a class="url-bookmark" ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">
                                         <!--<img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" height="16" width="16" />-->
