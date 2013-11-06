@@ -1,8 +1,14 @@
+@import "elements.less";
 @import "vars.less";
 @import "reset.less";
 
 @import "modal.less";
 @import "isotope.less";
+
+@import "topbar.less";
+@import "search.less";
+@import "favorites.less";
+@import "categories.less";
 
 .pointer {
     cursor: pointer;
@@ -10,53 +16,4 @@
 
 .hide {
     display:none;
-}
-
-/** This is sale it need to be ranged */
-.favorite-category {
-    border:1px solid gray;
-    height:20px;
-}
-.favorite-list li{
-    display:inline-block;
-}
-.category-general {
-    padding:3px;
-    border:1px solid gray;
-}
-.categories-list {
-    margin:0 auto;
-}
-
-.category-li {
-    width:200px;
-    display:block;
-    vertical-align:top;
-    margin:0;
-}
-
-.bin {
-    width: 150px;
-    height:170px;
-    background:grey;
-    position:fixed;
-    bottom:0;
-    right:0;
-    visibility:hidden;
-}
-
-
-ul.search-bookmark-results-list{
-
-    background:white;
-    z-index:3;
-
-    li.search-bookmark-result{
-        padding:3px;
-    }
-
-    li.active {
-        background:#096AAB;
-        color:white;
-    }
 }
