@@ -1,0 +1,60 @@
+.search-engine-list-int{
+
+	border-bottom: dotted 1px @lightgray; 
+	padding: 20px 0;
+	text-align: center;
+	background-color: white;
+
+	> * {
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	.form-search {
+
+		height: 40px;
+		padding-left: 30px;
+		background : transparent url("../img/fleche-search.gif") left center no-repeat ; 
+
+		> *{
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		input[type="text"]{
+			background-color: white;
+			border: 0;
+
+			.border-radius( 0, 0, 2px, 2px);
+			border: solid 1px @gray;
+			width: 300px;
+			height: 22px;
+			padding: 8px;
+
+		}
+
+		button{
+
+			.transition(0.1s);
+
+			text-decoration: none;
+			border: 0;
+			background: 0;
+			margin-left: -4px;
+			border: solid 1px black;
+			background: @black url("../img/loupe.png") center center no-repeat;
+			height: 40px;
+			width: 85px;
+
+			cursor: pointer;
+
+			.border-radius(2px, 2px, 0, 0);
+
+			&:hover{
+				background: lighten(@black, 10%) url("../img/loupe.png") center center no-repeat;
+				border-color: lighten(black, 10%) ;
+			}
+
+		}
+	}
+}
