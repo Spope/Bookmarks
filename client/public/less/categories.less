@@ -1,4 +1,46 @@
 
+.bin{
+    position: fixed;
+    background-color: @black;
+    width: 170px;
+    height: 170px;
+    visibility: visible !important;
+    top: -175px;
+    right: 70px;
+    .transition(0.15s);
+    .drop-shadow( 0px, 0px, 5px, 0.6);
+
+    &.visible{
+        top: 0;
+        &.opened{
+            background-color: red;
+        }
+    }
+}
+
+.ui-sortable-helper{
+    position: absolute;
+}
+
+.categories-actions{
+    text-align: center;
+    margin: 5px 0;
+    a{
+        .transition(0.2s);
+        display: inline-block;
+        padding: 4px 8px;
+        border: dashed darken(@lightgray, 5%) 1px;
+        font-weight: bold;
+        .rounded(15px);
+        cursor: pointer;
+        color: darken(@lightgray, 5%);
+        &:hover{
+            border: dashed darken(@lightgray, 15%) 1px;
+            color: darken(@lightgray, 15%);
+        }
+    }
+}
+
 .category-general {
     background-color: white;
     width: 255px;
@@ -95,7 +137,12 @@
             .bookmark:not(:last-child){
                 margin-bottom: 7px;
             }
-            .bookmark div div {
+            .bookmark a {
+
+                img{
+                    margin-right: 5px;
+                }
+
                 *{
                     vertical-align: top;
                 }
@@ -118,16 +165,6 @@
     display:block;
     vertical-align:top;
     margin:0;
-}
-
-.bin {
-    width: 150px;
-    height:170px;
-    background:grey;
-    position:fixed;
-    bottom:0;
-    right:0;
-    visibility:hidden;
 }
 
 
