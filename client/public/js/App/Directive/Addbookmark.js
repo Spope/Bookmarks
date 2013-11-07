@@ -53,6 +53,7 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
                         }
                         if(e.target.value == 2) {
                             scope.$apply(function() {
+                                scope.newBookmark.url = "";
                                 $inputUrl.hide();
                                 $inputName.show().focus();
                             });

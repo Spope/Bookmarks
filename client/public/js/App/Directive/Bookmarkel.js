@@ -3,9 +3,25 @@ directives.directive("bookmarkel", ['$compile', function($compile){
         restrict: "A",
         link: function(scope, element, attrs){
 
-            var elems = '<a class="btn-edit-bookmark pointer" ng-click="editBookmark(bookmark)">';
-            elems += '<img src="/img/bookmark/pen.png" />';
-            elems += '</a>';
+            var editBtn = '<a class="btn-edit-bookmark pointer" ng-click="editBookmark(bookmark)">';
+            editBtn += '<img src="/img/bookmark/pen.png" />';
+            editBtn += '</a>';
+
+            var template = "";
+            if(scope.bookmark.bookmark_type_id == 1) {
+                template += '<a class="url-bookmark" ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">';
+                template += '<img ng-src="http://placehold.it/16x16" height="16" width="16" />';
+                template += '{{bookmark.name|truncate:24}}';
+                template += '</a>';
+            }
+            if(scope.bookmark.bookmark_type_id == 2) {
+                template += '<a class="url-bookmark" href="" title="{{bookmark.name}}" ng-click="setParent(bookmark)">';
+                template += '<img src="/img/bookmark/folder.png" />';
+                template += '{{bookmark.name|truncate:24}}';
+                template += '</a>';
+            }
+
+            element.append($compile(template)(scope));
 
             element.bind('mouseenter', function(e) {
                 
@@ -13,7 +29,7 @@ directives.directive("bookmarkel", ['$compile', function($compile){
                     paddingLeft: 20
                 }, 200, function () {
                     //append editButton
-                    element.find('.url-bookmark').before($compile(elems)(scope));
+                    element.find('.url-bookmark').before($compile(editBtn)(scope));
                     element.children().children().children('.url-bookmark').css('padding-left', '3px');
                     scope.$apply();
                 })
