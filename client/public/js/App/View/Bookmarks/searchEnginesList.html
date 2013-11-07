@@ -8,8 +8,8 @@
         <form ng-submit="searchFn()" class="form-search">
             <div ng-show="!searchBookmark">
                 <input type="text" class="input-search" ng-model="search.value" ng-change="setSearchBookmark()" active="searchBookmark" />
+                <div style="position: absolute;" ng-click="search.value=''">X</div>
             </div>
-
             <!--the bookmarks search input-->
             <div ng-show="searchBookmark">
                 <typeahead items="results" term="search.value" search="searchBookmarkFn(term)" select="searchFn">
