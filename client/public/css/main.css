@@ -258,7 +258,7 @@ br {
 .favorite-category {
   border-bottom: 1px solid #eeeeee;
   background-color: white;
-  text-align: left;
+  text-align: center;
   padding: 12px 25%;
   margin: 0 auto;
 }
@@ -267,7 +267,6 @@ br {
   text-align: left;
 }
 .favorite-category li .url-bookmark {
-  width: 160px;
   text-align: left;
   float: none;
   display: block;
