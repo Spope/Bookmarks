@@ -8,7 +8,8 @@ services.factory('CategoryService', ['UserService', 'LocalCategoryService', '$ht
                 .then(
                     function(response) {
 
-                        
+                        LocalCategoryService.categories = [];
+                        LocalBookmarkService.bookmarks  = [];
                         var categories = response.data;
 
                         for(var i in categories) {
