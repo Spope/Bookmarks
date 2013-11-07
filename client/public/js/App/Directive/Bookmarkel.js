@@ -3,10 +3,6 @@ directives.directive("bookmarkel", ['$compile', function($compile){
         restrict: "A",
         link: function(scope, element, attrs){
 
-            var editBtn = '<a class="btn-edit-bookmark pointer" ng-click="editBookmark(bookmark)">';
-            editBtn += '<img src="/img/bookmark/pen.png" />';
-            editBtn += '</a>';
-
             var template = "";
             if(scope.bookmark.bookmark_type_id == 1) {
                 template += '<a class="url-bookmark" ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">';
@@ -23,35 +19,42 @@ directives.directive("bookmarkel", ['$compile', function($compile){
 
             element.append($compile(template)(scope));
 
-            element.bind('mouseenter', function(e) {
-                
-                element.children().children().children('.url-bookmark').stop().animate({
-                    paddingLeft: 20
-                }, 200, function () {
-                    //append editButton
-                    element.find('.url-bookmark').before($compile(editBtn)(scope));
-                    element.children().children().children('.url-bookmark').css('padding-left', '3px');
-                    scope.$apply();
-                })
-            });
+            if(attrs.bookmarkel == ""){
 
-            element.bind('mouseleave', function(e) {
+                var editBtn = '<a class="btn-edit-bookmark pointer" ng-click="editBookmark(bookmark)">';
+                editBtn += '<img src="/img/bookmark/pen.png" />';
+                editBtn += '</a>';
 
-                if(element.find('.btn-edit-bookmark')[0]) {
-                    element.find('.btn-edit-bookmark').remove();
+                element.bind('mouseenter', function(e) {
+                    
+                    element.children('.url-bookmark').stop().animate({
+                        paddingLeft: 20
+                    }, 200, function () {
+                        //append editButton
+                        element.find('.url-bookmark').before($compile(editBtn)(scope));
+                        element.children('.url-bookmark').css('padding-left', '3px');
+                        scope.$apply();
+                    })
+                });
 
-                    element.children().children().children('.url-bookmark').css('padding-left', '20px');
-                }
+                element.bind('mouseleave', function(e) {
 
-                element.children().children().children('.url-bookmark').stop().animate({
-                    paddingLeft: 0
-                }, 200)
-            });
+                    if(element.find('.btn-edit-bookmark')[0]) {
+                        element.find('.btn-edit-bookmark').remove();
 
-            //Hack to trigger mouse leave when clicking on a folder
-            element.bind('mouseup', function(e) {
-                //$(this).trigger('mouseleave');
-            });
+                        element.children('.url-bookmark').css('padding-left', '20px');
+                    }
+
+                    element.children('.url-bookmark').stop().animate({
+                        paddingLeft: 0
+                    }, 200)
+                });
+
+                //Hack to trigger mouse leave when clicking on a folder
+                element.bind('mouseup', function(e) {
+                    //$(this).trigger('mouseleave');
+                });
+            }
         }
     }
 }]);
