@@ -50,7 +50,7 @@ directives.directive("typeahead", ['$window', function ($window){
             };
 
             $scope.isVisible = function() {
-                return !$scope.hide && ($scope.focused || $scope.mousedOver);
+                return !$scope.hide && ($scope.focused || $scope.mousedOver) && ($scope.items && $scope.items.length > 0);
             };
 
             $scope.query = function() {

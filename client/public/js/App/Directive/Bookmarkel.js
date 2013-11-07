@@ -22,7 +22,7 @@ directives.directive("bookmarkel", ['$compile', function($compile){
             if(attrs.bookmarkel == ""){
 
                 var editBtn = '<a class="btn-edit-bookmark pointer" ng-click="editBookmark(bookmark)">';
-                editBtn += '<img src="/img/bookmark/pen.png" />';
+                editBtn += '<img src="/img/bookmark/pen.png" width="16" height="16" />';
                 editBtn += '</a>';
 
                 element.bind('mouseenter', function(e) {
@@ -32,8 +32,7 @@ directives.directive("bookmarkel", ['$compile', function($compile){
                     }, 200, function () {
                         //append editButton
                         element.find('.url-bookmark').before($compile(editBtn)(scope));
-                        element.children('.url-bookmark').css('padding-left', '3px');
-                        scope.$apply();
+                        element.children('.url-bookmark').css('padding-left', '0px');
                     })
                 });
 

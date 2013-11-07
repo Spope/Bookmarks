@@ -6,6 +6,7 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                 items:"li:not(.bookmark-back)",
                 connectWith: "."+attrs.sortable,
                 helper: 'clone',
+                zIndex: 999999,
                 start: function(e, ui) {
                     $('.bin').addClass("visible");
                     scope.sorting = true;
@@ -43,7 +44,6 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                         var bookmark = BookmarkService.get(id);
                         scope.deleteBookmark = bookmark;
                         scope.$apply(attrs.remove);
-                        
 
                     } else {
                         //Sorting bookmarks
@@ -76,6 +76,7 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                     }
                 },
                 out:function(e, ui){
+                        console.log('OUT');
                     if($(e.target).hasClass('bin')) {
                         $('.bin').removeClass("opened");
                     }
