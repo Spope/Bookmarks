@@ -102,6 +102,17 @@ small {
 .light {
   font-weight: 300;
 }
+.dots {
+  background: transparent url("../img/dots.gif");
+}
+br {
+  margin: 0;
+  padding: 0;
+  display: block;
+  content: "";
+  height: 1px;
+  background: #ffffff url("../img/dots.gif") top left repeat;
+}
 .modal-backdrop {
   background: rgba(0, 0, 0, 0.3);
   position: fixed;
@@ -123,7 +134,6 @@ small {
 .isotope,
 .isotope .isotope-item {
   /* change duration value to whatever you like */
-
   -webkit-transition-duration: 0.4s;
   -moz-transition-duration: 0.4s;
   -ms-transition-duration: 0.4s;
@@ -171,7 +181,6 @@ small {
   right: 10px;
 }
 .search-engine-list-int {
-  border-bottom: dotted 1px #eeeeee;
   padding: 20px 0;
   text-align: center;
   background-color: white;
@@ -267,12 +276,127 @@ small {
   overflow: visible !important;
 }
 .category-general {
-  padding: 10px;
   background-color: white;
   width: 235px;
-  -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.05);
-  -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.05);
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.07);
+  -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.07);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.07);
+}
+.category-general .category-header {
+  padding: 10px 10px 0 10px;
+  font-size: 14px;
+  color: #404040;
+  font-weight: bold;
+  width: 215px;
+}
+.category-general .category-header h2 {
+  width: 170px;
+  float: left;
+}
+.category-general .category-header .category-action {
+  width: 45px;
+  float: right;
+}
+.category-general .category-header .category-action a {
+  display: inline-block;
+  opacity: 0.15;
+  height: 20px;
+  cursor: pointer;
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
+  -o-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
+  float: right;
+}
+.category-general .category-header .category-action a.add-bookmark {
+  float: left;
+}
+.category-general .category-header .category-action a img {
+  width: 20px;
+  height: 20px;
+}
+.category-general .category-header .category-action a:hover {
+  opacity: 1;
+}
+.category-general .bookmarks-list-general .category-add-bookmark {
+  background-color: #f7f7f7;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-top: -10px;
+}
+.category-general .bookmarks-list-general .category-add-bookmark .input-add-bookmark {
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  border: solid 1px #eeeeee;
+  padding: 3px;
+  margin-top: 5px;
+  float: left;
+  width: 177px;
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 2px;
+  -webkit-border-top-left-radius: 2px;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 2px;
+  -moz-border-radius-topleft: 2px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 2px;
+  border-top-left-radius: 2px;
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.category-general .bookmarks-list-general .category-add-bookmark .btn-add-bookmark {
+  height: 25px;
+  width: 30px;
+  background: none;
+  background-color: #404040;
+  border: 0;
+  border: solid 1px black;
+  color: white;
+  float: left;
+  margin-top: 5px;
+  -webkit-border-top-right-radius: 2px;
+  -webkit-border-bottom-right-radius: 2px;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 2px;
+  -moz-border-radius-bottomright: 2px;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  cursor: pointer;
+}
+.category-general .bookmarks-list-general .category-add-bookmark .btn-add-bookmark:hover {
+  background-color: #5a5a5a;
+  border: solid 1px #1a1a1a;
+}
+.category-general .bookmarks-list-general .category-add-bookmark label:first-child {
+  margin-right: 15px;
+}
+.category-general .bookmarks-list-general .category-add-bookmark label > *:first-child {
+  margin-right: 5px;
+}
+.category-general .bookmarks-list-general .bookmarks-list {
+  padding: 0 10px 10px 10px;
+}
+.category-general .bookmarks-list-general .bookmarks-list .bookmark:not(:last-child) {
+  margin-bottom: 7px;
+}
+.category-general .bookmarks-list-general .bookmarks-list .bookmark div div * {
+  vertical-align: top;
+}
+.category-general br {
+  margin: 7px 0px 10px 0;
 }
 .categories-list {
   margin: 0 auto;

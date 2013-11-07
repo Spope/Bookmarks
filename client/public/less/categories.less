@@ -1,9 +1,112 @@
 
 .category-general {
-    padding:10px;
     background-color: white;
     width: 235px;
-    .drop-shadow( 0px, 0px, 5px, 0.05);
+
+    .drop-shadow( 0px, 0px, 5px, 0.07);
+
+    .category-header{
+        padding: 10px 10px 0 10px;
+        font-size: 14px;
+        color: @black;
+        font-weight: bold;
+        width: 215px;
+
+        h2{
+            width: 170px;
+            .left;
+        }
+
+        .category-action {
+
+            width: 45px;
+
+            .right;
+
+            a{
+                display: inline-block;
+                opacity: 0.15;
+                height: 20px;
+                cursor: pointer;
+                .transition(0.1s);
+
+                &.add-bookmark{
+                    float: left;
+                }
+
+            .right;
+                img{
+                    width: 20px;
+                    height: 20px;
+                }
+                &:hover{
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    .bookmarks-list-general{
+
+        .category-add-bookmark{
+            background-color: #f7f7f7;
+            padding: 10px;
+            margin-bottom: 10px;
+            margin-top: -10px;
+
+            .input-add-bookmark{
+                .rounded(2px);
+                border: solid 1px @lightgray;
+                padding: 3px;
+                margin-top: 5px;
+                .left;
+                width: 177px;
+                .border-radius( 0, 0, 2px, 2px);
+            }
+            .btn-add-bookmark{
+                height: 25px;
+                width: 30px;
+                background: none;
+                background-color: @black;
+                border: 0;
+                border: solid 1px black;
+                color: white;
+                .left;
+                margin-top: 5px;
+                .border-radius( 2px, 2px, 0, 0 );
+                cursor: pointer;
+                &:hover{
+                    background-color: lighten(@black, 10%);
+                    border: solid 1px lighten(black, 10%);
+                }
+            }
+            label{
+                &:first-child{
+                    margin-right: 15px;
+                }
+                >*:first-child{
+                    margin-right: 5px;
+                }
+            }
+        }
+
+        .bookmarks-list{
+            padding: 0 10px 10px 10px;
+            .bookmark:not(:last-child){
+                margin-bottom: 7px;
+            }
+            .bookmark div div {
+                *{
+                    vertical-align: top;
+                }
+            }
+        }
+    }
+
+    br{
+        margin: 7px 0px 10px 0
+    }
+
 }
 
 .categories-list {
