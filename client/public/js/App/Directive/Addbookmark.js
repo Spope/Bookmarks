@@ -37,7 +37,7 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
                         $('.categories-list').isotope('shiftColumnOfItem', element.parent().parent()[0] );
                     });
 
-                    $($window).bind('keypress', function(e) {
+                    $($window).bind('keydown', function(e) {
                         if(e.keyCode === 27) {
                             resetForm();
                         }
@@ -61,9 +61,8 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
 
                     bindUrl();
                     bindName();
-
-                } else {
-                    resetForm();
+                }else{
+                    resetForm(true);
                 }
             });
 
@@ -110,7 +109,7 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
                 return false;
             }
 
-            var resetForm = function() {
+            var resetForm = function(apply) {
                 if($form){
                     $form.stop();
                     $form.slideUp(100, function(){
@@ -118,6 +117,10 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
                         $form.remove();
                         scope.showAdd = false;
                         scope.newBookmark = {bookmark_type_id:1, url:"", name:""};
+                        if(!apply) {
+                            $($window).unbind('keydown');
+                            scope.$apply();
+                        }
                     });
                 }
             }
