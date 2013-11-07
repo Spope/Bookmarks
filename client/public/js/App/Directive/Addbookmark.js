@@ -13,7 +13,8 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
             template += '</label>';
             template += '<input class="input-add-bookmark input-add-bookmark-url" type="url" ng-required ng-model="newBookmark.url" placeholder="url" />';
             template += '<input class="input-add-bookmark input-add-bookmark-name" type="text" ng-required ng-model="newBookmark.name" placeholder="name" ng-show="false" />';
-            template += '<button class="btn-add-bookmark btn-add-bookmark" type="button">Add</button>';
+            template += '<button class="btn-add-bookmark btn-add-bookmark-url" type="button">Add</button>';
+            template += '<button class="btn-add-bookmark btn-add-bookmark-name" type="button" ng-show="false">Add</button>';
             template += '</form>';
             template += '<div class="clr"></div>';
             template += '</div>';
@@ -21,6 +22,8 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
             scope.newBookmark = {bookmark_type_id:1, url:"", name:""};
             var $inputUrl;
             var $inputName;
+            var $btnUrl;
+            var btnName;
             var $form;
 
             scope.$watch('showAdd', function() {
@@ -30,6 +33,8 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
 
                     $inputUrl = element.find('.input-add-bookmark-url');
                     $inputName = element.find('.input-add-bookmark-name');
+                    $btnUrl = element.find('.btn-add-bookmark-url');
+                    $btnName = element.find('.btn-add-bookmark-name');
                     $form = element.find('.category-add-bookmark');
 
                     $form.stop();
@@ -48,14 +53,18 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
                         if(e.target.value == 1) {
                             scope.$apply(function() {
                                 $inputUrl.show().focus();
+                                $btnUrl.show();
                                 $inputName.hide();
+                                $btnName.hide();
                             });
                         }
                         if(e.target.value == 2) {
                             scope.$apply(function() {
                                 scope.newBookmark.url = "";
                                 $inputUrl.hide();
+                                $btnUrl.hide();
                                 $inputName.show().focus();
+                                $btnName.show();
                             });
                         }
                     });
@@ -73,9 +82,17 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
                     if(e.keyCode === 13) {
                         e.preventDefault();
                         $inputUrl.hide();
+                        $btnUrl.hide();
                         $inputName.show().focus();
+                        $btnName.show();
 
                     }
+                });
+                $btnUrl.bind('click', function(e){
+                    $inputUrl.hide();
+                    $btnUrl.hide();
+                    $inputName.show().focus();
+                    $btnName.show();
                 });
             }
 
@@ -83,14 +100,13 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
 
                 $inputName.unbind('keypress').bind('keypress', function(e) {
                     if(e.keyCode === 13) {
-                        console.log('LastStep');
                         e.preventDefault();
-                        console.log(scope.newBookmark);
-
                         sendBook();
-
                         return false;
                     }
+                });
+                $btnName.bind('click', function(e){
+                    sendBook();
                 });
             }
 
