@@ -10,9 +10,19 @@
 
 	.form-search {
 
+		position: relative;
+
 		height: 40px;
-		padding-left: 30px;
+		padding-left: 40px;
 		background : transparent url("../img/fleche-search.gif") left center no-repeat ; 
+
+		#reset-field{
+			position: absolute;
+			top: 3px;
+			font-size: 2em;
+			right: 95px;
+			cursor: pointer;
+		}
 
 		> *{
 			display: inline-block;
@@ -56,3 +66,14 @@
 		}
 	}
 }
+
+.search-bookmark-results-list{
+	width: 300px;
+	padding: 8px;
+	text-align: left;
+	.drop-shadow(0,0,5px,0.15);
+	li{
+		cursor: pointer;
+		img{margin-right: 5px;}
+	}
+} 

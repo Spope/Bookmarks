@@ -7,7 +7,7 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                 connectWith: "."+attrs.sortable,
                 helper: 'clone',
                 start: function(e, ui) {
-                    $('.bin').css('visibility', 'visible');
+                    $('.bin').addClass("visible");
                     scope.sorting = true;
                 },
                 stop: function (e, ui) {
@@ -26,7 +26,7 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                         }
                     }
 
-                    $('.bin').css('visibility', 'hidden');
+                    $('.bin').removeClass("visible");
                     scope.sorting = false;
 
                 },
@@ -67,6 +67,17 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                             ui.sender.scope().loadBookmarks(false);
                         });
 
+                    }
+                },
+                over:function(e, ui){
+                    console.log(e);
+                    if($(e.target).hasClass('bin')) {
+                        $('.bin').addClass("opened");
+                    }
+                },
+                out:function(e, ui){
+                    if($(e.target).hasClass('bin')) {
+                        $('.bin').removeClass("opened");
                     }
                 }
             });

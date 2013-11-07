@@ -1,7 +1,7 @@
 <div id="top-bar">
     <h1 class="title">{{user.username}}'s <span class="light">bookmarks</span></h1>
     <ul id="user-settings">
-        <li> </li>
+        <li></li>
         <li> <a href="/#/logout">logout</a> </li>
         <li></li>
     </ul>
@@ -21,7 +21,9 @@
     </div>
 
 
-    <a ng-click="addCategory()">+</a>
+    <div class="categories-actions">
+        <a ng-click="addCategory()">Add a category</a>
+    </div>
     <ul class="categories-list" mansory="255">
         <li class="category-li" ng-repeat="category in categories" ng-controller="BookmarkController">
             <div class="category-general">
