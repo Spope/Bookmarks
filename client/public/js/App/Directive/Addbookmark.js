@@ -15,6 +15,7 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
             template += '<input class="input-add-bookmark input-add-bookmark-name" type="text" ng-required ng-model="newBookmark.name" placeholder="name" ng-show="false" />';
             template += '<button class="btn-add-bookmark btn-add-bookmark" type="button">Add</button>';
             template += '</form>';
+            template += '<div class="clr"></div>';
             template += '</div>';
 
             scope.newBookmark = {bookmark_type_id:1, url:"", name:""};
