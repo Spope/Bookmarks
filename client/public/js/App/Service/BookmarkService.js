@@ -67,6 +67,10 @@ services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkServi
                     });
                 } else {
 
+                    if(typeof(next) == 'function') {
+                        next(LocalBookmarkService.getByCategory(idCategory, parent));
+                    }
+
                     return LocalBookmarkService.getByCategory(idCategory, parent);
                 }
             }

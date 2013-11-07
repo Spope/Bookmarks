@@ -10,12 +10,14 @@ controllers.controller('BookmarkController', ['$rootScope', '$scope', 'BookmarkS
             $rootScope.initStep--;
             next = null;
         }
+
         if($scope.category) {
             $scope.bookmarks = BookmarkService.getByCategory($scope.category.id, $scope.currentParent, cache, next);
         }
 
         if($rootScope.initStep == 1) {
             $scope.mansory();
+            $rootScope.initStep = 0;
         }
     }
     $scope.loadBookmarks();
@@ -158,12 +160,15 @@ controllers.controller('BookmarkController', ['$rootScope', '$scope', 'BookmarkS
     $scope.removeBookmark = function(bookmark) {
 
         var bookmark = $scope.deleteBookmark;
-        
 
         if(bookmark.bookmark_type_id == 2) {
 
             removeFolder(bookmark).then(function(data) {
                 deleteBookmark(bookmark);
+
+            }, function(e){
+                //Don't work.. $scope has lost its inherit
+                $scope.loadBookmarks();
             });
         } else {
 
@@ -181,6 +186,9 @@ controllers.controller('BookmarkController', ['$rootScope', '$scope', 'BookmarkS
 
             $scope.confirm = function() {
                 deferrerd.resolve();
+                $modalInstance.modal('hide');
+            }
+            $scope.cancel = function() {
                 $modalInstance.modal('hide');
             }
 

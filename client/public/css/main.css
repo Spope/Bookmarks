@@ -213,6 +213,7 @@ button:hover {
 .isotope,
 .isotope .isotope-item {
   /* change duration value to whatever you like */
+
   -webkit-transition-duration: 0.4s;
   -moz-transition-duration: 0.4s;
   -ms-transition-duration: 0.4s;

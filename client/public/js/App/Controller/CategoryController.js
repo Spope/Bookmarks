@@ -94,6 +94,9 @@ controllers.controller('CategoryController', ['$rootScope', '$scope', 'CategoryS
                 deferrerd.resolve();
                 $modalInstance.modal('hide');
             }
+            $scope.cancel = function() {
+                $modalInstance.modal('hide');
+            }
 
             $modalInstance.on('hide.bs.modal', function(e) {
                 deferrerd.reject();
