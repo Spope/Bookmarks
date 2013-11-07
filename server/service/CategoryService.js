@@ -51,7 +51,7 @@ module.exports = {
             "`bookmark`.`id`, `bookmark`.`name`, `bookmark`.`url`, `bookmark`.`position`, `bookmark`.`parent`, `bookmark`.`user_id`, `bookmark`.`category_id`, `bookmark`.`bookmark_type_id` "+
 
             "FROM `category` "+
-            "JOIN `bookmark` on `bookmark`.`category_id` = `category`.`id` "+
+            "LEFT JOIN `bookmark` on `bookmark`.`category_id` = `category`.`id` "+
 
             "WHERE `category`.`user_id` = "+idUser+" "+
             //"AND `bookmark`.`parent` IS NULL "+

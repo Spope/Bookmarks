@@ -7,6 +7,7 @@ controllers.controller('CategoryController', ['$rootScope', '$scope', 'CategoryS
             $scope.categories = data.splice(1);
         });
     }
+    var loadCategory = $scope.loadCategory;
     //retrieving categories from DB
     $scope.pageLoad = function() {
         var next = function(categoryLength) {
@@ -30,6 +31,7 @@ controllers.controller('CategoryController', ['$rootScope', '$scope', 'CategoryS
             $scope.save = function() {
                 postCategory($scope.category, function(data) {
                     $modalInstance.modal('hide');
+                    loadCategory();
                 });
             }
 
@@ -77,7 +79,7 @@ controllers.controller('CategoryController', ['$rootScope', '$scope', 'CategoryS
     $scope.removeCategory = function(category) {
 
         confirmDelete(category).then(function(data){
-            CategoryService.remove(category);
+            CategoryService.remove(category, loadCategory);
         });
     }
 

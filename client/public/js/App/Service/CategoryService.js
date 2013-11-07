@@ -8,7 +8,8 @@ services.factory('CategoryService', ['UserService', 'LocalCategoryService', '$ht
                 .then(
                     function(response) {
 
-                        
+                        LocalCategoryService.categories = [];
+                        LocalBookmarkService.bookmarks  = [];
                         var categories = response.data;
 
                         for(var i in categories) {
@@ -147,17 +148,16 @@ services.factory('CategoryService', ['UserService', 'LocalCategoryService', '$ht
             return promise;
         },
 
-        remove: function(category) {
+        remove: function(category, next) {
 
             var promise = $http.delete('/api/user/'+UserService.user.id+'/category/'+category.id)
             .then(
                 function(response) {
                     LocalCategoryService.remove(category);
-                    return response;
+                    next();
                 },
                 function(response) {
-                    console.log("Error on removing the category");
-                    return {};
+                    console.error("Error on removing the category");
                 }
             );
 
