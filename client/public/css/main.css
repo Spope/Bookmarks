@@ -117,7 +117,9 @@ br {
   height: 1px;
   background: #ffffff url("../img/dots.gif") top left repeat;
 }
-input[type="text"] {
+input[type="text"],
+input[type="password"],
+input[type="email"] {
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
@@ -146,6 +148,13 @@ button {
 button:hover {
   background-color: #5a5a5a;
   border: solid 1px #1a1a1a;
+}
+a,
+button {
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  -o-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
 }
 .modal-backdrop {
   background: rgba(0, 0, 0, 0.5);
@@ -176,7 +185,20 @@ button:hover {
   font-size: 2em;
   font-weight: 300;
 }
-.modal .edit-category-name {
+.modal .edit-bookmark-group {
+  margin-top: 15px;
+}
+.modal select {
+  display: block;
+  margin-top: 5px;
+  width: 100%;
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 5px;
+}
+.modal input[type="text"] {
   margin-top: 5px;
   -ms-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -246,7 +268,7 @@ button:hover {
 #top-bar {
   background-color: #404040;
   color: white;
-  padding: 3px 0 7px 0;
+  padding: 2px 0 5px 0;
 }
 #top-bar .title {
   color: white;
@@ -257,7 +279,29 @@ button:hover {
   display: block;
   position: absolute;
   top: 7px;
-  right: 10px;
+  right: 7px;
+  cursor: pointer;
+}
+#top-bar #user-settings a {
+  display: block;
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 26px;
+  height: 26px;
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
+  -o-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
+}
+#top-bar #user-settings a img {
+  padding: 2px;
+  width: 22px;
+  height: 22px;
+}
+#top-bar #user-settings a:hover {
+  background-color: rgba(255, 255, 255, 0.25);
 }
 .search-engine-list-int {
   padding: 20px 0;
@@ -373,10 +417,11 @@ button:hover {
   display: block;
 }
 .favorite-category .bookmark a {
-  margin: 0 7px 8px 7px;
+  margin: 0 10px 8px 7px;
 }
 .favorite-category .bookmark a img {
   margin-top: -1px;
+  margin-right: 5px;
 }
 .favorite-category .bookmark a * {
   vertical-align: middle;
@@ -488,8 +533,10 @@ button:hover {
   border: solid 1px #eeeeee;
   padding: 3px;
   margin-top: 5px;
+  font-size: 1em;
+  font-weight: normal;
+  width: 197px;
   float: left;
-  width: 177px;
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 0;
   -webkit-border-bottom-left-radius: 2px;
@@ -512,6 +559,7 @@ button:hover {
   background: none;
   background-color: #404040;
   border: 0;
+  padding: 0;
   border: solid 1px black;
   color: white;
   float: left;
@@ -577,6 +625,58 @@ ul.search-bookmark-results-list li.search-bookmark-result {
 ul.search-bookmark-results-list li.active {
   background: #096AAB;
   color: white;
+}
+.login-form-general,
+.register-form-general {
+  position: fixed;
+  left: 50%;
+  width: 380px;
+  margin-left: -190px;
+  z-index: 1050;
+  background: white;
+  top: 20%;
+  padding: 10px 20px 20px 20px;
+  -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
+}
+.login-form-general input,
+.register-form-general input {
+  width: 100%;
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-top: 10px;
+}
+.login-form-general input[type="checkbox"],
+.register-form-general input[type="checkbox"] {
+  width: inherit;
+}
+.login-form-general h1,
+.register-form-general h1 {
+  font-size: 2.5em;
+  font-weight: 300;
+}
+.login-form-general .form-action,
+.register-form-general .form-action {
+  margin-top: 15px;
+}
+.login-form-general .register-link,
+.register-form-general .register-link {
+  font-size: 1.5em;
+  position: absolute;
+  bottom: -40px;
+  width: 100%;
+  text-align: center;
+  left: 0;
+  font-style: italic;
+  color: #bebebe;
+  cursor: pointer;
+}
+.login-form-general .register-link:hover,
+.register-form-general .register-link:hover {
+  color: #404040;
 }
 .pointer {
   cursor: pointer;

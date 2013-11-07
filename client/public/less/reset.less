@@ -92,7 +92,7 @@ br{
     background: white url("../img/dots.gif") top left repeat;
 }
 
-input[type="text"]{
+input[type="text"], input[type="password"], input[type="email"]{
     .rounded(2px);
     display: block;
     font-weight: 300;
@@ -117,4 +117,8 @@ button{
         background-color: lighten(@black, 10%);
         border: solid 1px lighten(black, 10%);
     }
+}
+
+a, button{
+    .transition(0.15s);
 }
