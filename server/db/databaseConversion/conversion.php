@@ -3,7 +3,7 @@
 include('config.php');
 
 $connexion = connect_bd(SERVER,USER,PASSWORD,BASE_NAME);
-$idUser = 1;
+$idUser = 2;
 //
 function connect_bd($server, $user, $password, $base_name) {
     $connexion = mysql_connect($server,$user,$password)
