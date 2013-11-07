@@ -1,4 +1,5 @@
-controllers.controller('MainController', ['$scope',function ($scope, modalService) {
+controllers.controller('MainController', ['$scope', 'UserService', function ($scope, UserService) {
     
+    $scope.user = UserService.user;
 
 }]);

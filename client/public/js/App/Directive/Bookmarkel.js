@@ -1,7 +1,11 @@
-directives.directive("bookmarkel", function(){
+directives.directive("bookmarkel", ['$compile', function($compile){
     return {
         restrict: "A",
         link: function(scope, element, attrs){
+
+            var elems = '<a class="btn-edit-bookmark pointer" ng-click="editBookmark(bookmark)">';
+            elems += '<img src="/img/bookmark/pen.png" />';
+            elems += '</a>';
 
             element.bind('mouseenter', function(e) {
                 
@@ -9,7 +13,7 @@ directives.directive("bookmarkel", function(){
                     paddingLeft: 20
                 }, 200, function () {
                     //append editButton
-                    scope.bookmark.showEditBtn = true;
+                    element.find('.url-bookmark').before($compile(elems)(scope));
                     element.children().children().children('.url-bookmark').css('padding-left', '3px');
                     scope.$apply();
                 })
@@ -17,9 +21,8 @@ directives.directive("bookmarkel", function(){
 
             element.bind('mouseleave', function(e) {
 
-                if(scope.bookmark.showEditBtn) {
-                    scope.bookmark.showEditBtn = false;
-                    scope.$apply();
+                if(element.find('.btn-edit-bookmark')[0]) {
+                    element.find('.btn-edit-bookmark').remove();
 
                     element.children().children().children('.url-bookmark').css('padding-left', '20px');
                 }
@@ -31,8 +34,8 @@ directives.directive("bookmarkel", function(){
 
             //Hack to trigger mouse leave when clicking on a folder
             element.bind('mouseup', function(e) {
-                $(this).trigger('mouseleave');
+                //$(this).trigger('mouseleave');
             });
         }
     }
-});
+}]);
