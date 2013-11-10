@@ -70,12 +70,13 @@ services.factory('LocalBookmarkService', [ function() {
 
             for(var cat in this.bookmarks) {
                 for(var parent in this.bookmarks[cat]) {
+                    if(parent != 'root') {parent = parseInt(parent)}
                     for(var book in this.bookmarks[cat][parent]) {
                         if(this.bookmarks[cat][parent][book].bookmark_type_id != 2) {
                             out.push({
                                 name     : this.bookmarks[cat][parent][book].name,
                                 token    : this.bookmarks[cat][parent][book].name.split(' '),
-                                category : cat,
+                                category : parseInt(cat),
                                 parent   : parent,
                                 url      : this.bookmarks[cat][parent][book].url
                             });

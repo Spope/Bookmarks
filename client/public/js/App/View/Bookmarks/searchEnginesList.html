@@ -12,7 +12,7 @@
             </div>
             <!--the bookmarks search input-->
             <div ng-show="searchBookmark">
-                <typeahead items="results" term="search.value" search="searchBookmarkFn(term)" select="searchFn">
+                <typeahead items="results" term="search.value" search="searchBookmarkFn(term)" select="searchFn" focus="refreshDataset()" blur="removeDataset()">
                     <ul class="search-bookmark-results-list">
                         <li class="search-bookmark-result" ng-repeat="result in results" typeahead-item="result">
                             <div class="left">

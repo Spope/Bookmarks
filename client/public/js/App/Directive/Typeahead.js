@@ -11,6 +11,8 @@ directives.directive("typeahead", ['$window', function ($window){
         template: template,
         scope: {
             search : '&',
+            focus  : '&',
+            blur   : '&',
             select : '=',
             items  : '=',
             term   : '='
@@ -22,7 +24,9 @@ directives.directive("typeahead", ['$window', function ($window){
             };
 
             this.activateFirstItem = function() {
-                this.activate($scope.items[0]);
+                if($scope.items[0]){
+                    this.activate($scope.items[0]);
+                }
             };
 
             this.activateNextItem = function() {
@@ -65,10 +69,12 @@ directives.directive("typeahead", ['$window', function ($window){
 
             $input.bind('focus', function() {
                 scope.focused = true;
+                scope.focus();
             });
  
             $input.bind('blur', function() {
                 scope.focused = false;
+                scope.blur();
             });
 
             $input.bind('keyup', function(e) {

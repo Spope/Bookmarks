@@ -1,15 +1,21 @@
 controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'SearchEngineService', '$window', 'LocalBookmarkService', 'CategoryService', 'BookmarkService', '$timeout', function($rootScope, $scope, SearchEngineService, $window, LocalBookmarkService, CategoryService, BookmarkService, $timeout){
 
     $scope.search = {value: ""};
+    var dataset = {};
 
     $scope.refreshDataset = function() {
-        return LocalBookmarkService.getDataset();
+        dataset = LocalBookmarkService.getDataset();
+    }
+
+    $scope.removeDataset = function() {
+        //dataset = {};
     }
 
     $scope.searchBookmarkFn = function(term) {
         if(term.length > 0) {
             var count = 0;
-            var results = $scope.refreshDataset().filter(function(book) {
+            var tmp = [].concat(dataset);
+            var results = tmp.filter(function(book) {
                 if(count < 15) {
                     //fuzzy matching
                     var search = term.toUpperCase();
@@ -32,20 +38,22 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
             });
 
             for(var i in results) {
-                if(results[i].category == 0) {
-                    results[i].category = "Favorites";
-                }else{
-                    var cat = CategoryService.get(results[i].category);
-                    if(cat) {
-                        results[i].category = cat.name;
-                        if(cat.name == "__default") {
-                            results[i].category = "Favorites";
-                        }                    }else{
-                        results[i].category = "Can't find category";
+                if(typeof(results[i].category) != "string") {
+                    if(results[i].category == 0) {
+                        results[i].category = "Favorites";
+                    }else{
+                        var cat = CategoryService.get(results[i].category);
+                        if(cat) {
+                            results[i].category = cat.name;
+                            if(cat.name == "__default") {
+                                results[i].category = "Favorites";
+                            }                    }else{
+                            results[i].category = "Can't find category";
+                        }
                     }
                 }
 
-                if(results[i].parent != "root"){
+                if(results[i].parent != "root" && typeof(results[i].parent) != "string" && results[i].parent){
                     var parent = BookmarkService.get(results[i].parent);
                     if(parent) {
                         results[i].parent = parent.name;
@@ -73,7 +81,8 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
 
     //search
     $scope.searchFn = function(book) {
-        if(!$scope.searchBookmark && $scope.search.value) {
+        if(!$scope.searchBookmark) {
+            if(!$scope.search.value) $scope.search.value = "";
             var url = $scope.selectedSearchEngine.url.replace("{q}", $scope.search.value);
             $window.open(url);
         }
@@ -92,7 +101,7 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
             $scope.searchBookmark = false;
         }
 
-        //craop
+        //crap
         $timeout(function() {
             $('.input-search:visible').focus();
         });

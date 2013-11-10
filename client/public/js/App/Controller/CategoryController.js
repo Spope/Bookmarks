@@ -57,8 +57,6 @@ controllers.controller('CategoryController', ['$rootScope', '$scope', 'CategoryS
 
     $scope.postCategory = function(category, callback){
 
-        //category.position = CategoryService.getAll().length;
-
         CategoryService.post(category).then(function(data) {
             if(data.id) {
                 callback.call(null);
