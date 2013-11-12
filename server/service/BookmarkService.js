@@ -76,6 +76,10 @@ module.exports = {
     addBookmark: function(bookmark) {
         var defer = Q.defer();
 
+        if(bookmark.name == "") {
+            bookmark.name = bookmark.url.match(/:\/\/(.[^/]+)/)[1].replace('www.', '');
+        }
+
         connection.query('INSERT INTO bookmark SET ?', bookmark, function(err, rows, field){
             if(err){
                 console.log(err);

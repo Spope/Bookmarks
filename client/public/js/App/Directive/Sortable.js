@@ -10,6 +10,9 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                 start: function(e, ui) {
                     $('.bin').addClass("visible");
                     scope.sorting = true;
+                    //Hack to force dragged Book to be over other categories
+                    $('.category-li').css('z-index', 1);
+                    $(e.target).closest('.category-li').css("z-index", 2);
                 },
                 stop: function (e, ui) {
                     //Avoid sort when book has changed of category
@@ -29,7 +32,7 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
 
                     $('.bin').removeClass("visible");
                     scope.sorting = false;
-
+                    $('.category-li').css('z-index', 1);
                 },
                 remove: function(e, ui) {
                     e.stopPropagation();
@@ -70,16 +73,14 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                     }
                 },
                 over:function(e, ui){
-                    console.log(e);
                     if($(e.target).hasClass('bin')) {
                         $('.bin').addClass("opened");
-                    }
-                },
-                out:function(e, ui){
-                        console.log('OUT');
-                    if($(e.target).hasClass('bin')) {
+                    }else{
                         $('.bin').removeClass("opened");
                     }
+
+                    //$(e.target).closest('.category-li').css("z-index", "1");
+                    scope.$apply();
                 }
             });
 

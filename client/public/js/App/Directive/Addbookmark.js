@@ -80,19 +80,39 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
                 
                 $inputUrl.focus().unbind('keypress').bind('keypress', function(e) {
                     if(e.keyCode === 13) {
-                        e.preventDefault();
+                        if($inputUrl[0].checkValidity()) {
+                            e.preventDefault();
+                            $inputUrl.hide();
+                            $btnUrl.hide();
+                            $inputName.show().focus();
+                            $btnName.show();
+                        }
+                    }
+                });
+                $inputUrl.bind('paste', function() {
+                    var $el = $(this);
+                    setTimeout(function() {
+                        var val = $el.val();
+                        if(
+                            val.length > 6 && 
+                            (val.substr(0,7) != 'http://' && val.substr(0,8) != 'https://')
+                           
+                        ) {
+                            $el.val('http://' + val);
+                        }
+
+                        //Hack to force angular to update the model on paste
+                        $el.trigger('input');
+                    }, 100);
+                    
+                });
+                $btnUrl.bind('click', function(e){
+                    if($inputUrl[0].checkValidity()) {
                         $inputUrl.hide();
                         $btnUrl.hide();
                         $inputName.show().focus();
                         $btnName.show();
-
                     }
-                });
-                $btnUrl.bind('click', function(e){
-                    $inputUrl.hide();
-                    $btnUrl.hide();
-                    $inputName.show().focus();
-                    $btnName.show();
                 });
             }
 
@@ -112,15 +132,18 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
 
             var sendBook = function() {
 
+                scope.$apply();
+
                 if(scope.currentParent) {
                     scope.newBookmark.parent = scope.currentParent.id;
                 }
 
                 scope.newBookmark.category_id = attrs.addbookmark;
-                
+
                 scope.postBookmark(scope.newBookmark, function() {
                     //bookmark is saved, I reset the form
                     resetForm();
+                    scope.loadBookmarks();
                 });
 
                 return false;
