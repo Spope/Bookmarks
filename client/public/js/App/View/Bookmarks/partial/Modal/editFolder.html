@@ -8,7 +8,11 @@
         <div class="edit-bookmark-group">
             <label>Name : <input type="text" class="edit-bookmark-name" ng-model="bookmark.name" placeholder="Name" autofocus="autofocus" /></label>
         </div>
-
+        <div class="edit-bookmark-group">
+            <label>Category : 
+                <select ng-model="bookmark.category_id" ng-options="c.id as c.name for c in categories"></select>
+            </label>
+        </div>
         <div class="modal-action">
             <button type="submit" class="btn" >Save</button>
         </div>
