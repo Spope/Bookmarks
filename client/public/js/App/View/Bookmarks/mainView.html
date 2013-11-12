@@ -50,9 +50,10 @@
                 </div>
 
                 <br>
-                <div class="bookmarks-list-general" addbookmark="{{category.id}}" >
+                <div class="bookmarks-list-general">
+                    <div addbookmark categoryid="category.id" postbookmark="postBookmark(newBookmark, callback)" showadd="showAdd" parent="parent"></div>
                     <!-- bookmark list -->
-                    <ul class="bookmarks-list connection" sortable="connection" save="saveBookmark(bookmark)" data-category="{{category.id}}">
+                    <ul class="bookmarks-list connection" sortable="connection" save="saveBookmark(bookmark)" data-category="{{category.id}}" loadbookmark="loadBookmarks()">
                         <li ng-show="currentParent" class="bookmark-back">
                             <a href="" ng-click="setParent(backElement)">
                                 &lt; {{currentParent.name|truncate:24}}

@@ -1,6 +1,13 @@
 directives.directive("addbookmark", ['$window', '$compile', function($window, $compile){
     return {
         restrict: "A",
+        scope: {
+            postbookmark: "&",
+            loadbookmarks:"&",
+            showadd:      "=",
+            categoryid:   "=",
+            parent:       "="
+        },
         link: function(scope, element, attrs){
             var template = '';
             template += '<div class="category-add-bookmark">';
@@ -26,10 +33,10 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
             var btnName;
             var $form;
 
-            scope.$watch('showAdd', function() {
-                if(scope.showAdd){
+            scope.$watch('showadd', function() {
+                if(scope.showadd){
 
-                    element.prepend($compile(template)(scope));
+                    element.append($compile(template)(scope));
 
                     $inputUrl = element.find('.input-add-bookmark-url');
                     $inputName = element.find('.input-add-bookmark-name');
@@ -39,7 +46,7 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
 
                     $form.stop();
                     $form.slideDown(100, function(){
-                        $('.categories-list').isotope('shiftColumnOfItem', element.parent().parent()[0] );
+                        $('.categories-list').isotope('shiftColumnOfItem', element.closest('.category-li')[0]);
                     });
 
                     $($window).bind('keydown', function(e) {
@@ -135,15 +142,19 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
                 scope.$apply();
 
                 if(scope.currentParent) {
-                    scope.newBookmark.parent = scope.currentParent.id;
+                    scope.newBookmark.parent = scope.parent.id;
                 }
 
-                scope.newBookmark.category_id = attrs.addbookmark;
+                scope.newBookmark.category_id = scope.categoryid;
+                console.log(attrs);
 
-                scope.postBookmark(scope.newBookmark, function() {
-                    //bookmark is saved, I reset the form
-                    resetForm();
-                    scope.loadBookmarks();
+                scope.postbookmark({
+                    newBookmark: scope.newBookmark,
+                    callback: function() {
+                        //bookmark is saved, I reset the form
+                        resetForm();
+                        scope.loadbookmarks();
+                    }
                 });
 
                 return false;
@@ -153,9 +164,9 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
                 if($form){
                     $form.stop();
                     $form.slideUp(100, function(){
-                        $('.categories-list').isotope('shiftColumnOfItem', element.parent().parent()[0] );
+                        $('.categories-list').isotope('shiftColumnOfItem', element.closest('.category-li')[0] );
                         $form.remove();
-                        scope.showAdd = false;
+                        scope.showadd = false;
                         scope.newBookmark = {bookmark_type_id:1, url:"", name:""};
                         if(!apply) {
                             $($window).unbind('keydown');

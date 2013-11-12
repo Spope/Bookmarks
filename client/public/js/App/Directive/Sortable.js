@@ -78,9 +78,6 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                     }else{
                         $('.bin').removeClass("opened");
                     }
-
-                    //$(e.target).closest('.category-li').css("z-index", "1");
-                    scope.$apply();
                 }
             });
 
