@@ -598,11 +598,23 @@ button {
 .category-general .bookmarks-list-general .bookmarks-list .bookmark:not(:last-child) {
   margin-bottom: 7px;
 }
+.category-general .bookmarks-list-general .bookmarks-list .bookmark a {
+  -webkit-transition: all 0s ease-out;
+  -moz-transition: all 0s ease-out;
+  -o-transition: all 0s ease-out;
+  transition: all 0s ease-out;
+}
 .category-general .bookmarks-list-general .bookmarks-list .bookmark a img {
   margin-right: 5px;
 }
 .category-general .bookmarks-list-general .bookmarks-list .bookmark a * {
   vertical-align: top;
+}
+.category-general .bookmarks-list-general .bookmarks-list .bookmark a.url-bookmark {
+  display: block;
+}
+.category-general .bookmarks-list-general .bookmarks-list .bookmark a.btn-edit-bookmark {
+  float: left;
 }
 .category-general br {
   margin: 7px 0px 10px 0;

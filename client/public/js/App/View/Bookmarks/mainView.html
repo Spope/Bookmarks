@@ -58,7 +58,7 @@
                                 &lt; {{currentParent.name|truncate:24}}
                             </a>
                         </li>
-                        <li ng-repeat="bookmark in bookmarks | filter: searchBookmark" class="bookmark" bookmarkEl data-bookmark="{{bookmark.id}}"></li>
+                        <li ng-repeat="bookmark in bookmarks" class="bookmark" bookmarkEl data-bookmark="{{bookmark.id}}"></li>
                     </ul>
                 </div>
             </div>

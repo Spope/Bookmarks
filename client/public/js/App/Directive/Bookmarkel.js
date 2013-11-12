@@ -25,8 +25,10 @@ directives.directive("bookmarkel", ['$compile', function($compile){
                 editBtn += '<img src="/img/bookmark/pen.png" width="16" height="16" />';
                 editBtn += '</a>';
 
+                
+
+                
                 element.bind('mouseenter', function(e) {
-                    
                     element.children('.url-bookmark').stop().animate({
                         paddingLeft: 20
                     }, 200, function () {
