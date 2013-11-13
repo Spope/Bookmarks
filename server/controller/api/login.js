@@ -8,7 +8,6 @@ module.exports = function(app) {
         delete req.user.token;
         if(req.body.remember){         //mili  hour   day month 6 months
             req.session.cookie.maxAge = 1000 * 3600 * 24 * 31 * 6;
-            //req.session.cookie.expires = new Date(Date.now() + (1000 * 3600 * 24 * 31 * 6));
         }else{
             req.session.cookie.expires = false;
         }
