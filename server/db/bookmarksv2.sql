@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 28, 2013 at 02:45 PM
+-- Generation Time: Nov 13, 2013 at 02:35 PM
 -- Server version: 5.5.32-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.7
 
@@ -140,6 +140,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `salt` varchar(255) NOT NULL,
   `token` varchar(32) NOT NULL,
   `email` varchar(45) NOT NULL,
   `roles` varchar(255) NOT NULL,
@@ -153,8 +154,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `password`, `token`, `email`, `roles`, `created`, `updated`) VALUES
-(1, 'Spope', '4Cu69UxllQa21865268e327e71a083ba85ca241ed4', '6b1c1c06fef0ea4d1e4ddc4d1dcbd900', 'pinaudt@gmail.com', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `user` (`id`, `username`, `password`, `salt`, `token`, `email`, `roles`, `created`, `updated`) VALUES
+(1, 'Spope', 'bZwBSYxSmhTXGBqzJsPeRkqV4GuU5Msj+2nCP0OzY5GLiHdviXihheVpxZbMAllcZCgOVpfZ0v406cLLkKeM1CTXOB093wwEFwotfXWin84xXlrWlzPF2oBafqJzyEIiTDhBB6bRZJKLIc731VpErz/pFgDbNidtED8tWa2t88o=', 'd00pGjHvTxXpuctDsHF0DqJNj+7VYgEDXHtwS0xih0Fh+Y29mSIRRVplgOKfdAIQUavmyr+qoX2uON1uMmcx+50hoBiwQLC6jiVrE1VOEsHyjSIrC1+vaKEr26yt42MSGq0QjtUn9EdLuCxBqh/bphSWxmCidgp1Z0V47ECBxmQ=', '4lJ6tLpeO0Va6XaR87geA6l2QNUV4I6j', 'pinaudt@gmail.com', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 

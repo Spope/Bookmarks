@@ -17,6 +17,8 @@
     "grunt-contrib-less"  : "*",
     "q"                   : "*",
     "moment"              : "*",
-    "validator"           : "*"
+    "validator"           : "*",
+    "passport"            : "*",
+    "passport-local"      : "*"
   }
 }

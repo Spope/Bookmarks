@@ -12,9 +12,7 @@ module.exports = {
 
         var defer = Q.defer();
 
-        user.password = bootstrap.getSecurity().saltAndHash(user.password);
         user.created  = moment().format('YYYY-MM-DD HH:mm:ss');
-        user.token    = bootstrap.getSecurity().md5(bootstrap.getSecurity().generateSalt(32));
         user.roles    = 1;
 
         var validator = new Validator();
@@ -57,15 +55,33 @@ var __insertUser = function(user) {
 
     var defer = Q.defer();
 
-    var query = "INSERT INTO user SET ?";
-    connection.query(query, user, function(err, rows, fields) {
-        if(err){
-            console.log(err);
-            defer.reject(err);
-        }
+    bootstrap.getSecurity().hash(user.password, function(err, salt, hash){
+        if(err) defer.reject(err);
+        user.password = hash;
+        user.salt = salt;
+        user.token = generateSalt(32);
 
-        defer.resolve(rows);
+        var query = "INSERT INTO user SET ?";
+        connection.query(query, user, function(err, rows, fields) {
+            if(err){
+                console.log(err);
+                defer.reject(err);
+            }
+
+            defer.resolve(rows);
+        });
+
     });
 
     return defer.promise;
 }
+
+var generateSalt =  function(length) {
+        var set = '0123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ';
+        var salt = '';
+        for (var i = 0; i < length; i++) {
+            var p = Math.floor(Math.random() * set.length);
+            salt += set[p];
+        }
+        return salt;
+    }

@@ -76,17 +76,19 @@ module.exports = {
                         }
                     };
 
-                    var tb = {
-                        id: rows[i].bookmark_id,
-                        name: rows[i].bookmark_name,
-                        url: rows[i].bookmark_url,
-                        position: rows[i].bookmark_position,
-                        parent: rows[i].bookmark_parent,
-                        user_id: rows[i].bookmark_user_id,
-                        category_id: rows[i].bookmark_category_id,
-                        bookmark_type_id: rows[i].bookmark_bookmark_type_id,
-                    };
-                    out[rows[i].category_id].bookmarks.push(tb)
+                    if(rows[i].bookmark_id){
+                        var tb = {
+                            id: rows[i].bookmark_id,
+                            name: rows[i].bookmark_name,
+                            url: rows[i].bookmark_url,
+                            position: rows[i].bookmark_position,
+                            parent: rows[i].bookmark_parent,
+                            user_id: rows[i].bookmark_user_id,
+                            category_id: rows[i].bookmark_category_id,
+                            bookmark_type_id: rows[i].bookmark_bookmark_type_id,
+                        };
+                        out[rows[i].category_id].bookmarks.push(tb)
+                    }
                 }
                 
             }
