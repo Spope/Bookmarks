@@ -7,8 +7,9 @@ var passport = bootstrap.getPassport();
 var hbs = require('hbs');
 
 app.set('view engine', 'html');
+app.set('views', 'server/views');
 app.engine('html', hbs.__express);
-app.use(express.static('../client/public'));
+app.use(express.static('client/public'));
 app.use(express.bodyParser());
 app.use(express.cookieParser());
 //app.use(express.session({
