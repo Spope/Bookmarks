@@ -127,7 +127,11 @@ CREATE TABLE IF NOT EXISTS `search_engine` (
 INSERT INTO `search_engine` (`id`, `name`, `url`, `logo`) VALUES
 (1, 'Google', 'http://www.google.fr/search?q={q}', 'google.png'),
 (2, 'Amazon', 'http://www.amazon.fr/s/ref=nb_sb_noss_1?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Daps&field-keywords={q}', 'amazon.png'),
-(3, 'Bookmarks', 'bookmarks', 'bookmarks.png');
+(3, 'Bookmarks', 'bookmarks', 'bookmarks.png'),
+(4, 'Google Maps', 'http://maps.google.fr/maps?q={q}', 'maps.png'),
+(5, 'Tiwtter', 'http://twitter.com/#!/search/{q}', 'twitter.png'),
+(6, 'Youtube', 'http://www.youtube.fr/results?search_query={q}', 'youtube.png'),
+(7, 'Facebook', 'http://www.facebook.com/search/?q={q}', 'facebook.png');
 
 -- --------------------------------------------------------
 
@@ -180,7 +184,11 @@ CREATE TABLE IF NOT EXISTS `user_search_engine` (
 INSERT INTO `user_search_engine` (`user_id`, `search_engine_id`, `default`) VALUES
 (1, 1, 1),
 (1, 2, 0),
-(1, 3, 0);
+(1, 3, 0),
+(1, 4, 0),
+(1, 5, 0),
+(1, 6, 0),
+(1, 7, 0);
 
 --
 -- Constraints for dumped tables
