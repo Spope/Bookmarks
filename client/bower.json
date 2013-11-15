@@ -7,7 +7,7 @@
   ],
   "description": "Personal bookmarks manager",
   "dependencies": {
-      "angular"          : "latest",
+      "angular"          : "1.0.8",
       "angular-resource" : "latest",
       "angular-mocks"    : "latest",
       "jquery"           : "latest",
