@@ -88,7 +88,7 @@ function convertB($bookmarks, $idUser) {
 
             $idParent = $v['idParent'] == 0 ? 'NULL' : "'".$bookmarkConversion[$v['idParent']]."'";
             $idCategory = $v['idCategorie'] == 0 ? $idFav : $categoryConversion[$v['idCategorie']];
-            $name = html_entity_decode($v['nom']);
+            $name = utf8_decode(html_entity_decode($v['nom']));
 
             $sql = "INSERT INTO bookmark (name, url, position, parent, user_id, category_id, bookmark_type_id) 
                 VALUES ('".$name."', '".$v['url']."','".$v['position']."',".$idParent.", '".$idUser."', '".$idCategory."', '".($v['type']+1)."')";
