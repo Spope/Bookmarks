@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `bookmark` (
   KEY `fk_bookmark_category1` (`category_id`),
   KEY `fk_bookmark_bookmark_type1` (`bookmark_type_id`),
   KEY `fk_bookmark_bookmark1` (`parent`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
 
 --
 -- Dumping data for table `bookmark`
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `bookmark_type` (
   `id` int(11) NOT NULL,
   `label` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `bookmark_type`
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   PRIMARY KEY (`id`),
   KEY `fk_category_user1` (`user_id`),
   KEY `fk_category_parent1` (`parent`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `category`
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `search_engine` (
   `url` varchar(300) NOT NULL,
   `logo` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `search_engine`
@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `updated` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQUE_username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `user`
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `user_search_engine` (
   PRIMARY KEY (`user_id`,`search_engine_id`),
   KEY `fk_user_has_search_engine_search_engine1` (`search_engine_id`),
   KEY `fk_user_has_search_engine_user1` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user_search_engine`

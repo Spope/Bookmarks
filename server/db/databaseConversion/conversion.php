@@ -46,7 +46,6 @@ foreach($categories as $k=>$v) {
     $categoryConversion[$v['id']] = mysql_insert_id();
 }
 
-
 //bookmark
 $bookmarkConversion = array();
 $sql = "SELECT id FROM category WHERE name = '__default' AND user_id = ".$idUser." LIMIT 1";
