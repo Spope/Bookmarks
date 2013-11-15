@@ -1,0 +1,29 @@
+.search-engine{
+	width: 36px;
+	height: 36px;
+	position: relative;
+	cursor: pointer;
+	margin-right: 10px;
+	margin-top: 2px;
+
+	img{
+
+		.transition(0.1s);
+
+		position: absolute;
+		width: 36px;
+		height: 36px;	
+
+		top: 0;
+		left: 0;
+	}
+
+	&:hover , &.selected {
+
+		background: red;
+
+		img:last-child{
+			opacity: 0;
+		}
+	}
+}
