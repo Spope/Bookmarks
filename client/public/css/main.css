@@ -408,7 +408,6 @@ button {
 }
 .bin {
   position: fixed;
-  background-color: #404040;
   width: 170px;
   height: 170px;
   visibility: visible !important;
@@ -421,12 +420,13 @@ button {
   -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6);
   -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6);
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6);
+  background: #404040 url("../img/trash.png") center no-repeat;
 }
 .bin.visible {
   top: 0;
 }
 .bin.visible.opened {
-  background-color: red;
+  background-color: #4d4d4d;
 }
 .ui-sortable-helper {
   position: absolute;
