@@ -120,9 +120,6 @@ br {
 input[type="text"],
 input[type="password"],
 input[type="email"] {
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
   display: block;
   font-weight: 300;
   border: solid 1px #bebebe;
@@ -140,9 +137,6 @@ button {
   border: 0;
   border: solid 1px black;
   color: white;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
   cursor: pointer;
 }
 button:hover {
@@ -155,6 +149,12 @@ button {
   -moz-transition: all 0.15s ease-out;
   -o-transition: all 0.15s ease-out;
   transition: all 0.15s ease-out;
+}
+.pointer {
+  cursor: pointer;
+}
+.hide {
+  display: none;
 }
 .modal-backdrop {
   background: rgba(0, 0, 0, 0.5);
@@ -339,21 +339,6 @@ button {
 .search-engine-list-int .form-search input[type="text"] {
   background-color: white;
   border: 0;
-  -webkit-border-top-right-radius: 0;
-  -webkit-border-bottom-right-radius: 0;
-  -webkit-border-bottom-left-radius: 2px;
-  -webkit-border-top-left-radius: 2px;
-  -moz-border-radius-topright: 0;
-  -moz-border-radius-bottomright: 0;
-  -moz-border-radius-bottomleft: 2px;
-  -moz-border-radius-topleft: 2px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 2px;
-  border-top-left-radius: 2px;
-  -moz-background-clip: padding-box;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
   border: solid 1px #bebebe;
   width: 300px;
   height: 22px;
@@ -373,21 +358,6 @@ button {
   height: 40px;
   width: 85px;
   cursor: pointer;
-  -webkit-border-top-right-radius: 2px;
-  -webkit-border-bottom-right-radius: 2px;
-  -webkit-border-bottom-left-radius: 0;
-  -webkit-border-top-left-radius: 0;
-  -moz-border-radius-topright: 2px;
-  -moz-border-radius-bottomright: 2px;
-  -moz-border-radius-bottomleft: 0;
-  -moz-border-radius-topleft: 0;
-  border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
-  -moz-background-clip: padding-box;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
 }
 .search-engine-list-int .form-search button:hover {
   background: #5a5a5a url("../img/loupe.png") center center no-repeat;
@@ -544,21 +514,6 @@ button {
   font-weight: normal;
   width: 197px;
   float: left;
-  -webkit-border-top-right-radius: 0;
-  -webkit-border-bottom-right-radius: 0;
-  -webkit-border-bottom-left-radius: 2px;
-  -webkit-border-top-left-radius: 2px;
-  -moz-border-radius-topright: 0;
-  -moz-border-radius-bottomright: 0;
-  -moz-border-radius-bottomleft: 2px;
-  -moz-border-radius-topleft: 2px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 2px;
-  border-top-left-radius: 2px;
-  -moz-background-clip: padding-box;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
 }
 .category-general .bookmarks-list-general .category-add-bookmark .btn-add-bookmark {
   height: 25px;
@@ -571,21 +526,6 @@ button {
   color: white;
   float: left;
   margin-top: 5px;
-  -webkit-border-top-right-radius: 2px;
-  -webkit-border-bottom-right-radius: 2px;
-  -webkit-border-bottom-left-radius: 0;
-  -webkit-border-top-left-radius: 0;
-  -moz-border-radius-topright: 2px;
-  -moz-border-radius-bottomright: 2px;
-  -moz-border-radius-bottomleft: 0;
-  -moz-border-radius-topleft: 0;
-  border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
-  -moz-background-clip: padding-box;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
   cursor: pointer;
 }
 .category-general .bookmarks-list-general .category-add-bookmark .btn-add-bookmark:hover {
@@ -697,9 +637,30 @@ ul.search-bookmark-results-list li.active {
 .register-form-general .register-link:hover {
   color: #404040;
 }
-.pointer {
+.search-engine {
+  width: 36px;
+  height: 36px;
+  position: relative;
   cursor: pointer;
+  margin-right: 10px;
+  margin-top: 2px;
 }
-.hide {
-  display: none;
+.search-engine img {
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
+  -o-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  top: 0;
+  left: 0;
+}
+.search-engine:hover,
+.search-engine.selected {
+  background: red;
+}
+.search-engine:hover img:last-child,
+.search-engine.selected img:last-child {
+  opacity: 0;
 }

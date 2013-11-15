@@ -93,7 +93,6 @@ br{
 }
 
 input[type="text"], input[type="password"], input[type="email"]{
-    .rounded(2px);
     display: block;
     font-weight: 300;
     border: solid 1px @gray;
@@ -111,7 +110,6 @@ button{
     border: 0;
     border: solid 1px black;
     color: white;
-    .rounded( 2px );
     cursor: pointer;
     &:hover{
         background-color: lighten(@black, 10%);
@@ -121,4 +119,13 @@ button{
 
 a, button{
     .transition(0.15s);
+}
+
+
+.pointer {
+    cursor: pointer;
+}
+
+.hide {
+    display:none;
 }
