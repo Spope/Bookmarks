@@ -7,7 +7,7 @@ module.exports = function(app) {
 
     app.get('/api/user/:idUser/category/:idCat/bookmarks', bootstrap.getSecurity().checkAuth, function(req, res){
 
-        var request = bookmarkService.getBookmarks(req.session.user_id, req.params.idCat);
+        var request = bookmarkService.getBookmarks(req.user.id, req.params.idCat);
         request.then(function(bookmarks){
 
             res.json(bookmarks);
@@ -17,7 +17,7 @@ module.exports = function(app) {
 
     app.get('/api/user/:idUser/category/:idCat/parent/:idparent', bootstrap.getSecurity().checkAuth, function(req, res){
 
-        var request = bookmarkService.getBookmarks(req.session.user_id, req.params.idCat, req.params.idparent);
+        var request = bookmarkService.getBookmarks(req.user.id, req.params.idCat, req.params.idparent);
         request.then(function(bookmarks){
 
             res.json(bookmarks);
@@ -29,7 +29,7 @@ module.exports = function(app) {
     app.get('/api/user/:idUser/bookmark/:id', bootstrap.getSecurity().checkAuth, function(req, res){
         if(req.params.id && req.params.id > 0){
             
-            var request = bookmarkService.getBookmark(req.session.user_id, req.params.id);
+            var request = bookmarkService.getBookmark(req.user.id, req.params.id);
             request.then(function(bookmark) {
                 res.json(bookmark);
             });
@@ -45,7 +45,7 @@ module.exports = function(app) {
 
     app.post('/api/user/:idUser/bookmark', bootstrap.getSecurity().checkAuth, function(req, res) {
         var bookmark = req.body;
-        bookmark.user_id = req.session.user_id;
+        bookmark.user_id = req.user.id;
 
         bookmarkService.addBookmark(bookmark).then(function(bookmark){
             res.json(bookmark);
@@ -55,9 +55,9 @@ module.exports = function(app) {
 
     app.put('/api/user/:idUser/bookmark', bootstrap.getSecurity().checkAuth, function(req, res) {
         var bookmark = req.body;
-        bookmark.user_id = req.session.user_id;
+        bookmark.user_id = req.user.id;
 
-        var defered = bookmarkService.editBookmark(req.session.user_id, bookmark);
+        var defered = bookmarkService.editBookmark(req.user.id, bookmark);
         defered.then(function(bookmark){
             return res.json(bookmark);
         })
@@ -67,9 +67,9 @@ module.exports = function(app) {
     app.delete('/api/user/:idUser/bookmark/:idBookmark', bootstrap.getSecurity().checkAuth, function(req, res) {
 
         if(req.params.idBookmark && req.params.idBookmark > 0){
-            bookmarkService.getBookmark(req.session.user_id, req.params.idBookmark).then(function(bookmark) {
+            bookmarkService.getBookmark(req.user.id, req.params.idBookmark).then(function(bookmark) {
 
-                bookmarkService.deleteBookmark(req.session.user_id, bookmark).then(function(bookmark){
+                bookmarkService.deleteBookmark(req.user.id, bookmark).then(function(bookmark){
                     return res.json(bookmark);
                 });
 

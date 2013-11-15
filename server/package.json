@@ -2,6 +2,7 @@
   "name": "bookmarks",
   "description": "Personal bookmarks manager",
   "version": "0.0.1",
+  "main": "server/app.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:Spope/bookmarks.git"
@@ -17,6 +18,8 @@
     "grunt-contrib-less"  : "*",
     "q"                   : "*",
     "moment"              : "*",
-    "validator"           : "*"
+    "validator"           : "*",
+    "passport"            : "*",
+    "passport-local"      : "*"
   }
 }
