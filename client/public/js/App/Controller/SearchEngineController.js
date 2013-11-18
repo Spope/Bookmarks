@@ -20,7 +20,7 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
             var count = 0;
             var tmp = [].concat(dataset);
             var results = tmp.filter(function(book) {
-                if(count < 15) {
+                if(count < 15){
                     //fuzzy matching
                     var search = term.toUpperCase();
                     var text   = book.name.toUpperCase();
@@ -37,6 +37,7 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
                         if (j == -1) return false;  // if it's not found, exclude this item
 
                         if(oldJ){
+                            //If the letters are adjacent, I don't increment the score.
                             book.score += (j-oldJ) == 1 ? 0 : (j-oldJ);
                         }
                         oldJ = j;
@@ -49,6 +50,8 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
             });
 
             results.sort(mySort);
+
+            results.slice(0, 15);
 
             for(var i in results) {
                 if(typeof(results[i].category) != "string") {
