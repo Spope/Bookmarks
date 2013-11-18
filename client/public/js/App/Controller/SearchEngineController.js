@@ -11,6 +11,10 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
         //dataset = {};
     }
 
+    var mySort = function(a,b) {
+        return a.score - b.score;
+    }
+
     $scope.searchBookmarkFn = function(term) {
         if(term.length > 0) {
             var count = 0;
@@ -21,6 +25,8 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
                     var search = term.toUpperCase();
                     var text   = book.name.toUpperCase();
                     var j = 0; // remembers position of last found character
+                    var oldJ;  // remembers position of n-1 character to calculate score
+                    book.score = 0; //scoore will be used to order the results
 
                     // consider each search character one at a time
                     for (var i = 0; i < search.length; i++) {
@@ -29,6 +35,11 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
 
                         j = text.indexOf(l, j);     // search for character & update position
                         if (j == -1) return false;  // if it's not found, exclude this item
+
+                        if(oldJ){
+                            book.score += (j-oldJ) == 1 ? 0 : (j-oldJ);
+                        }
+                        oldJ = j;
                     }
                     count++;
                     return true;
@@ -36,6 +47,8 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
                     return false;
                 }
             });
+
+            results.sort(mySort);
 
             for(var i in results) {
                 if(typeof(results[i].category) != "string") {
