@@ -34,7 +34,7 @@ while($row = mysql_fetch_assoc($resultUser)) {
         array_push($categories, $row);
     }
 
-    $sql = "SELECT * FROM bookmarks WHERE user = ".$user['id'];
+    $sql = "SELECT * FROM bookmarks WHERE user = ".$user['id']." ORDER BY position";
     $result = mysql_query($sql);
     $bookmarks = array();
     while($row = mysql_fetch_assoc($result)) {
@@ -58,13 +58,22 @@ while($row = mysql_fetch_assoc($resultUser)) {
     }
 
     //category
+    $fav = array(
+        'id' => "0",
+        'nom' => "__default",
+        'idParent' => "0"
+    );
+
+    array_unshift($categories, $fav);
+
     $categoryConversion = array();
     foreach($categories as $k=>$v) {
-        $name = utf8_decode(html_entity_decode($v['nom']));
+
+        $name = addslashes(utf8_decode(html_entity_decode($v['nom'])));
         $sql = "INSERT INTO category (name, parent, user_id) VALUES ('".$name."', '".$v['idParent']."','".$idUser."')";
         mysql_query($sql);
         $categoryConversion[$v['id']] = mysql_insert_id();
-    }
+}
 
     //bookmark
     $bookmarkConversion = array();
@@ -88,7 +97,7 @@ function convertB($bookmarks, $idUser) {
 
             $idParent = $v['idParent'] == 0 ? 'NULL' : "'".$bookmarkConversion[$v['idParent']]."'";
             $idCategory = $v['idCategorie'] == 0 ? $idFav : $categoryConversion[$v['idCategorie']];
-            $name = utf8_decode(html_entity_decode($v['nom']));
+            $name = addslashes(utf8_decode(html_entity_decode($v['nom'])));
 
             $sql = "INSERT INTO bookmark (name, url, position, parent, user_id, category_id, bookmark_type_id) 
                 VALUES ('".$name."', '".$v['url']."','".$v['position']."',".$idParent.", '".$idUser."', '".$idCategory."', '".($v['type']+1)."')";
@@ -103,8 +112,8 @@ function convertB($bookmarks, $idUser) {
 
     if(count($bookmarks) > 0) {
 
-            convertB($bookmarks, $idUser);
-        }
+        convertB($bookmarks, $idUser);
+    }
 }
 
 ?>
