@@ -139,7 +139,7 @@ module.exports = {
                 });
 
             });
-        });
+        }).catch(function(err){console.log(err)});
 
         return defer.promise;
     },
@@ -147,15 +147,14 @@ module.exports = {
 
     __recursiveDelete: function(idUser, bookmark) {
 
-        var defer = Q.defer();
+        var deferD = Q.defer();
 
-        module.exports.getChildrenBookmarks(idUser, bookmark, true).then(function(bookmarks) {
+        module.exports.getChildrenBookmarks(idUser, bookmark, bookmark.id, true).then(function(bookmarks) {
 
             //console.log('done');
             var count = bookmarks.length;
-
             if(bookmarks.length == 0) {
-                defer.resolve();
+                deferD.resolve();
             }
 
             //Remove childs first
@@ -172,18 +171,18 @@ module.exports = {
                     count--;
                     if(err) {
                         console.log(err);
-                        defer.reject(err);
+                        deferD.reject(err);
                     }
 
                     if(count == 0) {
-                        defer.resolve();
+                        deferD.resolve();
                     }
                 });
             }
 
         }).catch(function(err){console.log(err)});
 
-        return defer.promise;
+        return deferD.promise;
     },
 
     editBookmark: function(idUser, bookmark) {
@@ -319,12 +318,13 @@ module.exports = {
         return returnPromise.promise;
     },
 
-    getChildrenBookmarks: function(idUser, bookmark, first) {
+    getChildrenBookmarks: function(idUser, bookmark, idOrigin, first) {
         if(first) {
-            defer = Q.defer();
-            childrenBookmarks = new Array();
+            defer[idOrigin] = Q.defer();
+            childFn[idOrigin] = 0;
+            childrenBookmarks[idOrigin] = new Array();
         }else{
-            subDefer[childFn] = Q.defer();
+            subDefer[childFn[idOrigin]] = Q.defer();
         }
 
         this.getBookmarks(idUser, bookmark.category_id, bookmark.id).then(function(bookmarks) {
@@ -332,29 +332,29 @@ module.exports = {
             for(var i in bookmarks) {
                 if(bookmarks[i].bookmark_type_id == 2) {
 
-                    childFn++;
+                    childFn[idOrigin]++;
 
-                    module.exports.getChildrenBookmarks(idUser, bookmarks[i], false).then(function(books) {
-                        childFn--;
+                    module.exports.getChildrenBookmarks(idUser, bookmarks[i], idOrigin, false).then(function(books) {
+                        childFn[idOrigin]--;
                     }).catch(function(err){console.log(err)});
                 }
             }
-            childrenBookmarks = childrenBookmarks.concat(bookmarks);
+            childrenBookmarks[idOrigin]= childrenBookmarks[idOrigin].concat(bookmarks);
 
-            if(childFn == 0) {
-                defer.resolve(childrenBookmarks);
+            if(childFn[idOrigin] == 0) {
+                defer[idOrigin].resolve(childrenBookmarks[idOrigin]);
             }else{
-                subDefer[childFn].resolve(bookmarks);
+                subDefer[childFn[idOrigin]].resolve(bookmarks);
             }
 
         }).catch(function(err){console.log(err)});
 
-        if(childFn == 0) {
+        if(childFn[idOrigin] == 0) {
 
-            return defer.promise;
+            return defer[idOrigin].promise;
         }else{
 
-            return subDefer[childFn].promise;
+            return subDefer[childFn[idOrigin]].promise;
         }
     },
 
@@ -362,7 +362,7 @@ module.exports = {
     __updateChildrenCategory: function(idUser, bookmark, oldBookmark) {
 
         var defer = Q.defer();
-        module.exports.getChildrenBookmarks(idUser, oldBookmark, true).then(function(bookmarks) {
+        module.exports.getChildrenBookmarks(idUser, oldBookmark, bookmark.id, true).then(function(bookmarks) {
 
             //console.log('done');
             var count = bookmarks.length;
@@ -482,7 +482,7 @@ module.exports = {
     }
 };
 
-var childFn = 0;
-var defer;
+var childFn = new Array();
+var defer = new Array();
 var subDefer = new Array();
 var childrenBookmarks = new Array();

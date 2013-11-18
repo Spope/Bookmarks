@@ -77,7 +77,10 @@ controllers.controller('CategoryController', ['$rootScope', '$scope', 'CategoryS
     $scope.removeCategory = function(category) {
 
         confirmDelete(category).then(function(data){
-            CategoryService.remove(category, loadCategory);
+            CategoryService.remove(category, function(){
+                $scope.loadCategory();
+                $scope.$broadcast('RefreshMansory');
+            });
         });
     }
 

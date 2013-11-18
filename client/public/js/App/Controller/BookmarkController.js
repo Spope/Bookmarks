@@ -37,6 +37,11 @@ controllers.controller('BookmarkController', ['$rootScope', '$scope', 'BookmarkS
         }
     });
 
+    $scope.$on('RefreshMansory', function(e, args) {
+        e.preventDefault();
+        $scope.mansory();
+    });
+
     $scope.postBookmark = function(bookmark, callback){
 
         bookmark.position = BookmarkService.getByCategory(bookmark.category_id, $scope.currentParent, true, $scope.mansory).length;

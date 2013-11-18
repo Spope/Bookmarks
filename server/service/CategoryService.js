@@ -1,6 +1,7 @@
 var bootstrap = require('../modules/bootstrap');
 var connection = bootstrap.getConnection();
 var Q = bootstrap.getPromise();
+var bookmarkService = require('./BookmarkService');
 
 module.exports = {
 
@@ -156,11 +157,33 @@ module.exports = {
     deleteCategory: function(idUser, category) {
         var defer = Q.defer();
 
-        connection.query('DELETE FROM bookmark WHERE category_id = '+connection.escape(category.id)+' AND user_id='+connection.escape(idUser), function(err, rows, field){
+        var bookmarksRemoved = Q.defer();
+
+        connection.query('SELECT * FROM bookmark WHERE category_id = '+connection.escape(category.id)+' AND user_id='+connection.escape(idUser)+' AND parent IS NULL', function(err, rows, field){
             if(err){
                 console.log(err);
                 defer.reject(err);
+                bookmarksRemoved.reject(err);
             }
+
+            var count = rows.length;
+
+            if(count == 0){
+                bookmarksRemoved.resolve();
+            }
+            for(var i in rows) {
+                bookmarkService.deleteBookmark(idUser, rows[i]).then(function(){
+
+                    count--;
+                    if(count == 0) {
+                        bookmarksRemoved.resolve();
+                    }
+                }).catch(function(err){console.log(err)});
+            }
+
+        });
+
+        bookmarksRemoved.promise.then(function(data){
 
             var sql = 'DELETE FROM category '+
                 'WHERE user_id = '+connection.escape(idUser)+' '+
