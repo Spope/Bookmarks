@@ -667,10 +667,6 @@ button {
   top: 0;
   left: 0;
 }
-.search-engine:hover,
-.search-engine.selected {
-  background: red;
-}
 .search-engine:hover img:last-child,
 .search-engine.selected img:last-child {
   opacity: 0;
