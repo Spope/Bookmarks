@@ -15,76 +15,75 @@ function connect_bd($server, $user, $password, $base_name) {
 }
 
 
-//BEGIN
-$sql = "SELECT * FROM user";
-$resultUser = mysql_query($sql);
 
 
-while($row = mysql_fetch_assoc($resultUser)) {
+if(isset($_GET['go']) && $_GET['go'] == 'ok') {
 
-    $user = $row;
+    //BEGIN
+    $sql = "SELECT * FROM user WHERE id=".addslashes($_POST['idUserOld']);
+    $resultUser = mysql_query($sql);
 
-    $connexion = connect_bd(SERVER,USER,PASSWORD,BASE_NAME);
+    while($row = mysql_fetch_assoc($resultUser)) {
 
-    $sql = "SELECT * FROM categorie WHERE user = ".$user['id']." ORDER BY position";
+        $user = $row;
 
-    $result = mysql_query($sql);
-    $categories = array();
-    while($row = mysql_fetch_assoc($result)) {
-        array_push($categories, $row);
+        $connexion = connect_bd(SERVER,USER,PASSWORD,BASE_NAME);
+
+        $sql = "SELECT * FROM categorie WHERE user = ".$user['id']." ORDER BY position";
+
+        $result = mysql_query($sql);
+        $categories = array();
+        while($row = mysql_fetch_assoc($result)) {
+            array_push($categories, $row);
+        }
+
+        $sql = "SELECT * FROM bookmarks WHERE user = ".$user['id']." ORDER BY position";
+        $result = mysql_query($sql);
+        $bookmarks = array();
+        while($row = mysql_fetch_assoc($result)) {
+            array_push($bookmarks, $row);
+        }
+
+        mysql_close($connexion);
+
+        //////////////////
+        //////IMPORT
+        //////////////////
+
+        $connexion2 = connect_bd(SERVER_N,USER_N,PASSWORD_N,BASE_NAME_N);
+        //user
+        $idUser = $_POST['idUserNew'];
+
+        //category
+        $fav = array(
+            'id' => "0",
+            'nom' => "__default",
+            'idParent' => "0"
+        );
+
+        array_unshift($categories, $fav);
+
+        $categoryConversion = array();
+        foreach($categories as $k=>$v) {
+
+            $name = addslashes(utf8_decode(html_entity_decode($v['nom'])));
+            $sql = "INSERT INTO category (name, parent, user_id) VALUES ('".$name."', '".$v['idParent']."','".$idUser."')";
+            mysql_query($sql);
+            $categoryConversion[$v['id']] = mysql_insert_id();
+        }
+
+        //bookmark
+        $bookmarkConversion = array();
+        $sql = "SELECT id FROM category WHERE name = '__default' AND user_id = ".$idUser." LIMIT 1";
+        $result = mysql_query($sql);
+        $row = mysql_fetch_assoc($result);
+        $idFav = $row['id'];
+
+        convertB($bookmarks, $idUser);
+
     }
-
-    $sql = "SELECT * FROM bookmarks WHERE user = ".$user['id']." ORDER BY position";
-    $result = mysql_query($sql);
-    $bookmarks = array();
-    while($row = mysql_fetch_assoc($result)) {
-        array_push($bookmarks, $row);
-    }
-
-    mysql_close($connexion);
-
-    //////////////////
-    //////IMPORT
-    //////////////////
-
-    $connexion2 = connect_bd(SERVER_N,USER_N,PASSWORD_N,BASE_NAME_N);
-    //user
-    if($user['id'] == 1) {
-        $idUser = 1;
-    }else{
-        $sql = "INSERT INTO user (username, roles, created) VALUES ('".$user['login']."', 1, '".(date("Y-m-d H:i:s"))."')";
-        mysql_query($sql);
-        $idUser = mysql_insert_id();
-    }
-
-    //category
-    $fav = array(
-        'id' => "0",
-        'nom' => "__default",
-        'idParent' => "0"
-    );
-
-    array_unshift($categories, $fav);
-
-    $categoryConversion = array();
-    foreach($categories as $k=>$v) {
-
-        $name = addslashes(utf8_decode(html_entity_decode($v['nom'])));
-        $sql = "INSERT INTO category (name, parent, user_id) VALUES ('".$name."', '".$v['idParent']."','".$idUser."')";
-        mysql_query($sql);
-        $categoryConversion[$v['id']] = mysql_insert_id();
 }
 
-    //bookmark
-    $bookmarkConversion = array();
-    $sql = "SELECT id FROM category WHERE name = '__default' AND user_id = ".$idUser." LIMIT 1";
-    $result = mysql_query($sql);
-    $row = mysql_fetch_assoc($result);
-    $idFav = $row['id'];
-
-    convertB($bookmarks, $idUser);
-
-}
 
 function convertB($bookmarks, $idUser) {
 
@@ -116,4 +115,15 @@ function convertB($bookmarks, $idUser) {
     }
 }
 
+
 ?>
+
+<form method="post" action="?go=ok">
+    Id User Old <input type="text" name="idUserOld" />
+    <br />
+    Id New User <input type="text" name="idUserNew" />
+
+    <input type="submit" value="ok" />
+</form>
+
+
