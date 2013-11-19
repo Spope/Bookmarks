@@ -571,8 +571,10 @@ button {
   padding-left: 20px;
 }
 .category-general .bookmarks-list-general .bookmarks-list.folder li.bookmark-back {
-  font-style: italic;
   margin-bottom: 7px;
+}
+.category-general .bookmarks-list-general .bookmarks-list.folder li.bookmark-back a {
+  font-style: italic;
   padding-left: 20px;
   background: transparent url("../img/openfolder-icon.png") left top no-repeat;
 }
