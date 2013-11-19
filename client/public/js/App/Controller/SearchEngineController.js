@@ -19,39 +19,49 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
         if(term.length > 0) {
             var count = 0;
             var tmp = [].concat(dataset);
-            var results = tmp.filter(function(book) {
-                if(count < 15){
-                    //fuzzy matching
-                    var search = term.toUpperCase();
-                    var text   = book.name.toUpperCase();
-                    var j = 0; // remembers position of last found character
-                    var oldJ;  // remembers position of n-1 character to calculate score
-                    book.score = 0; //scoore will be used to order the results
 
-                    // consider each search character one at a time
-                    for (var i = 0; i < search.length; i++) {
-                        var l = search[i];
-                        if (l == ' ') continue;     // ignore spaces
+            var cross = crossfilter(tmp);
+            var dimension = cross.dimension(function(d){return d;});
 
-                        j = text.indexOf(l, j);     // search for character & update position
-                        if (j == -1) return false;  // if it's not found, exclude this item
+            var scored = dimension.filter(function(book) {
+                //fuzzy matching
+                var search = term.toUpperCase();
+                var text   = book.name.toUpperCase();
+                var j = 0; // remembers position of last found character
+                var oldJ;  // remembers position of n-1 character to calculate score
+                book.score = 0; //scoore will be used to order the results
+                if(search == text){return true}; // if the word is the exact matching : score = 0
+                book.score = 1;
 
-                        if(oldJ){
-                            //If the letters are adjacent, I don't increment the score.
-                            book.score += (j-oldJ) == 1 ? 0 : (j-oldJ);
-                        }
-                        oldJ = j;
+                // consider each search character one at a time
+                for (var i = 0; i < search.length; i++) {
+                    var l = search[i];
+                    if (l == ' ') continue;     // ignore spaces
+
+                    j = text.indexOf(l, j);     // search for character & update position
+                    if (j == -1) return false;  // if it's not found, exclude this item
+
+                    if(oldJ){
+                        //If the letters are adjacent, I don't increment the score.
+                        book.score += (j-oldJ) == 1 ? 0 : (j-oldJ);
                     }
-                    count++;
-                    return true;
-                }else{
-                    return false;
+                    
+                    if(i == 0){
+                        //if the first letter searched is the first letter of the word
+                        if(j == 0) {
+                            book.score;
+                        }else{
+                            book.score +=1;
+                        }
+                    }
+                    oldJ = j;
                 }
+                count++;
+                return true;
             });
 
-            results.sort(mySort);
-
-            results.slice(0, 15);
+            
+            var results = scored.top(tmp.length).sort(mySort).slice(0,15);
 
             for(var i in results) {
                 if(typeof(results[i].category) != "string") {
