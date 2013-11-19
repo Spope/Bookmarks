@@ -24,7 +24,7 @@ directives.directive("typeahead", ['$window', function ($window){
             };
 
             this.activateFirstItem = function() {
-                if($scope.items[0]){
+                if($scope.items && $scope.items[0]){
                     this.activate($scope.items[0]);
                 }
             };
