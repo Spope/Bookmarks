@@ -133,8 +133,11 @@
             }
         }
 
+
+
         .bookmarks-list{
             padding: 0 10px 10px 10px;
+
             .bookmark:not(:last-child){
                 margin-bottom: 7px;
             }
@@ -150,12 +153,23 @@
                 *{
                     vertical-align: top;
                 }
-
             }
 
-            .bookmark-back{
+            &.folder{
+                li:not(.bookmark-back){
+                    padding-left: 20px;
+                }
+                li.bookmark-back{
 
-            }
+                    margin-bottom: 7px;
+                    
+                    a{
+                        font-style: italic;
+                        padding-left: 20px;
+                        background: transparent url("../img/openfolder-icon.png") left top no-repeat;
+                    }
+                }
+            }   
 
             .bookmark a.url-bookmark{
                 display:block;

@@ -567,6 +567,17 @@ button {
 .category-general .bookmarks-list-general .bookmarks-list .bookmark a * {
   vertical-align: top;
 }
+.category-general .bookmarks-list-general .bookmarks-list.folder li:not(.bookmark-back) {
+  padding-left: 20px;
+}
+.category-general .bookmarks-list-general .bookmarks-list.folder li.bookmark-back {
+  margin-bottom: 7px;
+}
+.category-general .bookmarks-list-general .bookmarks-list.folder li.bookmark-back a {
+  font-style: italic;
+  padding-left: 20px;
+  background: transparent url("../img/openfolder-icon.png") left top no-repeat;
+}
 .category-general .bookmarks-list-general .bookmarks-list .bookmark a.url-bookmark {
   display: block;
 }
