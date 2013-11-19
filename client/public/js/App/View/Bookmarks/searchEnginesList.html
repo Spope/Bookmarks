@@ -8,7 +8,7 @@
 
         <form ng-submit="searchFn()" class="form-search">
             <div ng-show="!searchBookmark">
-                <input type="text" class="input-search" ng-model="search.value" ng-change="setSearchBookmark()" active="searchBookmark" />
+                <input type="text" class="input-search" ng-model="search.value" ng-change="setSearchBookmark()" active="searchBookmark" focus/>
                 <div id="reset-field" ng-click="search.value=''" ng-show="search.value!=''" >&times</div>
             </div>
             <!--the bookmarks search input-->
