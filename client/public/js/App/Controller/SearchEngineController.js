@@ -30,7 +30,8 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
                 var j = 0; // remembers position of last found character
                 var oldJ;  // remembers position of n-1 character to calculate score
                 book.score = 0; //scoore will be used to order the results
-                if(search == text){return true}; // if the word is the exact matching : score = 0
+                book.schema = []; // used to store position of matches to highlights letters
+                if(search == text){book.display='<span class="highlight">'+book.name+'</span>'; return true}; // if the word is the exact matching : score = 0
                 book.score = 1;
 
                 // consider each search character one at a time
@@ -41,11 +42,13 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
                     j = text.indexOf(l, j);     // search for character & update position
                     if (j == -1) return false;  // if it's not found, exclude this item
 
+                    book.schema.push(j);
+
                     if(oldJ){
                         //If the letters are adjacent, I don't increment the score.
                         book.score += (j-oldJ) == 1 ? 0 : (j-oldJ);
                     }
-                    
+
                     if(i == 0){
                         //if the first letter searched is the first letter of the word
                         if(j == 0) {
@@ -56,7 +59,19 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
                     }
                     oldJ = j;
                 }
+
+                //letters highlighting
+                book.schema.reverse();
+                book.display = book.name.split('');
+                for(var i in book.schema) {
+                    var j = book.schema[i];
+                    book.display.splice(j+1, 0, '</span>');
+                    book.display.splice(j, 0, '<span class="highlight">');
+                }
+                book.display = book.display.join('');
+
                 count++;
+
                 return true;
             });
 
