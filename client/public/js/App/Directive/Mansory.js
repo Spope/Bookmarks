@@ -15,7 +15,6 @@ directives.directive("mansory", [ '$timeout', function($timeout){
             }
 
             scope.mansory = function() {
-                console.log('mansory');
                 //Hack to wait the render to finish
                 $timeout(function(){
                     if(element.hasClass('isotope')){
