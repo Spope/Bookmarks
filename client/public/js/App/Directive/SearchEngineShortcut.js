@@ -10,19 +10,19 @@ directives.directive("searchengineshortcut", ['$window', '$timeout', function($w
         link: function(scope, element, attrs) {
 
             var corresp = {
-                1: [38],
-                2: [233],
-                3: [34],
-                4: [145, 146, 39],
-                5: [40],
-                6: [45],
-                7: [232],
-                8: [95],
-                9: [231]
+                1: [49],
+                2: [50],
+                3: [51],
+                4: [52],
+                5: [53],
+                6: [54],
+                7: [55],
+                8: [56],
+                9: [57]
             }
 
             $(window).bind('keypress', function(e) {
-                if(e.ctrlKey &&  corresp[scope.position].indexOf(e.charCode) > -1){
+                if(e.shiftKey &&  corresp[scope.position].indexOf(e.charCode) > -1){
                     e.preventDefault();
                     scope.submit({searchEngine: scope.searchengine});
 
