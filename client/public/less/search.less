@@ -64,12 +64,28 @@
 }
 
 .search-bookmark-results-list{
-	width: 300px;
-	padding: 8px;
+	width: 317px;
 	text-align: left;
+
+    background:white;
+    z-index:3;
+
+    li.search-bookmark-result{
+        padding: 5px;
+    }
+
+    li.active {
+    	background: @lightgray;
+    }
+
 	.drop-shadow(0,0,5px,0.15);
+
 	li{
 		cursor: pointer;
 		img{margin-right: 5px;}
+	}
+	.highlight{
+		font-weight: bolder;
+		color: #ff7300;
 	}
 } 
