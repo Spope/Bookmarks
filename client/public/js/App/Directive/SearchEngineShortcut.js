@@ -21,6 +21,18 @@ directives.directive("searchengineshortcut", ['$window', '$timeout', function($w
                 9: [57]
             }
 
+            /*
+            document.onkeydown = function (e) {
+                console.log(e);
+                if(e.ctrlKey && corresp[scope.position].indexOf(e.keyCode) > 1){
+                    
+                    e.preventDefault();
+                    scope.submit({searchEngine: scope.searchengine});
+                    return false;
+                }
+            }
+            */
+
             $(window).bind('keypress', function(e) {
                 if(e.shiftKey &&  corresp[scope.position].indexOf(e.charCode) > -1){
                     e.preventDefault();
