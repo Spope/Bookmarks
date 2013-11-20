@@ -57,20 +57,6 @@ directives.directive("searchengineshortcut", ['$document', '$timeout', function(
                 }
             };
 
-            /*
-            $(window).bind('keypress', function(e) {
-                if(e.shiftKey &&  corresp[scope.position].indexOf(e.charCode) > -1){
-                    e.preventDefault();
-                    scope.submit({searchEngine: scope.searchengine});
-
-                    $timeout(function() {
-                        $('.input-search:visible').focus();
-                    });
-
-                    return false;
-                }
-            });
-            */
         }
     }
 }]);

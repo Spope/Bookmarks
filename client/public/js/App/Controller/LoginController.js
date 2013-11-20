@@ -39,6 +39,7 @@ controllers.controller('LoginController', ['$scope', '$http', '$location', 'User
         });
     }
 
+    /*
     var checkLogin = function() {
         var config = {
             method: 'GET',
@@ -74,5 +75,6 @@ controllers.controller('LoginController', ['$scope', '$http', '$location', 'User
 
     //Try to re-log the user from session or cookie.
     checkLogin();
+    */
 
 }]);
