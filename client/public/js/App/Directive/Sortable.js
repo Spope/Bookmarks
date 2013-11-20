@@ -7,12 +7,23 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                 connectWith: "."+attrs.sortable,
                 helper: 'clone',
                 zIndex: 999999,
+                containment: '.categories-list-general',
+                cursorAt: {left:50, top:10},
+                sort: function(event, ui){
+                    var userAgent = navigator.userAgent.toLowerCase();
+                    if(userAgent.match(/chrome/)) {
+                        ui.helper.css('top', ( ui.position.top + jQuery(window).scrollTop() ) + 'px');
+                    }
+                },
                 start: function(e, ui) {
-                    $('.bin').addClass("visible");
+                    $('.bin, .favoritesEmpty').addClass("visible");
                     scope.sorting = true;
                     //Hack to force dragged Book to be over other categories
                     $('.category-li').css('z-index', 1);
                     $(e.target).closest('.category-li').css("z-index", 2);
+
+                    //If the fav cat is empty, 20px will be added to the dom. Helper position is recalculated;
+                    element.sortable('refreshPositions');
                 },
                 stop: function (e, ui) {
                     //Avoid sort when book has changed of category
@@ -30,7 +41,7 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                         }
                     }
 
-                    $('.bin').removeClass("visible");
+                    $('.bin, .favoritesEmpty').removeClass("visible");
                     scope.sorting = false;
                     $('.category-li').css('z-index', 1);
                 },

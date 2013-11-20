@@ -109,13 +109,13 @@ small {
 .dots {
   background: transparent url("../img/dots.gif");
 }
-br {
+hr {
   margin: 0;
   padding: 0;
   display: block;
-  content: "";
+  border: none;
   height: 1px;
-  background: #ffffff url("../img/dots.gif") top left repeat;
+  background: #ffffff url("../img/dots.gif") top left repeat-x;
 }
 input[type="text"],
 input[type="password"],
@@ -242,6 +242,7 @@ button {
 .isotope,
 .isotope .isotope-item {
   /* change duration value to whatever you like */
+
   -webkit-transition-duration: 0.4s;
   -moz-transition-duration: 0.4s;
   -ms-transition-duration: 0.4s;
@@ -414,6 +415,10 @@ button {
 .favorite-category .bookmark a * {
   vertical-align: middle;
 }
+.favorite-category .favorite-list.favoritesEmpty.visible {
+  height: 30px;
+  border: 1px dashed #E1E1E1;
+}
 .categories-list {
   overflow: visible !important;
 }
@@ -584,7 +589,7 @@ button {
 .category-general .bookmarks-list-general .bookmarks-list .bookmark a.btn-edit-bookmark {
   float: left;
 }
-.category-general br {
+.category-general hr {
   margin: 7px 0px 10px 0;
 }
 .categories-list {
