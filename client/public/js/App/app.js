@@ -41,9 +41,12 @@ bookmarkApp.config(['$routeProvider', function($routeProvider) {
 }]);
 
 //Check user auth
-bookmarkApp.run(['$rootScope', 'AuthService', 'UserService', '$location', function(root, auth, User, location) {
+bookmarkApp.run(['$rootScope', 'AuthService', 'UserService', '$location', function(root, auth, UserService, location) {
+
+    UserService.isLogged();
+
     root.$on('$routeChangeStart', function(scope, currView, prevView) {
-        var authorization = auth.checkAuth(currView, User.user);
+        var authorization = auth.checkAuth(currView, UserService.user);
         if (!authorization.response) {
             var page = location.path();
 
@@ -78,8 +81,9 @@ bookmarkApp.config(['$httpProvider', function($httpProvider) {
                 }, 
                 // Error: check the error status to get only the 401
                 function(response) {
-                    if (response.status === 401 && $location.path() != '/login')
+                    if (response.status === 401 && $location.path() != '/login') {
                         $location.url('/login');
+                    }
                     return $q.reject(response);
                 }
             );

@@ -35,7 +35,9 @@ var searchEngine = require('./controller/api/searchEngine')(app);
 
 app.all('/', function(req, res) {
     // Just send the index.html for other files to support HTML5Mode
-    res.render('index');
+    res.render('index', {
+        debugMode: config.debug
+    });
 });
 
 app.listen(config.port);

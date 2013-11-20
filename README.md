@@ -27,10 +27,17 @@ Go into **server/** and run
    
 Import the database schema in **server/db/bookmarksv2.sql**
 
+Node has to be started from the project folder:
+
+    node server/app.js
+
+
 ###Client
 Go into **client/** and run
 
     bower install
+
+If bower ask which version of Angular you want, pick the 1.0.8.
 
 ##Configuration
 The only thing to configure right now is the MySQL connection.
@@ -43,7 +50,7 @@ The CSS is written with Less and compiled with grunt. To compile the Less, go to
     grunt less
 
 This will compile **client/public/less/main.less** to **client/public/css/main.css**.
-Less files can also been compiled and browser refreshed each time a less file is updated by running
+Less files can also be compiled and browser refreshed each time a less file is updated by running
 
     grunt watch
 
