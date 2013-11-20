@@ -1,8 +1,9 @@
 <div class="search-engine-list">
     <div class="search-engine-list-int">
 
+        <searchengineshortcut submit="setSelectedSearchEngine(searchEngine)" searchengines="searchEngines" hint="hint"></searchengineshortcut>
         <div ng-repeat="searchEngine in searchEngines" class="search-engine" ng-class="{selected: selectedSearchEngine.id==searchEngine.id}">
-            <searchengineshortcut position="$index +1" submit="setSelectedSearchEngine(searchEngine)" searchengine="searchEngine"></searchengineshortcut>
+            <div class="hint" ng-show="hint">{{$index + 1}}</div>
             <img class="engine-on"  ng-src="/img/search-engines/on/{{searchEngine.logo}}" alt="{{searchEngine.name}}"  ng-click="setSelectedSearchEngine(searchEngine)"/>
             <img class="engine-off" ng-src="/img/search-engines/off/{{searchEngine.logo}}" alt="{{searchEngine.name}}" ng-click="setSelectedSearchEngine(searchEngine)"/>
         </div>

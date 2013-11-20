@@ -661,6 +661,16 @@ button {
   margin-right: 10px;
   margin-top: 2px;
 }
+.search-engine .hint {
+  width: 36px;
+  height: 36px;
+  font-size: 2em;
+  font-weight: bold;
+  background: white;
+  position: absolute;
+  z-index: 3;
+  opacity: 0.5;
+}
 .search-engine img {
   -webkit-transition: all 0.1s ease-out;
   -moz-transition: all 0.1s ease-out;

@@ -1,6 +1,7 @@
 controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'SearchEngineService', '$window', 'LocalBookmarkService', 'CategoryService', 'BookmarkService', '$timeout', function($rootScope, $scope, SearchEngineService, $window, LocalBookmarkService, CategoryService, BookmarkService, $timeout){
 
     $scope.search = {value: ""};
+    $scope.hint = false;  //Show search engine Indexes
     var dataset = {};
 
     $scope.refreshDataset = function() {

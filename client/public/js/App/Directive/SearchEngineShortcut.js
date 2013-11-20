@@ -1,10 +1,10 @@
-directives.directive("searchengineshortcut", ['$window', '$timeout', function($window, $timeout){
+directives.directive("searchengineshortcut", ['$document', '$timeout', function($document, $timeout){
 
     return {
         restrict: "E",
         scope: {
-            position: "=",
-            searchengine: "=",
+            searchengines: "=",
+            hint: "=",
             submit: "&"
         },
         link: function(scope, element, attrs) {
@@ -21,18 +21,39 @@ directives.directive("searchengineshortcut", ['$window', '$timeout', function($w
                 9: [57]
             }
 
-            /*
-            document.onkeydown = function (e) {
-                console.log(e);
-                if(e.ctrlKey && corresp[scope.position].indexOf(e.keyCode) > 1){
-                    
-                    e.preventDefault();
-                    scope.submit({searchEngine: scope.searchengine});
-                    return false;
+            $document[0].onkeydown = function (e) {
+                if(e.ctrlKey) {
+                    for(var i in corresp) {
+                        if(e.ctrlKey && corresp[i].indexOf(e.keyCode) > -1){
+                            e.preventDefault();
+                            if(scope.searchengines[i-1]){
+                                scope.submit({searchEngine: scope.searchengines[i-1]});
+                            }
+                            return false;
+                        }
+                    }
+
+                    if(e.keyCode == 17) {
+                        scope.$apply(function(){
+                            scope.hint = true;
+                        });
+                        
+                    }
+                }else{
+                    scope.$apply(function(){
+                        scope.hint = false;
+                    });
                 }
             }
-            */
+            $document[0].onkeyup = function(e) {
+                if(e.keyCode == 17) {
+                    scope.$apply(function(){
+                        scope.hint = false;
+                    });
+                }
+            };
 
+            /*
             $(window).bind('keypress', function(e) {
                 if(e.shiftKey &&  corresp[scope.position].indexOf(e.charCode) > -1){
                     e.preventDefault();
@@ -45,6 +66,7 @@ directives.directive("searchengineshortcut", ['$window', '$timeout', function($w
                     return false;
                 }
             });
+            */
         }
     }
 }]);
