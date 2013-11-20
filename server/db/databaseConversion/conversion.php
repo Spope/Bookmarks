@@ -54,15 +54,6 @@ if(isset($_GET['go']) && $_GET['go'] == 'ok') {
         //user
         $idUser = $_POST['idUserNew'];
 
-        //category
-        $fav = array(
-            'id' => "0",
-            'nom' => "__default",
-            'idParent' => "0"
-        );
-
-        array_unshift($categories, $fav);
-
         $categoryConversion = array();
         foreach($categories as $k=>$v) {
 
@@ -84,7 +75,7 @@ if(isset($_GET['go']) && $_GET['go'] == 'ok') {
     }
 }
 
-
+$arrayPosition = array();
 function convertB($bookmarks, $idUser) {
 
     GLOBAL $bookmarkConversion;
@@ -98,8 +89,17 @@ function convertB($bookmarks, $idUser) {
             $idCategory = $v['idCategorie'] == 0 ? $idFav : $categoryConversion[$v['idCategorie']];
             $name = addslashes(utf8_decode(html_entity_decode($v['nom'])));
 
+            if(!isset($arrayPosition[$idCategory])) {
+                $arrayPosition[$idCategory] = array();
+            }
+            if(!isset($arrayPosition[$idCategory][$idParent])) {
+                $arrayPosition[$idCategory][$idParent] = 0;
+            }else{
+                $arrayPosition[$idCategory][$idParent]++;
+            }
+
             $sql = "INSERT INTO bookmark (name, url, position, parent, user_id, category_id, bookmark_type_id) 
-                VALUES ('".$name."', '".$v['url']."','".$v['position']."',".$idParent.", '".$idUser."', '".$idCategory."', '".($v['type']+1)."')";
+                VALUES ('".$name."', '".$v['url']."','".$arrayPosition[$idCategory][$idParent]."',".$idParent.", '".$idUser."', '".$idCategory."', '".($v['type']+1)."')";
 
             mysql_query($sql);
 
