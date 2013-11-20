@@ -43,26 +43,27 @@ bookmarkApp.config(['$routeProvider', function($routeProvider) {
 //Check user auth
 bookmarkApp.run(['$rootScope', 'AuthService', 'UserService', '$location', function(root, auth, UserService, location) {
 
-    UserService.isLogged();
+    UserService.isLogged().then(function(){
 
-    root.$on('$routeChangeStart', function(scope, currView, prevView) {
-        var authorization = auth.checkAuth(currView, UserService.user);
-        if (!authorization.response) {
-            var page = location.path();
+        root.$on('$routeChangeStart', function(scope, currView, prevView) {
+            var authorization = auth.checkAuth(currView, UserService.user);
+            if (!authorization.response) {
+                var page = location.path();
 
-            //
-            if(authorization.redirect) {
-                //The user need to be logged
-                location.path('/login').search({redirect: page});
-            } else {
-                //the user doesn't had credential to access this page
-                var previous = "/";
-                if(!prevView) previous = prevView;
-                location.path(previous);
-                console.log('Auth error');
+                //
+                if(authorization.redirect) {
+                    //The user need to be logged
+                    location.path('/login').search({redirect: page});
+                } else {
+                    //the user doesn't had credential to access this page
+                    var previous = "/";
+                    if(!prevView) previous = prevView;
+                    location.path(previous);
+                    console.log('Auth error');
+                }
+                
             }
-            
-        }
+        });
     });
 }]);
 

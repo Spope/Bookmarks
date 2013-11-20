@@ -18,6 +18,9 @@ module.exports = function(app) {
     app.get('/api/islogged', bootstrap.getSecurity().checkAuth, function(req, res){
         delete req.user.password;
         delete req.user.token;
+        delete req.user.salt;
+        delete req.user.created;
+        delete req.user.updated;
         res.send(req.user);
     });
     

@@ -1,9 +1,11 @@
-services.factory('UserService', ['$http', '$location', function($http, $location) {
+services.factory('UserService', ['$http', '$location', '$q', function($http, $location, $q) {
     var service =  {
         isLogged : false,
         user     : null,
 
         isLogged : function() {
+
+            var defer = $q.defer();
             var config = {
                 method: 'GET',
                 url   : '/api/islogged'
@@ -23,18 +25,18 @@ services.factory('UserService', ['$http', '$location', function($http, $location
                 } else {
                     service.isLogged = false;
                     service.user     = null;
-                    if(!autolog) {
-                        $scope.loginError = true;
-                    }
                 }
+
+                defer.resolve();
             })
             .error(function(data, status, headers, config) {
                 service.isLogged = false;
                 service.user     = null;
-                if(!autolog) {
-                    $scope.loginError = true;
-                }
+
+                defer.resolve();
             });
+
+            return defer.promise;
         }
     }
 
