@@ -28,6 +28,10 @@ directives.directive("searchengineshortcut", ['$document', '$timeout', function(
                             e.preventDefault();
                             if(scope.searchengines[i-1]){
                                 scope.submit({searchEngine: scope.searchengines[i-1]});
+
+                                $timeout(function() {
+                                    $('.input-search:visible').focus();
+                                });
                             }
                             return false;
                         }
