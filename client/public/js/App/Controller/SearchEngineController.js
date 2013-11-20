@@ -31,7 +31,7 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
                 var j = 0; // remembers position of last found character
                 var oldJ;  // remembers position of n-1 character to calculate score
                 book.score = 0; //scoore will be used to order the results
-                book.schema = []; // used to store position of matches to highlights letters
+                book.matches = []; // used to store position of matches to highlights letters
                 if(search == text){book.display='<span class="highlight">'+book.name+'</span>'; return true}; // if the word is the exact matching : score = 0
                 book.score = 1;
 
@@ -43,7 +43,7 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
                     j = text.indexOf(l, j);     // search for character & update position
                     if (j == -1) return false;  // if it's not found, exclude this item
 
-                    book.schema.push(j);
+                    book.matches.push(j);       // saving the position of the match to highlight it
 
                     if(oldJ){
                         //If the letters are adjacent, I don't increment the score.
@@ -55,17 +55,20 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
                         if(j == 0) {
                             book.score;
                         }else{
+                            // Not the first letter so I increment the score.
                             book.score +=1;
                         }
                     }
                     oldJ = j;
                 }
 
+                book.score += (text.length - search.length) / 10; // the shortest matches are better
+
                 //letters highlighting
-                book.schema.reverse();
+                book.matches.reverse();
                 book.display = book.name.split('');
-                for(var i in book.schema) {
-                    var j = book.schema[i];
+                for(var i in book.matches) {
+                    var j = book.matches[i];
                     book.display.splice(j+1, 0, '</span>');
                     book.display.splice(j, 0, '<span class="highlight">');
                 }
