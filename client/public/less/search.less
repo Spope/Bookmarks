@@ -72,6 +72,20 @@
 
     li.search-bookmark-result{
         padding: 5px;
+        cursor: pointer;
+		img{margin-right: 5px;}
+        
+        p.cat{
+            font-style:italic;
+        }
+        small{
+            float:right;
+            color:grey;
+            /*clear:both;*/
+        }
+        small:after{
+            clear:both;
+        }
     }
 
     li.active {
@@ -80,10 +94,6 @@
 
 	.drop-shadow(0,0,5px,0.15);
 
-	li{
-		cursor: pointer;
-		img{margin-right: 5px;}
-	}
 	.highlight{
 		font-weight: bolder;
 		color: #ff7300;

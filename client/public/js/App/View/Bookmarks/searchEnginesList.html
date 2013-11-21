@@ -24,7 +24,9 @@
                             </div>
                             <div>
                                 <p ng-bind-html-unsafe="result.display"></p>
-                                <small>{{result.category}}<span ng-show="result.parent"> / {{result.parent}}</span></small>
+                                <p class="cat">{{result.category}}<span ng-show="result.parentName"> / {{result.parentName}}</span></p>
+                                <small>{{result.url|truncate:60}}</small>
+                                <div class="clr"></div>
                             </div>
                         </li>
                     </ul>

@@ -25,6 +25,7 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
             var dimension = cross.dimension(function(d){return d;});
 
             var scored = dimension.filter(function(book) {
+
                 //fuzzy matching
                 var search = term.toUpperCase();
                 var text   = book.name.toUpperCase();
@@ -64,6 +65,17 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
                     oldJ = j;
                 }
 
+                count++;
+
+                return true;
+            });
+
+            var results = scored.top(tmp.length).sort(mySort).slice(0,10);
+
+            for(var i in results) {
+
+                var book = results[i]
+
                 //letters highlighting
                 book.schema.reverse();
                 book.display = book.name.split('');
@@ -74,37 +86,27 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
                 }
                 book.display = book.display.join('');
 
-                count++;
-
-                return true;
-            });
-
-            
-            var results = scored.top(tmp.length).sort(mySort).slice(0,15);
-
-            for(var i in results) {
-                if(typeof(results[i].category) != "string") {
-                    if(results[i].category == 0) {
-                        results[i].category = "Favorites";
+                //Retrieving bookmark category
+                if(typeof(book.category) != "string") {
+                    if(book.category == 0) {
+                        book.category = "Favorites";
                     }else{
-                        var cat = CategoryService.get(results[i].category);
+                        var cat = CategoryService.get(book.category);
                         if(cat) {
-                            results[i].category = cat.name;
+                            book.category = cat.name;
                             if(cat.name == "__default") {
-                                results[i].category = "Favorites";
+                                book.category = "Favorites";
                             }                    }else{
-                            results[i].category = "Can't find category";
+                            book.category = "Can't find category";
                         }
                     }
                 }
 
-                if(results[i].parent != "root" && typeof(results[i].parent) != "string" && results[i].parent){
-                    var parent = BookmarkService.get(results[i].parent);
+                if(book.parent && book.parent != "root" && typeof(book.parent) != "string"){
+                    var parent = BookmarkService.get(book.parent);
                     if(parent) {
-                        results[i].parent = parent.name;
+                        book.parentName = parent.name;
                     }
-                }else{
-                    delete results[i].parent;
                 }
             }
 
