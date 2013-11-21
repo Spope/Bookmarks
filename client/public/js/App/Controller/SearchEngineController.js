@@ -1,4 +1,4 @@
-controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'SearchEngineService', '$window', 'LocalBookmarkService', 'CategoryService', 'BookmarkService', '$timeout', function($rootScope, $scope, SearchEngineService, $window, LocalBookmarkService, CategoryService, BookmarkService, $timeout){
+controllers.controller('SearchEngineController', ['$scope', 'SearchEngineService', '$window', 'LocalBookmarkService', 'CategoryService', 'BookmarkService', '$timeout', function($scope, SearchEngineService, $window, LocalBookmarkService, CategoryService, BookmarkService, $timeout){
 
     $scope.search = {value: ""};
     $scope.hint = false;  //Show search engine Indexes
@@ -119,15 +119,16 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
         }
     }
 
-    //retrieving searchengines from DB
-    SearchEngineService.get().then(function(data) {
-        $scope.searchEngines = data;
-        var tmpDefault = $scope.searchEngines.filter(function(value) {
-            return value.default;
-        })[0];
-        $scope.setSelectedSearchEngine(tmpDefault);
-
-    });
+    var getSearchEngines = function(){
+        //retrieving searchengines from DB
+        SearchEngineService.get().then(function(data) {
+            $scope.searchEngines = data;
+            var tmpDefault = $scope.searchEngines.filter(function(value) {
+                return value.default;
+            })[0];
+            $scope.setSelectedSearchEngine(tmpDefault);
+        });
+    }
 
     //search
     $scope.searchFn = function(book) {
