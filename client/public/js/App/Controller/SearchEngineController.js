@@ -30,7 +30,7 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
                 var text   = book.name.toUpperCase();
                 var j = 0; // remembers position of last found character
                 var oldJ;  // remembers position of n-1 character to calculate score
-                book.score = 0; //scoore will be used to order the results
+                book.score = 0; // score will be used to order the results
                 book.schema = []; // used to store position of matches to highlights letters
                 if(search == text){book.display='<span class="highlight">'+book.name+'</span>'; return true}; // if the word is the exact matching : score = 0
                 book.score = 1;
@@ -40,6 +40,9 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
                     var l = search[i];
                     if (l == ' ') continue;     // ignore spaces
 
+                    if(i>0 && search[i-1] == search[i]) {
+                        j++; // If two identical letter, incerementation of j to avoid matching the same letter
+                    }
                     j = text.indexOf(l, j);     // search for character & update position
                     if (j == -1) return false;  // if it's not found, exclude this item
 
