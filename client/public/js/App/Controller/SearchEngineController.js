@@ -25,12 +25,13 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
             var dimension = cross.dimension(function(d){return d;});
 
             var scored = dimension.filter(function(book) {
+
                 //fuzzy matching
                 var search = term.toUpperCase();
                 var text   = book.name.toUpperCase();
                 var j = 0; // remembers position of last found character
                 var oldJ;  // remembers position of n-1 character to calculate score
-                book.score = 0; //scoore will be used to order the results
+                book.score = 0; // score will be used to order the results
                 book.matches = []; // used to store position of matches to highlights letters
                 if(search == text){book.display='<span class="highlight">'+book.name+'</span>'; return true}; // if the word is the exact matching : score = 0
                 book.score = 1;
@@ -40,6 +41,9 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
                     var l = search[i];
                     if (l == ' ') continue;     // ignore spaces
 
+                    if(i>0 && search[i-1] == search[i]) {
+                        j++; // If two identical letter, incerementation of j to avoid matching the same letter
+                    }
                     j = text.indexOf(l, j);     // search for character & update position
                     if (j == -1) return false;  // if it's not found, exclude this item
 
@@ -64,6 +68,17 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
 
                 book.score += (text.length - search.length) / 10; // the shortest matches are better
 
+                count++;
+
+                return true;
+            });
+
+            var results = scored.top(tmp.length).sort(mySort).slice(0,10);
+
+            for(var i in results) {
+
+                var book = results[i]
+
                 //letters highlighting
                 book.matches.reverse();
                 book.display = book.name.split('');
@@ -74,37 +89,27 @@ controllers.controller('SearchEngineController', ['$rootScope', '$scope', 'Searc
                 }
                 book.display = book.display.join('');
 
-                count++;
-
-                return true;
-            });
-
-            
-            var results = scored.top(tmp.length).sort(mySort).slice(0,15);
-
-            for(var i in results) {
-                if(typeof(results[i].category) != "string") {
-                    if(results[i].category == 0) {
-                        results[i].category = "Favorites";
+                //Retrieving bookmark category
+                if(typeof(book.category) != "string") {
+                    if(book.category == 0) {
+                        book.category = "Favorites";
                     }else{
-                        var cat = CategoryService.get(results[i].category);
+                        var cat = CategoryService.get(book.category);
                         if(cat) {
-                            results[i].category = cat.name;
+                            book.category = cat.name;
                             if(cat.name == "__default") {
-                                results[i].category = "Favorites";
+                                book.category = "Favorites";
                             }                    }else{
-                            results[i].category = "Can't find category";
+                            book.category = "Can't find category";
                         }
                     }
                 }
 
-                if(results[i].parent != "root" && typeof(results[i].parent) != "string" && results[i].parent){
-                    var parent = BookmarkService.get(results[i].parent);
+                if(book.parent && book.parent != "root" && typeof(book.parent) != "string"){
+                    var parent = BookmarkService.get(book.parent);
                     if(parent) {
-                        results[i].parent = parent.name;
+                        book.parentName = parent.name;
                     }
-                }else{
-                    delete results[i].parent;
                 }
             }
 

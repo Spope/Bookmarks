@@ -242,6 +242,7 @@ button {
 .isotope,
 .isotope .isotope-item {
   /* change duration value to whatever you like */
+
   -webkit-transition-duration: 0.4s;
   -moz-transition-duration: 0.4s;
   -ms-transition-duration: 0.4s;
@@ -374,15 +375,25 @@ button {
 }
 .search-bookmark-results-list li.search-bookmark-result {
   padding: 5px;
+  cursor: pointer;
+}
+.search-bookmark-results-list li.search-bookmark-result img {
+  margin-right: 5px;
+}
+.search-bookmark-results-list li.search-bookmark-result p.cat {
+  font-style: italic;
+}
+.search-bookmark-results-list li.search-bookmark-result small {
+  float: right;
+  color: grey;
+  /*clear:both;*/
+
+}
+.search-bookmark-results-list li.search-bookmark-result small:after {
+  clear: both;
 }
 .search-bookmark-results-list li.active {
   background: #eeeeee;
-}
-.search-bookmark-results-list li {
-  cursor: pointer;
-}
-.search-bookmark-results-list li img {
-  margin-right: 5px;
 }
 .search-bookmark-results-list .highlight {
   font-weight: bolder;
