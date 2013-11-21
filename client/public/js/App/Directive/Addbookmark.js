@@ -140,8 +140,8 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
             var sendBook = function() {
 
                 scope.$apply();
-
-                if(scope.currentParent) {
+console.log(scope.parent);
+                if(scope.parent) {
                     scope.newBookmark.parent = scope.parent.id;
                 }
 
