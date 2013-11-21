@@ -80,14 +80,16 @@ controllers.controller('SearchEngineController', ['$scope', 'SearchEngineService
                 var book = results[i]
 
                 //letters highlighting
-                book.matches.reverse();
-                book.display = book.name.split('');
-                for(var i in book.matches) {
-                    var j = book.matches[i];
-                    book.display.splice(j+1, 0, '</span>');
-                    book.display.splice(j, 0, '<span class="highlight">');
+                if(book.score > 0){
+                    book.matches.reverse();
+                    book.display = book.name.split('');
+                    for(var i in book.matches) {
+                        var j = book.matches[i];
+                        book.display.splice(j+1, 0, '</span>');
+                        book.display.splice(j, 0, '<span class="highlight">');
+                    }
+                    book.display = book.display.join('');
                 }
-                book.display = book.display.join('');
 
                 //Retrieving bookmark category
                 if(typeof(book.category) != "string") {
@@ -129,6 +131,7 @@ controllers.controller('SearchEngineController', ['$scope', 'SearchEngineService
             $scope.setSelectedSearchEngine(tmpDefault);
         });
     }
+    getSearchEngines();
 
     //search
     $scope.searchFn = function(book) {
