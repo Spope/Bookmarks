@@ -132,6 +132,9 @@ controllers.controller('SearchEngineController', ['$scope', 'SearchEngineService
         });
     }
     getSearchEngines();
+    $scope.$on('refreshSearchEngine', function(){
+        getSearchEngines();
+    });
 
     //search
     $scope.searchFn = function(book) {
