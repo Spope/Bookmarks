@@ -41,7 +41,7 @@ var UserSettingsController = function($rootScope, $scope, $modalInstance, LocalB
         }
     }
 
-    $scope.toggle = function(searchEngine) {
+    $scope.toggleSearchEngine = function(searchEngine) {
         if(!searchEngine.selected){
             searchEngine.selected = true;
             return true;
