@@ -1,4 +1,4 @@
-var UserSettingsController = function($scope, $modalInstance, LocalBookmarkService, SearchEngineService) {
+var UserSettingsController = function($rootScope, $scope, $modalInstance, LocalBookmarkService, SearchEngineService) {
     
     $scope.userSearchEngines = null;
     $scope.searchEngines = null;
@@ -57,6 +57,15 @@ var UserSettingsController = function($scope, $modalInstance, LocalBookmarkServi
         }
     }
 
+    $scope.toggleDefaultSearchEngine = function(searchEngine) {
+        for(var i in $scope.searchEngines){
+            $scope.searchEngines[i].default = 0;
+            if($scope.searchEngines[i].id == searchEngine.id){
+                $scope.searchEngines[i].default = 1;
+            }
+        }
+    }
+
     $scope.save = function() {
         var selected = [];
         var defaultEngine = $scope.searchEngines.filter(function(s){ return s.default});
@@ -74,6 +83,7 @@ var UserSettingsController = function($scope, $modalInstance, LocalBookmarkServi
         SearchEngineService.save(selected).then(function(data) {
             $modalInstance.modal('hide');
 
+            $rootScope.$broadcast('refreshSearchEngine');
             //TODO Emit event to searchengine controller
         });
     }
