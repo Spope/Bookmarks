@@ -43,6 +43,7 @@
 }
 
 .category-general {
+
     background-color: white;
     width: 255px;
 
@@ -175,7 +176,12 @@
                 display:block;
             }
             .bookmark a.btn-edit-bookmark{
-                float:left;
+                float: left;
+                display: block;
+                .transition(0.1s);
+                &:hover{
+                    .rotation(-10deg);
+                }
             }
         }
     }
