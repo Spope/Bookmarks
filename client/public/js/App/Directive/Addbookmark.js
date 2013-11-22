@@ -140,13 +140,11 @@ directives.directive("addbookmark", ['$window', '$compile', function($window, $c
             var sendBook = function() {
 
                 scope.$apply();
-console.log(scope.parent);
                 if(scope.parent) {
                     scope.newBookmark.parent = scope.parent.id;
                 }
 
                 scope.newBookmark.category_id = scope.categoryid;
-                console.log(attrs);
 
                 scope.postbookmark({
                     newBookmark: scope.newBookmark,

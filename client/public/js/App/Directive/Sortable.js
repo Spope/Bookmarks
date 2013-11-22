@@ -58,6 +58,7 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                         var bookmark = BookmarkService.get(id);
                         scope.deleteBookmark = bookmark;
                         scope.$apply(attrs.remove);
+                        $(ui.item).remove();
 
                     } else {
                         //Sorting bookmarks

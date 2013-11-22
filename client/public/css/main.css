@@ -242,6 +242,7 @@ button {
 .isotope,
 .isotope .isotope-item {
   /* change duration value to whatever you like */
+
   -webkit-transition-duration: 0.4s;
   -moz-transition-duration: 0.4s;
   -ms-transition-duration: 0.4s;
@@ -390,6 +391,7 @@ button {
   float: right;
   color: grey;
   /*clear:both;*/
+
 }
 .search-bookmark-results-list li.search-bookmark-result small:after {
   clear: both;
@@ -454,7 +456,7 @@ button {
   top: 0;
 }
 .bin.visible.opened {
-  background-color: #4d4d4d;
+  background-color: #5a5a5a;
 }
 .ui-sortable-helper {
   position: absolute;

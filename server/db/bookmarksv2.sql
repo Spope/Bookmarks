@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 22, 2013 at 02:43 PM
+-- Generation Time: Nov 22, 2013 at 02:45 PM
 -- Server version: 5.5.32-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.7
 
@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `salt` varchar(255) NOT NULL,
   `token` varchar(32) NOT NULL,
   `email` varchar(45) NOT NULL,
-  `theme` int(11) NOT NULL,
+  `theme` int(11) NOT NULL DEFAULT '1',
   `roles` varchar(255) NOT NULL,
   `created` datetime NOT NULL,
   `updated` datetime NOT NULL,
