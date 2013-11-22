@@ -1,0 +1,23 @@
+<!-- Modal (external ./partials/modal.html or inline ng-template) -->
+<div class="modal-header">
+    <h3>{{title}}</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+</div>
+<div class="modal-body">
+    <form ng-submit="save()">
+        <div class="edit-searchEngine-group">
+            <div ng-repeat="searchEngine in searchEngines" class="left">
+                <img ng-show="searchEngine.selected" ng-click="toggle(searchEngine)" ng-src="/img/search-engines/on/{{searchEngine.logo}}" />
+                <img ng-show="!searchEngine.selected" ng-click="toggle(searchEngine)" ng-src="/img/search-engines/off/{{searchEngine.logo}}" />
+                <br />
+                <input type="radio" name="default" ng-show="searchEngine.selected" ng-model="searchEngine.default" value="1" />
+            </div>
+            <div ng-show="errorDefault">Please select a default search engine</div>
+        </div>
+        <div class="clr"></div>
+        <hr />
+        <div class="modal-action">
+            <button type="submit" class="btn" >Save</button>
+        </div>
+    </form>
+</div>

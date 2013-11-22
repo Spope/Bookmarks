@@ -41,7 +41,6 @@ module.exports = function(app) {
         }
     });
 
-    
 
     app.post('/api/user/:idUser/bookmark', bootstrap.getSecurity().checkAuth, function(req, res) {
         var bookmark = req.body;
