@@ -78,7 +78,7 @@ var UserSettingsController = function($rootScope, $scope, $modalInstance, LocalB
         }
         for (var i in $scope.searchEngines) {
             var engine = $scope.searchEngines[i];
-            if(engine.selectedSearchEngine){
+            if(engine.selected){
                 selectedSearchEngine.push(engine);
             }
         }
