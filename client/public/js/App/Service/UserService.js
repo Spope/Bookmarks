@@ -33,7 +33,7 @@ services.factory('UserService', ['$http', '$location', '$q', function($http, $lo
                 service.isLogged = false;
                 service.user     = null;
 
-                defer.resolve();
+                defer.reject(data);
             });
 
             return defer.promise;

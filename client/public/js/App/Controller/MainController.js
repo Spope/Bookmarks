@@ -3,6 +3,8 @@ controllers.controller('MainController', ['$scope', 'UserService', 'modalService
     $scope.user = UserService.user;
 
 
+
+
     $scope.editSettings = function(){
 
         var template = 'js/App/View/Bookmarks/partial/Modal/editSettings.html';

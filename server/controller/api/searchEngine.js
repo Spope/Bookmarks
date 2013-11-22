@@ -48,7 +48,6 @@ module.exports = function(app) {
                 sql += '('+connection.escape(user_id)+', '+connection.escape(list[i].id)+', '+connection.escape(list[i].default)+'), ';
             }
             sql = sql.substr(0, sql.length - 2);
-            console.log(sql);
 
             connection.query(sql, function(err, rows){
 
