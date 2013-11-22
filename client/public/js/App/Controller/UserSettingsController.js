@@ -2,6 +2,7 @@ var UserSettingsController = function($rootScope, $scope, $modalInstance, LocalB
     
     $scope.userSearchEngines = null;
     $scope.searchEngines = null;
+    //loading the user search engines
     SearchEngineService.get().then(function(data) {
         $scope.userSearchEngines = data;
         
@@ -9,7 +10,7 @@ var UserSettingsController = function($rootScope, $scope, $modalInstance, LocalB
             return value.default;
         })[0];
     });
-
+    //loading all search engines
     SearchEngineService.getAll().then(function(data){
         $scope.searchEngines = data;
     });
@@ -18,7 +19,8 @@ var UserSettingsController = function($rootScope, $scope, $modalInstance, LocalB
     $scope.$watch('searchEngines', function(){refresh()});
 
     var refresh = function(){
-        if($scope.userSearchEngines && $scope.searchEngines && $scope.userSearchEngines.length > 0 && $scope.searchEngines.length > 0){
+        //When search engines are loaded, is set the view vars.
+        if($scope.userSearchEngines && $scope.searchEngines && $scope.userSearchEngines.length>0 && $scope.searchEngines.length>0){
             for(var i in $scope.searchEngines){
                 var searchEngine = $scope.searchEngines[i];
 
@@ -36,7 +38,6 @@ var UserSettingsController = function($rootScope, $scope, $modalInstance, LocalB
                 }else{
                     $scope.searchEngines[i].default = 0;
                 }
-
             }
         }
     }
@@ -46,13 +47,14 @@ var UserSettingsController = function($rootScope, $scope, $modalInstance, LocalB
             searchEngine.selected = true;
             return true;
         }
-
+        // Check if the user is not deselecting the last one.
         var selectedEngines = $scope.searchEngines.filter(function(s){ return s.selected});
         if(selectedEngines.length > 1){
-            searchEngine.default = false;
+            searchEngine.default = 0; // When unselected, a search engine is no longer the default one.
             searchEngine.selected = false;
         }
         if(selectedEngines.length == 2){
+            // If only one search engine left, it becomes the default one.
             $scope.searchEngines.filter(function(s){ return s.selected})[0].default = true;
         }
     }
@@ -67,7 +69,7 @@ var UserSettingsController = function($rootScope, $scope, $modalInstance, LocalB
     }
 
     $scope.save = function() {
-        var selected = [];
+        var selectedSearchEngine = [];
         var defaultEngine = $scope.searchEngines.filter(function(s){ return s.default});
         if(defaultEngine.length == 0) {
 
@@ -76,15 +78,14 @@ var UserSettingsController = function($rootScope, $scope, $modalInstance, LocalB
         }
         for (var i in $scope.searchEngines) {
             var engine = $scope.searchEngines[i];
-            if(engine.selected){
-                selected.push(engine);
+            if(engine.selectedSearchEngine){
+                selectedSearchEngine.push(engine);
             }
         }
-        SearchEngineService.save(selected).then(function(data) {
+        SearchEngineService.save(selectedSearchEngine).then(function(data) {
             $modalInstance.modal('hide');
 
             $rootScope.$broadcast('refreshSearchEngine');
-            //TODO Emit event to searchengine controller
         });
     }
 };

@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 13, 2013 at 02:35 PM
+-- Generation Time: Nov 22, 2013 at 02:43 PM
 -- Server version: 5.5.32-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.7
 
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `search_engine` (
   `url` varchar(300) NOT NULL,
   `logo` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `search_engine`
@@ -131,7 +131,29 @@ INSERT INTO `search_engine` (`id`, `name`, `url`, `logo`) VALUES
 (4, 'Google Maps', 'http://maps.google.fr/maps?q={q}', 'maps.png'),
 (5, 'Tiwtter', 'http://twitter.com/#!/search/{q}', 'twitter.png'),
 (6, 'Youtube', 'http://www.youtube.fr/results?search_query={q}', 'youtube.png'),
-(7, 'Facebook', 'http://www.facebook.com/search/?q={q}', 'facebook.png');
+(7, 'Facebook', 'http://www.facebook.com/search/?q={q}', 'facebook.png'),
+(8, 'Google Images', 'http://www.google.fr/search?q={q}&tbm=isch', 'images.png');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `theme`
+--
+
+DROP TABLE IF EXISTS `theme`;
+CREATE TABLE IF NOT EXISTS `theme` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `file` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `theme`
+--
+
+INSERT INTO `theme` (`id`, `name`, `file`) VALUES
+(1, 'default', 'default');
 
 -- --------------------------------------------------------
 
@@ -147,19 +169,21 @@ CREATE TABLE IF NOT EXISTS `user` (
   `salt` varchar(255) NOT NULL,
   `token` varchar(32) NOT NULL,
   `email` varchar(45) NOT NULL,
+  `theme` int(11) NOT NULL,
   `roles` varchar(255) NOT NULL,
   `created` datetime NOT NULL,
   `updated` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQUE_username` (`username`)
+  UNIQUE KEY `UNIQUE_username` (`username`),
+  KEY `fk_user_theme1` (`theme`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `password`, `salt`, `token`, `email`, `roles`, `created`, `updated`) VALUES
-(1, 'Spope', 'bZwBSYxSmhTXGBqzJsPeRkqV4GuU5Msj+2nCP0OzY5GLiHdviXihheVpxZbMAllcZCgOVpfZ0v406cLLkKeM1CTXOB093wwEFwotfXWin84xXlrWlzPF2oBafqJzyEIiTDhBB6bRZJKLIc731VpErz/pFgDbNidtED8tWa2t88o=', 'd00pGjHvTxXpuctDsHF0DqJNj+7VYgEDXHtwS0xih0Fh+Y29mSIRRVplgOKfdAIQUavmyr+qoX2uON1uMmcx+50hoBiwQLC6jiVrE1VOEsHyjSIrC1+vaKEr26yt42MSGq0QjtUn9EdLuCxBqh/bphSWxmCidgp1Z0V47ECBxmQ=', '4lJ6tLpeO0Va6XaR87geA6l2QNUV4I6j', 'pinaudt@gmail.com', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `user` (`id`, `username`, `password`, `salt`, `token`, `email`, `theme`, `roles`, `created`, `updated`) VALUES
+(1, 'Spope', 'bZwBSYxSmhTXGBqzJsPeRkqV4GuU5Msj+2nCP0OzY5GLiHdviXihheVpxZbMAllcZCgOVpfZ0v406cLLkKeM1CTXOB093wwEFwotfXWin84xXlrWlzPF2oBafqJzyEIiTDhBB6bRZJKLIc731VpErz/pFgDbNidtED8tWa2t88o=', 'd00pGjHvTxXpuctDsHF0DqJNj+7VYgEDXHtwS0xih0Fh+Y29mSIRRVplgOKfdAIQUavmyr+qoX2uON1uMmcx+50hoBiwQLC6jiVrE1VOEsHyjSIrC1+vaKEr26yt42MSGq0QjtUn9EdLuCxBqh/bphSWxmCidgp1Z0V47ECBxmQ=', '4lJ6tLpeO0Va6XaR87geA6l2QNUV4I6j', 'pinaudt@gmail.com', 1, '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -208,6 +232,12 @@ ALTER TABLE `bookmark`
 --
 ALTER TABLE `category`
   ADD CONSTRAINT `fk_category_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `fk_user_theme1` FOREIGN KEY (`theme`) REFERENCES `theme` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `user_search_engine`
