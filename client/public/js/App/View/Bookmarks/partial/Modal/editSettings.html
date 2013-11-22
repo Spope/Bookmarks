@@ -1,23 +1,34 @@
 <!-- Modal (external ./partials/modal.html or inline ng-template) -->
 <div class="modal-header">
-    <h3>{{title}}</h3>
+    <h3>Moteurs de recherche</h3>
+    <p class="subtitle">Cliquez sur l'icone d'un moteur pour l'activer, ou le désactiver, de votre page de bookmarks. Sélectionnez aussi votre moteur de recherche par défaut.</p>
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 </div>
 <div class="modal-body">
+
     <form ng-submit="save()">
-        <div class="edit-searchEngine-group">
-            <div ng-repeat="searchEngine in searchEngines" class="left">
-                <img ng-show="searchEngine.selected" ng-click="toggleSearchEngine(searchEngine)" ng-src="/img/search-engines/on/{{searchEngine.logo}}" />
-                <img ng-show="!searchEngine.selected" ng-click="toggleSearchEngine(searchEngine)" ng-src="/img/search-engines/off/{{searchEngine.logo}}" />
-                <br />
-                <input type="radio" name="default" ng-show="searchEngine.selected" ng-click="toggleDefaultSearchEngine(searchEngine)" ng-model="searchEngine.default" value="1" />
+
+        <div class="modal-center-content">
+            <div class="edit-searchEngine-group">
+                <div ng-repeat="searchEngine in searchEngines" class="search-engine-selection">
+                    <img ng-show="searchEngine.selected" ng-click="toggleSearchEngine(searchEngine)" ng-src="/img/search-engines/on/{{searchEngine.logo}}" />
+                    <img ng-show="!searchEngine.selected" ng-click="toggleSearchEngine(searchEngine)" ng-src="/img/search-engines/off/{{searchEngine.logo}}" />
+                    <br />
+                    <input id="engine{{searchEngine.id}}" type="radio" name="default" ng-show="searchEngine.selected" ng-click="toggleDefaultSearchEngine(searchEngine)" ng-model="searchEngine.default" value="1" />
+                    <label for="engine{{searchEngine.id}}"></label>  
+                </div>
             </div>
-            <div ng-show="errorDefault">Please select a default search engine</div>
         </div>
+
+        <div ng-show="errorDefault">Sélectionnez un moteur de recherche par défault.</div>
+
         <div class="clr"></div>
+
         <hr />
+
         <div class="modal-action">
-            <button type="submit" class="btn" >Save</button>
+            <button type="submit" class="btn" >Sauvegarder</button>
         </div>
+
     </form>
 </div>

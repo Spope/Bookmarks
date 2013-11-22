@@ -185,6 +185,10 @@ button {
   font-size: 2em;
   font-weight: 300;
 }
+.modal .modal-header .subtitle {
+  font-style: italic;
+  font-size: 0.9em;
+}
 .modal .edit-bookmark-group {
   margin-top: 15px;
 }
@@ -231,6 +235,51 @@ button {
 }
 .modal .close:hover {
   color: #404040;
+}
+.modal-center-content {
+  display: table-cell;
+  text-align: center;
+  width: 380px;
+}
+.edit-searchEngine-group {
+  margin: 0 auto;
+}
+.edit-searchEngine-group .search-engine-selection {
+  display: inline-block;
+  vertical-align: top;
+}
+.edit-searchEngine-group .search-engine-selection input {
+  display: none;
+}
+.edit-searchEngine-group .search-engine-selection label {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  font-size: 13px;
+}
+.edit-searchEngine-group .search-engine-selection label:before {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  left: 5px;
+  bottom: 1px;
+  background-color: #aaa;
+  box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+}
+.edit-searchEngine-group .search-engine-selection input[type=radio]:checked + label:before {
+  content: "\2022";
+  color: #f3f3f3;
+  font-size: 30px;
+  text-align: center;
+  line-height: 14px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+.edit-searchEngine-group .search-engine-selection:last-child {
+  margin-bottom: 15px;
 }
 .isotope-item {
   z-index: 2;
