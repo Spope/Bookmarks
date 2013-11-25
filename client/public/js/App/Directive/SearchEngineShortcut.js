@@ -40,7 +40,15 @@ directives.directive("searchengineshortcut", ['$document', '$timeout', function(
                     if(e.keyCode == 17) {
                         scope.$apply(function(){
                             scope.hint = true;
+                            
                         });
+
+                        //reset to false (if ctrl+t for exemple)
+                        $timeout(function(){
+                            scope.$apply(function(){
+                                scope.hint = false;
+                            });
+                        }, 3000);
                         
                     }
                 }else{
