@@ -5,13 +5,12 @@ bookmarkApp.config(['$routeProvider', function($routeProvider) {
             controller: 'MainController',
             access: {
                 level: 1
-            }
-        }).
-        when('/edit/:idbookmark', {
-            templateUrl: 'js/App/View/Bookmarks/mainView.html',
-            controller: 'MainController',
-            access: {
-                level: 1
+            },
+            resolve: {
+                func: ['UserService', function(UserService){
+                        return UserService.log();
+                    }
+                ]
             }
         }).
         when('/login', {
@@ -45,7 +44,7 @@ bookmarkApp.run(['$rootScope', 'AuthService', 'UserService', '$location', functi
 
     root.$on('$routeChangeStart', function(scope, currView, prevView) {
 
-        UserService.isLogged().then(function(){
+        if(UserService.isFinished){
             var authorization = auth.checkAuth(currView, UserService.user);
             if (!authorization.response) {
                 var page = location.path();
@@ -65,7 +64,7 @@ bookmarkApp.run(['$rootScope', 'AuthService', 'UserService', '$location', functi
             }else{
                 //access granted
             }
-        });
+        }
     });
 }]);
 

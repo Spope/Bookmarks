@@ -1,9 +1,10 @@
-services.factory('UserService', ['$http', '$location', '$q', function($http, $location, $q) {
+services.factory('UserService', ['$http', '$location', '$q', '$timeout', function($http, $location, $q, $timeout) {
     var service =  {
-        isLogged : false,
-        user     : null,
+        isLogged  : false,
+        user      : null,
+        isFinished: false,
 
-        isLogged : function() {
+        log : function() {
 
             var defer = $q.defer();
             var config = {
@@ -27,12 +28,14 @@ services.factory('UserService', ['$http', '$location', '$q', function($http, $lo
                     service.user     = null;
                 }
 
+                this.isFinished = true;
                 defer.resolve();
             })
             .error(function(data, status, headers, config) {
                 service.isLogged = false;
                 service.user     = null;
 
+                this.isFinished = true;
                 defer.reject(data);
             });
 
@@ -43,5 +46,4 @@ services.factory('UserService', ['$http', '$location', '$q', function($http, $lo
     return service;
 
 }]);
-
 

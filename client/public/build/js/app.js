@@ -1381,12 +1381,13 @@ directives.directive("typeaheadItem", [function (){
 
     return service;
 }]);
-;services.factory('UserService', ['$http', '$location', '$q', function($http, $location, $q) {
+;services.factory('UserService', ['$http', '$location', '$q', '$timeout', function($http, $location, $q, $timeout) {
     var service =  {
-        isLogged : false,
-        user     : null,
+        isLogged  : false,
+        user      : null,
+        isFinished: false,
 
-        isLogged : function() {
+        log : function() {
 
             var defer = $q.defer();
             var config = {
@@ -1410,12 +1411,14 @@ directives.directive("typeaheadItem", [function (){
                     service.user     = null;
                 }
 
+                this.isFinished = true;
                 defer.resolve();
             })
             .error(function(data, status, headers, config) {
                 service.isLogged = false;
                 service.user     = null;
 
+                this.isFinished = true;
                 defer.reject(data);
             });
 
@@ -1426,7 +1429,6 @@ directives.directive("typeaheadItem", [function (){
     return service;
 
 }]);
-
 
 ;services.factory('$modal', ['$rootScope', '$compile', '$http', '$timeout', '$q', '$templateCache', '$controller', function($rootScope, $compile, $http, $timeout, $q, $templateCache, $controller) {
 
@@ -2356,13 +2358,12 @@ directives.directive("typeaheadItem", [function (){
             controller: 'MainController',
             access: {
                 level: 1
-            }
-        }).
-        when('/edit/:idbookmark', {
-            templateUrl: 'js/App/View/Bookmarks/mainView.html',
-            controller: 'MainController',
-            access: {
-                level: 1
+            },
+            resolve: {
+                func: ['UserService', function(UserService){
+                        return UserService.log();
+                    }
+                ]
             }
         }).
         when('/login', {
@@ -2396,7 +2397,7 @@ bookmarkApp.run(['$rootScope', 'AuthService', 'UserService', '$location', functi
 
     root.$on('$routeChangeStart', function(scope, currView, prevView) {
 
-        UserService.isLogged().then(function(){
+        if(UserService.isFinished){
             var authorization = auth.checkAuth(currView, UserService.user);
             if (!authorization.response) {
                 var page = location.path();
@@ -2416,7 +2417,7 @@ bookmarkApp.run(['$rootScope', 'AuthService', 'UserService', '$location', functi
             }else{
                 //access granted
             }
-        });
+        }
     });
 }]);
 
