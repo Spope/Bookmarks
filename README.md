@@ -12,7 +12,7 @@ Build on top of Angular / Node.
 * Less compiled with Grunt
 * MySQL with [Node-MySQL](https://github.com/felixge/node-mysql)
 
-####Client Side 
+####Client Side
 * AngularJS
 * Bower
 
@@ -23,8 +23,7 @@ Build on top of Angular / Node.
 Go into **server/** and run
 
     npm install
-  
-   
+
 Import the database schema in **server/db/bookmarksv2.sql**
 
 Node has to be started from the project folder:
@@ -40,7 +39,7 @@ Go into **client/** and run
 If bower ask which version of Angular you want, pick the 1.0.8.
 
 ##Configuration
-The only thing to configure right now is the MySQL connection.
+The only thing to configure is the MySQL connection.
 
 * Duplicate the **server/config/config.js.dist** and rename it to **config.js**
 * Set your parameters into that file
@@ -53,6 +52,15 @@ This will compile **client/public/less/main.less** to **client/public/css/main.c
 Less files can also be compiled and browser refreshed each time a less file is updated by running
 
     grunt watch
+
+###Debug Mode
+
+The **config.js** file allow to switch debug mode.
+When activated, debug mode will load raw .js files separately and uncompressed. Livereload will also be included (to allow less refresh).
+
+If debug is set to false, .js files will be included from **client/public/build/js**. Those files are generated with
+
+	grunt compile
 
 ##Contributors
 * [Spope](https://github.com/Spope) Client / Server side.
