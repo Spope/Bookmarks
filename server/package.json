@@ -16,6 +16,8 @@
     "grunt-cli"           : "*",
     "grunt-contrib-watch" : "~0.5.3",
     "grunt-contrib-less"  : "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-uglify": "*",
     "q"                   : "*",
     "moment"              : "*",
     "validator"           : "*",

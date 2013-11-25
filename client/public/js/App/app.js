@@ -43,9 +43,9 @@ bookmarkApp.config(['$routeProvider', function($routeProvider) {
 //Check user auth
 bookmarkApp.run(['$rootScope', 'AuthService', 'UserService', '$location', function(root, auth, UserService, location) {
 
-    UserService.isLogged().then(function(){
+    root.$on('$routeChangeStart', function(scope, currView, prevView) {
 
-        root.$on('$routeChangeStart', function(scope, currView, prevView) {
+        UserService.isLogged().then(function(){
             var authorization = auth.checkAuth(currView, UserService.user);
             if (!authorization.response) {
                 var page = location.path();
@@ -59,9 +59,11 @@ bookmarkApp.run(['$rootScope', 'AuthService', 'UserService', '$location', functi
                     var previous = "/";
                     if(!prevView) previous = prevView;
                     location.path(previous);
-                    console.log('Auth error');
+                    console.error('Auth error');
                 }
                 
+            }else{
+                //access granted
             }
         });
     });

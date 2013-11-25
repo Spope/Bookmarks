@@ -15,6 +15,7 @@
         <div ng-view ></div>
     </div>
 
+    {{#if debugMode}}
     <script type="text/javascript" src="/bower/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/bower/jquery-ui/ui/minified/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/bower/jquery-ui/ui/minified/jquery.ui.sortable.min.js"></script>
@@ -69,8 +70,14 @@
 
 
     <script type="text/javascript" src="/js/App/app.js"></script>
-    {{#if debugMode}}
+
+
     <script src="http://devserver2.com:35729/livereload.js"></script>
+
+    {{else}}
+
+        <script type="text/javascript" src="/build/js/static.min.js"></script>
+        <script type="text/javascript" src="/build/js/app.min.js"></script>
     {{/if}}
 
 </body>
