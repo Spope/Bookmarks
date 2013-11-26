@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 22, 2013 at 02:45 PM
+-- Generation Time: Nov 26, 2013 at 04:29 PM
 -- Server version: 5.5.32-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.7
 
@@ -104,6 +104,62 @@ INSERT INTO `category` (`id`, `name`, `parent`, `user_id`) VALUES
 (1, '__default', 0, 1),
 (2, 'Perso', 1, 1),
 (3, 'Cool cool cool', 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_access_token`
+--
+
+DROP TABLE IF EXISTS `oauth_access_token`;
+CREATE TABLE IF NOT EXISTS `oauth_access_token` (
+  `token` varchar(45) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `client_id` varchar(45) NOT NULL,
+  UNIQUE KEY `token` (`token`),
+  UNIQUE KEY `unique_user_client` (`user_id`,`client_id`),
+  KEY `fk_oauth_access_token_oauth_client1` (`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_authorization_code`
+--
+
+DROP TABLE IF EXISTS `oauth_authorization_code`;
+CREATE TABLE IF NOT EXISTS `oauth_authorization_code` (
+  `code` varchar(45) NOT NULL,
+  `client_id` varchar(45) NOT NULL,
+  `redirect_uri` varchar(255) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  UNIQUE KEY `unique_client_user` (`client_id`,`user_id`),
+  KEY `fk_oauth_authorization_code_user1` (`user_id`),
+  KEY `fk_oauth_authorization_code_client1` (`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_client`
+--
+
+DROP TABLE IF EXISTS `oauth_client`;
+CREATE TABLE IF NOT EXISTS `oauth_client` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `client_id` varchar(45) NOT NULL,
+  `client_secret` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `client_id` (`client_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `oauth_client`
+--
+
+INSERT INTO `oauth_client` (`id`, `name`, `client_id`, `client_secret`) VALUES
+(1, 'Chrome', 'chrome_321', 'az97j24ho24cvh24xq671345ef5uop54');
 
 -- --------------------------------------------------------
 
@@ -232,6 +288,20 @@ ALTER TABLE `bookmark`
 --
 ALTER TABLE `category`
   ADD CONSTRAINT `fk_category_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `oauth_access_token`
+--
+ALTER TABLE `oauth_access_token`
+  ADD CONSTRAINT `fk_oauth_access_token_oauth_client1` FOREIGN KEY (`client_id`) REFERENCES `oauth_client` (`client_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_oauth_access_token_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `oauth_authorization_code`
+--
+ALTER TABLE `oauth_authorization_code`
+  ADD CONSTRAINT `fk_oauth_authorization_code_client1` FOREIGN KEY (`client_id`) REFERENCES `oauth_client` (`client_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_oauth_authorization_code_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `user`

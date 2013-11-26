@@ -3,6 +3,7 @@ var app = express();
 var config = require('./config/config');
 var bootstrap = require('./modules/bootstrap');
 var passport = bootstrap.getPassport();
+var oauth2 = require('./modules/oauth2')
 
 var hbs = require('hbs');
 
@@ -12,10 +13,7 @@ app.engine('html', hbs.__express);
 app.use(express.static('client/public'));
 app.use(express.bodyParser());
 app.use(express.cookieParser());
-//app.use(express.session({
-    //secret: 'Wohathatscoolycool',
-    //cookie: { httpOnly: false }
-//}));
+
 app.use(express.cookieSession({secret:'aarezaeza'}));
 
 app.use(bootstrap.getPassport().initialize());
@@ -33,11 +31,18 @@ var category     = require('./controller/api/category')(app);
 var bookmark     = require('./controller/api/bookmark')(app);
 var searchEngine = require('./controller/api/searchEngine')(app);
 
+
+app.get('/dialog/authorize', oauth2.authorization);
+app.post('/dialog/authorize/decision', oauth2.decision);
+app.post('/oauth/token', oauth2.token);
+
 app.all('/', function(req, res) {
     // Just send the index.html for other files to support HTML5Mode
     res.render('index', {
         debugMode: config.debug
     });
 });
+
+
 
 app.listen(config.port);
