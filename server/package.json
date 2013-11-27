@@ -24,7 +24,7 @@
     "passport"                        : "*",
     "passport-local"                  : "*",
     "passport-http"                   : "*",
-    "passport-http-bearer"            : "*",
+    "passport-http-bearer"            : "0.2.x",
     "passport-oauth2-client-password" : "*",
     "oauth2orize"                     : "0.x.x"
   }

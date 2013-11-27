@@ -53,6 +53,10 @@ passport.use(
 * the specification, in practice it is quite common.
 */
 passport.use(new BasicStrategy(
+    {
+        usernameField: 'client_id',
+        passwordField: 'client_secret'
+    },
     function(username, password, done) {
         var sql = "SELECT * FROM oauth_client WHERE client_id = "+bootstrap.getConnection().escape(username)+" LIMIT 1";
         bootstrap.getConnection().query(sql, function(err, rows) {
@@ -66,7 +70,7 @@ passport.use(new BasicStrategy(
 
 passport.use(new ClientPasswordStrategy(
     function(clientId, client_secret, done) {
-        var sql = "SELECT * FROM oauth_client WHERE client_id = "+bootstrap.getConnection().escape(username)+" LIMIT 1";
+        var sql = "SELECT * FROM oauth_client WHERE client_id = "+bootstrap.getConnection().escape(clientId)+" LIMIT 1";
         bootstrap.getConnection().query(sql, function(err, rows) {
             if (err) { return done(err); }
             if (!rows[0]) { return done(null, false); }

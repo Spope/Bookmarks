@@ -6,9 +6,6 @@ var bootstrap = require('./bootstrap');
 // create OAuth 2.0 server
 var server = oauth2orize.createServer();
 
-
-var server = oauth2orize.createServer();
-
 // Register serialialization and deserialization functions.
 //
 // When a client redirects a user to user authorization endpoint, an
@@ -76,14 +73,14 @@ server.grant(oauth2orize.grant.code(function(client, redirect_uri, user, ares, d
 server.exchange(oauth2orize.exchange.code(function(client, code, redirectURI, done) {
 
     var sql = "SELECT * FROM oauth_authorization_code WHERE code = "+bootstrap.getConnection().escape(code)+" "+
-    "AND client_id == '"+bootstrap.getConnection().escape(client.client_id)+"'LIMIT 1";
-    db.authorizationCodes.find(code, function(err, rows) {
+    "AND client_id = "+bootstrap.getConnection().escape(client.client_id)+" LIMIT 1";
+    bootstrap.getConnection().query(sql, function(err, rows) {
         if (err) { return done(err); }
         if (rows[0] === undefined) { return done(null, false); }
-        if (redirectURI !== rows[0].redirectURI) { return done(null, false); }
+        if (redirectURI !== rows[0].redirect_uri) { return done(null, false); }
 
         var sql = "DELETE FROM oauth_authorization_code WHERE code = "+bootstrap.getConnection().escape(code)+" LIMIT 1";
-        bootstrap.getConnection().query(sql, function(err, rows) {
+        bootstrap.getConnection().query(sql, function(err, delRows) {
             if(err) { return done(err); }
             var token = utils.uid(256);
 
