@@ -140,6 +140,15 @@ exports.authorization = [
     }
 ]
 
+exports.callback = [
+    //login.ensureLoggedIn(),
+    function(req, res){
+        res.render('callback', {
+            layout: false
+        });
+    }
+]
+
 
 
 

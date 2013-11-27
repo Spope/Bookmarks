@@ -34,6 +34,7 @@ var searchEngine = require('./controller/api/searchEngine')(app);
 
 app.get('/dialog/authorize', oauth2.authorization);
 app.post('/dialog/authorize/decision', oauth2.decision);
+app.get('/dialog/authorize/callback', oauth2.callback);
 app.post('/oauth/token', oauth2.token);
 
 app.all('/', function(req, res) {
