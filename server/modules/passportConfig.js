@@ -97,8 +97,8 @@ passport.use(new BearerStrategy(
             if (err) { return done(err); }
             if (!rows[0]) { return done(null, false); }
 
-            var sql = "SELECT * FROM user WHERE id = "+bootstrap.getConnection().escape(rows[0])+" LIMIT 1";
-            bootstrap.getConnection().query(sql, function(err, rows) {
+            var sql2 = "SELECT * FROM user WHERE id = "+bootstrap.getConnection().escape(rows[0].user_id)+" LIMIT 1";
+            bootstrap.getConnection().query(sql2, function(err, rows) {
                 if (err) { return done(err); }
                 if (!rows[0]) { return done(null, false); }
                 // to keep this example simple, restricted scopes are not implemented,

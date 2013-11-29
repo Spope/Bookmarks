@@ -4,17 +4,27 @@ var connection = bootstrap.getConnection();
 var moment = require('moment');
 var searchEngineService = require('../service/SearchEngineService');
 var Validator = require('validator').Validator;
+var passport = bootstrap.getPassport();
+var url = require('url');
 
 var len = 128;
 var iterations = 12000;
 module.exports = {
 
     checkAuth: function(req, res, next){
-        if (req.isAuthenticated()) {
-            next();
-        } else {
-            res.send(401);
+
+        var query = url.parse(req.url, true).query;
+        if(query && query.access_token){
+            passport.authenticate('bearer', { session: false })(req, res, next);
+
+        }else{
+            if (req.isAuthenticated()) {
+                next();
+            } else {
+                res.send(401);
+            }
         }
+
     },
 
     /**
