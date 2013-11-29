@@ -79,24 +79,37 @@ module.exports = {
         if(bookmark.name == "") {
             bookmark.name = bookmark.url.match(/:\/\/(.[^/]+)/)[1].replace('www.', '');
         }
+        
+        var sql = 'SELECT id FROM bookmark WHERE category_id = '+connection.escape(bookmark.category_id)+' '+
+            'AND category_id = '+connection.escape(bookmark.category_id)+' '+
+            'AND user_id = '+connection.escape(bookmark.user_id)+' ';
+        if(bookmark.parent != null){
+            sql += 'AND parent = '+connection.escape(bookmark.parent)+' ';
+        } else {
+            sql += 'AND parent is null ';
+        }
+        connection.query(sql, function(err, rows){
 
-        connection.query('INSERT INTO bookmark SET ?', bookmark, function(err, rows, field){
-            if(err){
-                console.log(err);
-                defer.reject(err);
-            }
+            bookmark.position = rows.length;
 
-            var sql = 'SELECT * FROM bookmark '+
-                'WHERE user_id = '+connection.escape(bookmark.user_id)+' '+
-                'AND id = '+connection.escape(rows.insertId)+' '+
-                'LIMIT 1';
-
-            connection.query(sql, function(err, rows, field){
+            connection.query('INSERT INTO bookmark SET ?', bookmark, function(err, rows, field){
                 if(err){
+                    console.log(err);
                     defer.reject(err);
                 }
 
-                defer.resolve(rows[0]);
+                var sql = 'SELECT * FROM bookmark '+
+                    'WHERE user_id = '+connection.escape(bookmark.user_id)+' '+
+                    'AND id = '+connection.escape(rows.insertId)+' '+
+                    'LIMIT 1';
+
+                connection.query(sql, function(err, rows, field){
+                    if(err){
+                        defer.reject(err);
+                    }
+
+                    defer.resolve(rows[0]);
+                });
             });
         });
 
