@@ -1,13 +1,13 @@
 var bootstrap = require('../../modules/bootstrap');
 var connection = bootstrap.getConnection();
 var categoryService = require('../../service/CategoryService');
+var passport = bootstrap.getPassport();
 
 module.exports = function(app) {
 
 
     //page load
     app.get('/api/user/:idUser/load', bootstrap.getSecurity().checkAuth, function(req, res){
-
         var request = categoryService.pageLoad(req.user.id);
         request.then(function(bookmarks){
 

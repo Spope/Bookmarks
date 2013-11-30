@@ -45,55 +45,11 @@ module.exports = {
 
     getPassport: function() {
         if(!this.passport){
-            var that = this;
-            this.passport = require('passport');
-
-            this.passport.serializeUser(function(user, done) {
-                done(null, user.token);
-            });
-            this.passport.deserializeUser(function(token, done) {
-                var sql = "SELECT * FROM user WHERE token = "+that.getConnection().escape(token)+" LIMIT 1";
-                that.getConnection().query(sql, function(err, rows) {
-                    if(err){done(err)};
-                    done(null, rows[0]);
-                });
-            });
-
-            this.passport.use(
-                this.getLocalStrategy()
-            );
+            this.passport = require('./passportConfig').passport;
         }
 
         return this.passport;
     },
 
-    getLocalStrategy: function() {
-        if(!this.localStrategy) {
-            var LocalStrategyConstructor = require('passport-local').Strategy;
-            var that = this;
-            this.localStrategy = new LocalStrategyConstructor(
-                {
-                    usernameField: 'login',
-                    passwordField: 'password'
-                },
-                function(username, password, done){
-                    var sql = "SELECT * FROM user WHERE username = "+that.getConnection().escape(username)+" LIMIT 1";
-                    that.getConnection().query(sql, function(err, rows) {
-                        if(err){return done(err);}
-                        if(!rows[0]){
-                            return done(null, false, {message: 'Incorrect username.'});
-                        }
-                        var user = rows[0];
-                        that.getSecurity().hash(password, user.salt, function(err, hash) {
-                            if(err){return done(err);}
-                            if(hash == user.password) return done(null, user);
-                            done(null, false, {message: 'Incorrect password.'});
-                        });
-                    });
-                }
-            );
-        }
 
-        return this.localStrategy;
-    }
 }
