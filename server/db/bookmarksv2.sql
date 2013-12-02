@@ -117,7 +117,6 @@ CREATE TABLE IF NOT EXISTS `oauth_access_token` (
   `user_id` int(11) NOT NULL,
   `client_id` varchar(45) NOT NULL,
   UNIQUE KEY `token` (`token`),
-  UNIQUE KEY `unique_user_client` (`user_id`,`client_id`),
   KEY `fk_oauth_access_token_oauth_client1` (`client_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
