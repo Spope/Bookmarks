@@ -73,6 +73,6 @@ When activated, debug mode will load raw .js files separately and uncompressed. 
 If debug is set to false, compiled js files will be used.
 
 ##Contributors
-* [Spope](https://github.com/Spope) Client / Server side.
+* [Spope](https://github.com/Spope) Front end / Back end.
 * [Pilikouk](http://pilikouk.fr/) Less / Design
 
