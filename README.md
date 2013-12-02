@@ -53,14 +53,24 @@ Less files can also be compiled and browser refreshed each time a less file is u
 
     grunt watch
 
+To build the app, you need to run :
+
+	grunt compile
+
+It will concatenate the files and compress them into **client/public/build/js**. This can be automaticaly done using git hooks. Example on pre-commit :
+
+    #!/bin/sh
+    cd ~/public_html/bookmarks/server/
+    grunt compile
+    cd ../
+    git add ~/public_html/bookmarks/client/public/build/
+    exit 0
+
 ###Debug Mode
 
 The **config.js** file allow to switch debug mode.
 When activated, debug mode will load raw .js files separately and uncompressed. Livereload will also be included (to allow less refresh).
-
-If debug is set to false, .js files will be included from **client/public/build/js**. Those files are generated with
-
-	grunt compile
+If debug is set to false, compiled js files will be used.
 
 ##Contributors
 * [Spope](https://github.com/Spope) Client / Server side.
