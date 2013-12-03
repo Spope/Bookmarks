@@ -25,6 +25,25 @@ module.exports = function(app) {
 
     });
 
+    app.get('/api/user/:idUser/category/:idCat/folder', bootstrap.getSecurity().checkAuth, function(req, res){
+
+        var request = bookmarkService.getBookmarks(req.user.id, req.params.idCat, null, true);
+        request.then(function(bookmarks){
+
+            res.json(bookmarks);
+        });
+
+    });
+    app.get('/api/user/:idUser/category/:idCat/folder/:idFolder', bootstrap.getSecurity().checkAuth, function(req, res){
+
+        var request = bookmarkService.getBookmarks(req.user.id, req.params.idCat, req.params.idFolder, true);
+        request.then(function(bookmarks){
+
+            res.json(bookmarks);
+        });
+
+    });
+
 
     app.get('/api/user/:idUser/bookmark/:id', bootstrap.getSecurity().checkAuth, function(req, res){
         if(req.params.id && req.params.id > 0){

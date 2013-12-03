@@ -6,7 +6,7 @@ module.exports = {
 
     that: this,
 
-    getBookmarks: function(idUser, idCategory, idParent) {
+    getBookmarks: function(idUser, idCategory, idParent, folderOnly) {
 
         var defer = Q.defer();
 
@@ -15,15 +15,22 @@ module.exports = {
             parentValue = '= '+parseInt(idParent);
         }
 
+        var folder = "";
+        if(folderOnly){
+            folder = "AND bookmark_type_id = 2 ";
+        }
+
         var sql = 'SELECT * FROM bookmark '+
             'WHERE user_id = '+connection.escape(idUser)+' '+
             'AND category_id = '+connection.escape(idCategory)+' '+
             'AND parent '+parentValue+' '+
+            folder+
             'ORDER BY position';
 
         connection.query(sql, function(err, rows, fields){
             if(err){
                 defer.reject(err);
+                console.error(err);
             }
             defer.resolve(rows);
         });
