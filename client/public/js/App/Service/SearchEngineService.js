@@ -1,4 +1,4 @@
-services.factory('SearchEngineService', ['UserService', '$http', function(UserService, $http) {
+services.factory('SearchEngineService', ['UserService', '$http', 'resourceCache', function(UserService, $http, resourceCache) {
     var service = {
         get: function() {
 
@@ -7,7 +7,11 @@ services.factory('SearchEngineService', ['UserService', '$http', function(UserSe
                 return null;
             }else{
 
-                var promise = $http.get('/api/user/'+UserService.user.id+'/searchengines')
+                var promise = $http({
+                    method: 'GET',
+                    url: '/api/user/'+UserService.user.id+'/searchengines',
+                    cache: resourceCache
+                })
                 .then(
                     function(response) {
 

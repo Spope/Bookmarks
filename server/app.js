@@ -37,20 +37,38 @@ app.post('/dialog/authorize/decision', oauth2.decision);
 app.get('/dialog/authorize/callback', oauth2.callback);
 app.post('/oauth/token', oauth2.token);
 
-app.all('/', function(req, res) {
+app.get('/', function(req, res) {
 
     if(req.user){
         var categoryService = require('./service/CategoryService');
+        var searchEngineService = require('./service/SearchEngineService');
+        var bookmarks = {};
+        var searchEngines = {};
+        var count = 0;
 
-        var request = categoryService.pageLoad(req.user.id);
-        request.then(function(bookmarks){
-
-            res.render('index', {
-                debugMode: config.debug,
-                userId: req.user.id,
-                init: JSON.stringify(bookmarks)
-            });
+        var pageLoad = categoryService.pageLoad(req.user.id);
+        pageLoad.then(function(b){
+            bookmarks = b;
+            count++;
+            sendResponse();
         });
+        var searchEnginesRequest = searchEngineService.getUserSearchEngines(req.user.id);
+        searchEnginesRequest.then(function(s){
+            searchEngines = s;
+            count++;
+            sendResponse();
+        });
+
+        var sendResponse = function(){
+            if(count == 2){
+                res.render('index', {
+                    debugMode: config.debug,
+                    userId: req.user.id,
+                    init: JSON.stringify(bookmarks),
+                    searchEngines: JSON.stringify(searchEngines)
+                });
+            }
+        }
 
     }else{
         // Just send the index.html for other files to support HTML5Mode
