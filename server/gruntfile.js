@@ -53,6 +53,7 @@ module.exports = function(grunt) {
                     '../client/public/js/App/Factory/*',
                     '../client/public/js/App/Controller/*',
                     '../client/public/js/App/app.js',
+                    '../client/public/js/App/View/templates.js',
                     ],
                 dest: '../client/public/build/js/app.js',
             }
@@ -99,5 +100,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-angular-templates');
 
     grunt.registerTask('default', ['less', 'watch']);
-    grunt.registerTask('compile', ['concat', 'uglify', 'ngtemplates']);
+    grunt.registerTask('compile', ['ngtemplates', 'concat', 'uglify']);
 };
