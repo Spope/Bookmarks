@@ -16,69 +16,76 @@
     </div>
 
     {{#if debugMode}}
-    <script type="text/javascript" src="/bower/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="/bower/jquery-ui/ui/minified/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/bower/jquery-ui/ui/minified/jquery.ui.sortable.min.js"></script>
-    <script type="text/javascript" src="/js/plugin/bootstrap/modal.js"></script>
-    <script type="text/javascript" src="/js/plugin/isotope/isotope.js"></script>
-    <script type="text/javascript" src="/js/plugin/isotope/masonryCentered.js"></script>
+        <script type="text/javascript" src="/bower/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="/bower/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="/bower/jquery-ui/ui/minified/jquery.ui.sortable.min.js"></script>
+        <script type="text/javascript" src="/js/plugin/bootstrap/modal.js"></script>
+        <script type="text/javascript" src="/js/plugin/isotope/isotope.js"></script>
+        <script type="text/javascript" src="/js/plugin/isotope/masonryCentered.js"></script>
 
-    <script type="text/javascript" src="/bower/angular/angular.min.js"></script>
-    <script type="text/javascript" src="/bower/crossfilter/crossfilter.min.js"></script>
+        <script type="text/javascript" src="/bower/angular/angular.min.js"></script>
+        <script type="text/javascript" src="/bower/crossfilter/crossfilter.min.js"></script>
 
-    <script type="text/javascript" src="/js/App/init.js"></script>
+        <script type="text/javascript" src="/js/App/init.js"></script>
 
-    <!-- Directive -->
-    <script type="text/javascript" src="/js/App/Directive/Addbookmark.js"></script>
-    <script type="text/javascript" src="/js/App/Directive/Sortable.js"></script>
-    <script type="text/javascript" src="/js/App/Directive/Bookmarkel.js"></script>
-    <script type="text/javascript" src="/js/App/Directive/PasswordMatch.js"></script>
-    <script type="text/javascript" src="/js/App/Directive/Mansory.js"></script>
-    <script type="text/javascript" src="/js/App/Directive/Typeahead.js"></script>
-    <script type="text/javascript" src="/js/App/Directive/CategoryEdit.js"></script>
-    <script type="text/javascript" src="/js/App/Directive/SearchEngineShortcut.js"></script>
-
-
-    <!-- Filter -->
-    <script type="text/javascript" src="/js/App/Filter/Bookmark.js"></script>
-    <script type="text/javascript" src="/js/App/Filter/Truncate.js"></script>
-
-    <!-- Service -->
-    <script type="text/javascript" src="/js/App/Service/UserService.js"></script>
-    <script type="text/javascript" src="/js/App/Service/AuthService.js"></script>
-    <script type="text/javascript" src="/js/App/Service/SearchEngineService.js"></script>
-    <script type="text/javascript" src="/js/App/Service/LocalCategoryService.js"></script>
-    <script type="text/javascript" src="/js/App/Service/CategoryService.js"></script>
-    <script type="text/javascript" src="/js/App/Service/LocalBookmarkService.js"></script>
-    <script type="text/javascript" src="/js/App/Service/BookmarkService.js"></script>
-    <script type="text/javascript" src="/js/App/Service/ModalService.js"></script>
-
-    <!-- factory -->
-    <script type="text/javascript" src="/js/App/Factory/Modal.js"></script>
+        <!-- Directive -->
+        <script type="text/javascript" src="/js/App/Directive/CacheData.js"></script>
+        <script type="text/javascript" src="/js/App/Directive/Addbookmark.js"></script>
+        <script type="text/javascript" src="/js/App/Directive/Sortable.js"></script>
+        <script type="text/javascript" src="/js/App/Directive/Bookmarkel.js"></script>
+        <script type="text/javascript" src="/js/App/Directive/PasswordMatch.js"></script>
+        <script type="text/javascript" src="/js/App/Directive/Mansory.js"></script>
+        <script type="text/javascript" src="/js/App/Directive/Typeahead.js"></script>
+        <script type="text/javascript" src="/js/App/Directive/CategoryEdit.js"></script>
+        <script type="text/javascript" src="/js/App/Directive/SearchEngineShortcut.js"></script>
 
 
-    <!-- Controller -->
-    <script type="text/javascript" src="/js/App/Controller/LoginController.js"></script>
-    <script type="text/javascript" src="/js/App/Controller/LogoutController.js"></script>
-    <script type="text/javascript" src="/js/App/Controller/MainController.js"></script>
-    <script type="text/javascript" src="/js/App/Controller/SearchEngineController.js"></script>
-    <script type="text/javascript" src="/js/App/Controller/CategoryController.js"></script>
-    <script type="text/javascript" src="/js/App/Controller/BookmarkController.js"></script>
-    <script type="text/javascript" src="/js/App/Controller/RegisterController.js"></script>
-    <script type="text/javascript" src="/js/App/Controller/FavoriteController.js"></script>
-    <script type="text/javascript" src="/js/App/Controller/UserSettingsController.js"></script>
+        <!-- Filter -->
+        <script type="text/javascript" src="/js/App/Filter/Bookmark.js"></script>
+        <script type="text/javascript" src="/js/App/Filter/Truncate.js"></script>
+
+        <!-- Service -->
+        <script type="text/javascript" src="/js/App/Service/UserService.js"></script>
+        <script type="text/javascript" src="/js/App/Service/AuthService.js"></script>
+        <script type="text/javascript" src="/js/App/Service/SearchEngineService.js"></script>
+        <script type="text/javascript" src="/js/App/Service/LocalCategoryService.js"></script>
+        <script type="text/javascript" src="/js/App/Service/CategoryService.js"></script>
+        <script type="text/javascript" src="/js/App/Service/LocalBookmarkService.js"></script>
+        <script type="text/javascript" src="/js/App/Service/BookmarkService.js"></script>
+        <script type="text/javascript" src="/js/App/Service/ModalService.js"></script>
+
+        <!-- factory -->
+        <script type="text/javascript" src="/js/App/Factory/Modal.js"></script>
 
 
-    <script type="text/javascript" src="/js/App/app.js"></script>
+        <!-- Controller -->
+        <script type="text/javascript" src="/js/App/Controller/LoginController.js"></script>
+        <script type="text/javascript" src="/js/App/Controller/LogoutController.js"></script>
+        <script type="text/javascript" src="/js/App/Controller/MainController.js"></script>
+        <script type="text/javascript" src="/js/App/Controller/SearchEngineController.js"></script>
+        <script type="text/javascript" src="/js/App/Controller/CategoryController.js"></script>
+        <script type="text/javascript" src="/js/App/Controller/BookmarkController.js"></script>
+        <script type="text/javascript" src="/js/App/Controller/RegisterController.js"></script>
+        <script type="text/javascript" src="/js/App/Controller/FavoriteController.js"></script>
+        <script type="text/javascript" src="/js/App/Controller/UserSettingsController.js"></script>
 
 
-    <script src="http://devserver2.com:35729/livereload.js"></script>
+        <script type="text/javascript" src="/js/App/app.js"></script>
+
+
+        <script src="http://devserver2.com:35729/livereload.js"></script>
 
     {{else}}
 
         <script type="text/javascript" src="/build/js/static.min.js"></script>
         <script type="text/javascript" src="/build/js/app.min.js"></script>
         <script type="text/javascript" src="/js/App/View/templates.js"></script>
+    {{/if}}
+
+    {{#if init}}
+        <div data-preload-resource="/api/user/{{userId}}/load" style="display:none;">
+            {{{init}}}
+        </div>
     {{/if}}
 
 </body>

@@ -3,7 +3,14 @@ var directives   = angular.module('bookmarkApp.directives', []);
 var filters      = angular.module('bookmarkApp.filters', []);
 var controllers  = angular.module('bookmarkApp.controllers', []);
 
-var bookmarkApp = angular.module('bookmarkApp', ['bookmarkApp.directives', 'bookmarkApp.controllers','bookmarkApp.services','bookmarkApp.filters']);
+var cacheModule = angular.module('bookmarkApp.cacheData',[]);
+
+
+var bookmarkApp = angular.module('bookmarkApp', ['bookmarkApp.directives', 'bookmarkApp.controllers','bookmarkApp.services','bookmarkApp.filters', 'bookmarkApp.cacheData']);
+
+cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) { 
+    return $cacheFactory('resourceCache'); 
+}]);
 ;directives.directive("addbookmark", ['$window', '$compile', function($window, $compile){
     return {
         restrict: "A",
@@ -243,6 +250,14 @@ var bookmarkApp = angular.module('bookmarkApp', ['bookmarkApp.directives', 'book
             }
         }
     }
+}]);
+;cacheModule.directive('preloadResource', ['resourceCache', function(resourceCache) {
+    return {
+        restrict: "A",
+        link: function (scope, element, attrs) { 
+            resourceCache.put(attrs.preloadResource, element.html()); 
+        }
+    };
 }]);
 ;directives.directive('categoryedit', function() {
     return {
@@ -887,13 +902,17 @@ directives.directive("typeaheadItem", [function (){
 
     return service;
 }]);
-;services.factory('CategoryService', ['UserService', 'LocalCategoryService', '$http', 'LocalBookmarkService', function(UserService, LocalCategoryService, $http, LocalBookmarkService) {
+;services.factory('CategoryService', ['UserService', 'LocalCategoryService', '$http', 'LocalBookmarkService', 'resourceCache', function(UserService, LocalCategoryService, $http, LocalBookmarkService, resourceCache) {
     var service = {
 
         pageLoad: function(next) {
 
             var url = '/api/user/'+UserService.user.id+'/load';
-            var promise = $http.get(url)
+            var promise = $http({
+                method: 'GET',
+                url: url,
+                cache: resourceCache
+            })
                 .then(
                     function(response) {
 

@@ -1,10 +1,14 @@
-services.factory('CategoryService', ['UserService', 'LocalCategoryService', '$http', 'LocalBookmarkService', function(UserService, LocalCategoryService, $http, LocalBookmarkService) {
+services.factory('CategoryService', ['UserService', 'LocalCategoryService', '$http', 'LocalBookmarkService', 'resourceCache', function(UserService, LocalCategoryService, $http, LocalBookmarkService, resourceCache) {
     var service = {
 
         pageLoad: function(next) {
 
             var url = '/api/user/'+UserService.user.id+'/load';
-            var promise = $http.get(url)
+            var promise = $http({
+                method: 'GET',
+                url: url,
+                cache: resourceCache
+            })
                 .then(
                     function(response) {
 
