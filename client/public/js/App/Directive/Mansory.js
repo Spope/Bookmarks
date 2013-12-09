@@ -17,13 +17,13 @@ directives.directive("mansory", [ '$timeout', function($timeout){
             scope.mansory = function() {
                 //Hack to wait the render to finish
                 $timeout(function(){
+                    
                     if(element.hasClass('isotope')){
                         element.isotope('reloadItems').isotope(options);
                     }else{
                         element.isotope(options);
                     }
-                    
-                });
+                }, 0);
             }
         }
     }

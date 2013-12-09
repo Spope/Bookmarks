@@ -1,14 +1,13 @@
 <div id="top-bar">
     <h1 class="title">{{user.username}}'s <span class="light">bookmarks</span></h1>
     <ul id="user-settings">
-        <li><a ng-click="editSettings()"><img src="../img/btns/parameters.png" /></a></li>
-        <li> <a href="/#/logout"><img src="../img/btns/exit.png" /></a></li>
+        <li><a ng-click="editSettings()"><img src="../img/btns/parameters.png" height="22" width="22" /></a></li>
+        <li> <a href="/#/logout"><img src="../img/btns/exit.png" height="22" width="22" /></a></li>
         <li></li>
     </ul>
 </div>
 <div class="search-engine-list-general">
-    <ng-include src="'js/App/View/Bookmarks/searchEnginesList.html'" ng-controller="SearchEngineController"></ng-include>
-
+    <ng-include src="'js/App/View/Bookmarks/searchEnginesList.html'" ng-controller="SearchEngineController" ng-cloak></ng-include>
 </div>
 <hr />
 <div class="categories-list-general" ng-controller="CategoryController" ng-cloak>
@@ -31,7 +30,7 @@
                     <h2 categoryedit>{{category.name}}</h2>
                     <div class="category-action">
                         <a ng-click="addFolder(category.id, currentParent)" style="display: none;">
-                            <img src="/img/bookmark/folder.png" />
+                            <img src="/img/bookmark/folder.png" width="20" height="20" />
                         </a>
 
                         <a ng-click="removeCategory(category)">
@@ -39,7 +38,7 @@
                         </a>
 
                         <a class="add-bookmark" ng-click="showAdd = !showAdd">
-                            <img src="/img/btns/new-bookmark.png" />
+                            <img src="/img/btns/new-bookmark.png" width="20" height="20" />
                         </a>
 
                         <div class="clr"></div>

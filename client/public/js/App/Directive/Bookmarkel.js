@@ -13,7 +13,7 @@ directives.directive("bookmarkel", ['$compile', function($compile){
             }
             if(scope.bookmark.bookmark_type_id == 2) {
                 template += '<a class="url-bookmark" href="" title="{{bookmark.name}}" ng-click="setParent(bookmark)">';
-                template += '<img src="/img/bookmark/folder.png" />';
+                template += '<img src="/img/bookmark/folder.png" height="16" width="16" />';
                 template += '{{bookmark.name|truncate:24}}';
                 template += '</a>';
             }

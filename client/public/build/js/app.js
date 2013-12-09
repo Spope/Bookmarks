@@ -204,7 +204,7 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
             }
             if(scope.bookmark.bookmark_type_id == 2) {
                 template += '<a class="url-bookmark" href="" title="{{bookmark.name}}" ng-click="setParent(bookmark)">';
-                template += '<img src="/img/bookmark/folder.png" />';
+                template += '<img src="/img/bookmark/folder.png" height="16" width="16" />';
                 template += '{{bookmark.name|truncate:24}}';
                 template += '</a>';
             }
@@ -320,13 +320,13 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
             scope.mansory = function() {
                 //Hack to wait the render to finish
                 $timeout(function(){
+                    
                     if(element.hasClass('isotope')){
                         element.isotope('reloadItems').isotope(options);
                     }else{
                         element.isotope(options);
                     }
-                    
-                });
+                }, 0);
             }
         }
     }
@@ -1577,7 +1577,7 @@ directives.directive("typeaheadItem", [function (){
     //retrieving bookmarks from DB
     $scope.loadBookmarks = function(cache) {
         var next = $scope.mansory;
-        if($rootScope.initStep > 1) {
+        if($rootScope.initStep >= 1) {
             $rootScope.initStep--;
             next = null;
         }
@@ -1585,8 +1585,8 @@ directives.directive("typeaheadItem", [function (){
         if($scope.category) {
             $scope.bookmarks = BookmarkService.getByCategory($scope.category.id, $scope.currentParent, cache, next);
         }
-
         if($rootScope.initStep == 1) {
+
             $scope.mansory();
             $rootScope.initStep = 0;
         }
@@ -1818,12 +1818,14 @@ directives.directive("typeaheadItem", [function (){
     $scope.pageLoad = function() {
         var next = function(categoryLength) {
             $rootScope.initStep = categoryLength;
+            console.log(categoryLength);
             //getting categories from cache
             $scope.loadCategory();
         };
 
         CategoryService.pageLoad(next);
     }
+
     $scope.pageLoad();
 
     $scope.$on('RefreshBookmarks', function(e, args) {
@@ -2474,7 +2476,7 @@ bookmarkApp.config(['$httpProvider', function($httpProvider) {
   'use strict';
 
   $templateCache.put('js/App/View/Bookmarks/mainView.html',
-    "<div id=top-bar><h1 class=title>{{user.username}}'s <span class=light>bookmarks</span></h1><ul id=user-settings><li><a ng-click=editSettings()><img src=../img/btns/parameters.png></a></li><li><a href=/#/logout><img src=../img/btns/exit.png></a></li><li></li></ul></div><div class=search-engine-list-general><ng-include src=\"'js/App/View/Bookmarks/searchEnginesList.html'\" ng-controller=SearchEngineController></ng-include></div><hr><div class=categories-list-general ng-controller=CategoryController ng-cloak=\"\"><div class=favorite-category><ul class=\"favorite-list connection\" ng-class=\"{favoritesEmpty: bookmarks.length==0}\" ng-controller=FavoriteController sortable=connection save=saveBookmark(bookmark) data-category={{favorite.id}}><li ng-repeat=\"bookmark in bookmarks\" class=\"favorite-bookmark bookmark\" bookmarkel=false data-bookmark={{bookmark.id}}></li></ul><div class=clr></div></div><div class=categories-actions><a ng-click=addCategory()>Add a category</a></div><ul class=categories-list mansory=255><li class=category-li ng-repeat=\"category in categories\" ng-controller=BookmarkController><div class=category-general><div class=category-header><h2 categoryedit=\"\">{{category.name}}</h2><div class=category-action><a ng-click=\"addFolder(category.id, currentParent)\" style=\"display: none\"><img src=/img/bookmark/folder.png></a> <a ng-click=removeCategory(category)><img src=/img/btns/croix.png></a> <a class=add-bookmark ng-click=\"showAdd = !showAdd\"><img src=/img/btns/new-bookmark.png></a><div class=clr></div></div><div class=clr></div></div><hr><div class=bookmarks-list-general><div addbookmark=\"\" categoryid=category.id postbookmark=\"postBookmark(newBookmark, callback)\" showadd=showAdd parent=currentParent></div><ul class=\"bookmarks-list connection\" ng-class=\"{folder: currentParent!=undefined}\" sortable=connection save=saveBookmark(bookmark) data-category={{category.id}} loadbookmark=loadBookmarks()><li ng-show=currentParent class=bookmark-back><a href=\"\" ng-click=setParent(backElement)>{{currentParent.name|truncate:24}}</a></li><li ng-repeat=\"bookmark in bookmarks\" class=bookmark bookmarkel=\"\" data-bookmark={{bookmark.id}}></li></ul></div></div></li></ul></div><ul class=\"bin connection\" sortable=connection remove=removeBookmark() ng-controller=BookmarkController><li></li></ul>"
+    "<div id=top-bar><h1 class=title>{{user.username}}'s <span class=light>bookmarks</span></h1><ul id=user-settings><li><a ng-click=editSettings()><img src=../img/btns/parameters.png height=22 width=22></a></li><li><a href=/#/logout><img src=../img/btns/exit.png height=22 width=22></a></li><li></li></ul></div><div class=search-engine-list-general><ng-include src=\"'js/App/View/Bookmarks/searchEnginesList.html'\" ng-controller=SearchEngineController ng-cloak=\"\"></ng-include></div><hr><div class=categories-list-general ng-controller=CategoryController ng-cloak=\"\"><div class=favorite-category><ul class=\"favorite-list connection\" ng-class=\"{favoritesEmpty: bookmarks.length==0}\" ng-controller=FavoriteController sortable=connection save=saveBookmark(bookmark) data-category={{favorite.id}}><li ng-repeat=\"bookmark in bookmarks\" class=\"favorite-bookmark bookmark\" bookmarkel=false data-bookmark={{bookmark.id}}></li></ul><div class=clr></div></div><div class=categories-actions><a ng-click=addCategory()>Add a category</a></div><ul class=categories-list mansory=255><li class=category-li ng-repeat=\"category in categories\" ng-controller=BookmarkController><div class=category-general><div class=category-header><h2 categoryedit=\"\">{{category.name}}</h2><div class=category-action><a ng-click=\"addFolder(category.id, currentParent)\" style=\"display: none\"><img src=/img/bookmark/folder.png width=20 height=20></a> <a ng-click=removeCategory(category)><img src=/img/btns/croix.png></a> <a class=add-bookmark ng-click=\"showAdd = !showAdd\"><img src=/img/btns/new-bookmark.png width=20 height=20></a><div class=clr></div></div><div class=clr></div></div><hr><div class=bookmarks-list-general><div addbookmark=\"\" categoryid=category.id postbookmark=\"postBookmark(newBookmark, callback)\" showadd=showAdd parent=currentParent></div><ul class=\"bookmarks-list connection\" ng-class=\"{folder: currentParent!=undefined}\" sortable=connection save=saveBookmark(bookmark) data-category={{category.id}} loadbookmark=loadBookmarks()><li ng-show=currentParent class=bookmark-back><a href=\"\" ng-click=setParent(backElement)>{{currentParent.name|truncate:24}}</a></li><li ng-repeat=\"bookmark in bookmarks\" class=bookmark bookmarkel=\"\" data-bookmark={{bookmark.id}}></li></ul></div></div></li></ul></div><ul class=\"bin connection\" sortable=connection remove=removeBookmark() ng-controller=BookmarkController><li></li></ul>"
   );
 
 
@@ -2504,7 +2506,7 @@ bookmarkApp.config(['$httpProvider', function($httpProvider) {
 
 
   $templateCache.put('js/App/View/Bookmarks/searchEnginesList.html',
-    "<div class=search-engine-list><div class=search-engine-list-int><searchengineshortcut submit=setSelectedSearchEngine(searchEngine) searchengines=searchEngines hint=hint></searchengineshortcut><div ng-repeat=\"searchEngine in searchEngines\" class=search-engine ng-class=\"{selected: selectedSearchEngine.id==searchEngine.id}\"><div class=hint ng-show=hint>{{$index + 1}}</div><img class=engine-on ng-src=/img/search-engines/on/{{searchEngine.logo}} alt={{searchEngine.name}} ng-click=setSelectedSearchEngine(searchEngine)> <img class=engine-off ng-src=/img/search-engines/off/{{searchEngine.logo}} alt={{searchEngine.name}} ng-click=setSelectedSearchEngine(searchEngine)></div><form ng-submit=searchFn() class=form-search><div ng-show=!searchBookmark><input type=text class=input-search ng-model=search.value ng-change=setSearchBookmark() active=searchBookmark focus=\"\"><div id=reset-field ng-click=\"search.value=''\" ng-show=\"search.value!=''\">&times</div></div><div ng-show=searchBookmark><typeahead items=results term=search.value search=searchBookmarkFn(term) select=searchFn focus=refreshDataset() blur=removeDataset()><div id=reset-field ng-click=\"search.value=''\" ng-show=\"search.value!=''\">&times</div><ul class=search-bookmark-results-list><li class=search-bookmark-result ng-repeat=\"result in results\" typeahead-item=result><div class=left><img ng-src=\"http://www.google.com/s2/favicons?domain={{result.url|removeHTTP}}\" height=16 width=16></div><div><p ng-bind-html-unsafe=result.display></p><p class=cat>{{result.category}}<span ng-show=result.parentName>/ {{result.parentName}}</span></p><small>{{result.url|truncate:55}}</small><div class=clr></div></div></li></ul></typeahead></div><button class=btn-search type=submit><i></i></button></form></div></div>"
+    "<div class=search-engine-list><div class=search-engine-list-int><searchengineshortcut submit=setSelectedSearchEngine(searchEngine) searchengines=searchEngines hint=hint></searchengineshortcut><div ng-repeat=\"searchEngine in searchEngines\" class=search-engine ng-class=\"{selected: selectedSearchEngine.id==searchEngine.id}\"><div class=hint ng-show=hint>{{$index + 1}}</div><img class=engine-on ng-src=/img/search-engines/on/{{searchEngine.logo}} alt={{searchEngine.name}} ng-click=setSelectedSearchEngine(searchEngine) width=36 height=36> <img class=engine-off ng-src=/img/search-engines/off/{{searchEngine.logo}} alt={{searchEngine.name}} ng-click=setSelectedSearchEngine(searchEngine) width=36 height=36></div><form ng-submit=searchFn() class=form-search><div ng-show=!searchBookmark><input type=text class=input-search ng-model=search.value ng-change=setSearchBookmark() active=searchBookmark focus=\"\"><div id=reset-field ng-click=\"search.value=''\" ng-show=\"search.value!=''\">&times</div></div><div ng-show=searchBookmark><typeahead items=results term=search.value search=searchBookmarkFn(term) select=searchFn focus=refreshDataset() blur=removeDataset()><div id=reset-field ng-click=\"search.value=''\" ng-show=\"search.value!=''\">&times</div><ul class=search-bookmark-results-list><li class=search-bookmark-result ng-repeat=\"result in results\" typeahead-item=result><div class=left><img ng-src=\"http://www.google.com/s2/favicons?domain={{result.url|removeHTTP}}\" height=16 width=16></div><div><p ng-bind-html-unsafe=result.display></p><p class=cat>{{result.category}}<span ng-show=result.parentName>/ {{result.parentName}}</span></p><small>{{result.url|truncate:55}}</small><div class=clr></div></div></li></ul></typeahead></div><button class=btn-search type=submit><i></i></button></form></div></div>"
   );
 
 

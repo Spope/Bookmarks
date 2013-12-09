@@ -12,12 +12,14 @@ controllers.controller('CategoryController', ['$rootScope', '$scope', 'CategoryS
     $scope.pageLoad = function() {
         var next = function(categoryLength) {
             $rootScope.initStep = categoryLength;
+            console.log(categoryLength);
             //getting categories from cache
             $scope.loadCategory();
         };
 
         CategoryService.pageLoad(next);
     }
+
     $scope.pageLoad();
 
     $scope.$on('RefreshBookmarks', function(e, args) {

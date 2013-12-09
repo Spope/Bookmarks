@@ -6,7 +6,7 @@ controllers.controller('BookmarkController', ['$rootScope', '$scope', 'BookmarkS
     //retrieving bookmarks from DB
     $scope.loadBookmarks = function(cache) {
         var next = $scope.mansory;
-        if($rootScope.initStep > 1) {
+        if($rootScope.initStep >= 1) {
             $rootScope.initStep--;
             next = null;
         }
@@ -14,8 +14,8 @@ controllers.controller('BookmarkController', ['$rootScope', '$scope', 'BookmarkS
         if($scope.category) {
             $scope.bookmarks = BookmarkService.getByCategory($scope.category.id, $scope.currentParent, cache, next);
         }
-
         if($rootScope.initStep == 1) {
+
             $scope.mansory();
             $rootScope.initStep = 0;
         }
