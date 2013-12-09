@@ -1,32 +1,21 @@
 var bootstrap = require('../../modules/bootstrap');
 var connection = bootstrap.getConnection();
+var searchEngineService = require('../../service/SearchEngineService');
 
 module.exports = function(app) {
 
     app.get('/api/user/:idUser/searchEngines', bootstrap.getSecurity().checkAuth, function(req, res){
 
-        var sql = 'SELECT search_engine.*, user_search_engine.default FROM search_engine '+
-            'LEFT JOIN user_search_engine ON user_search_engine.search_engine_id = search_engine.id '+
-            'WHERE user_search_engine.user_id = '+connection.escape(req.user.id)+' '+
-            'ORDER BY name ASC';
-        connection.query(sql, function(err, rows, fields){
-            if(err){
-                console.log(err);
-            }
-            return res.json(rows);
+        searchEngineService.getUserSearchEngines(req.user.id).then(function(searchEngines){
+            res.json(searchEngines);
         });
 
     });
 
     app.get('/api/searchEngines', bootstrap.getSecurity().checkAuth, function(req, res){
 
-        var sql = 'SELECT search_engine.* FROM search_engine '+
-            'ORDER BY name ASC';
-        connection.query(sql, function(err, rows, fields){
-            if(err){
-                console.log(err);
-            }
-            return res.json(rows);
+        searchEngineService.getSearchEngines().then(function(searchEngines){
+            res.json(searchEngines);
         });
 
     });

@@ -8,7 +8,7 @@ module.exports = {
 
         var defer = Q.defer();
 
-        var query = "SELECT * FROM search_engine";
+        var query = "SELECT * FROM search_engine ORDER BY name ASC";
         connection.query(query, function(err, rows, fields) {
             if(err){
                 defer.reject(err);
@@ -24,9 +24,10 @@ module.exports = {
 
         var defer = Q.defer();
 
-        var query = "SELECT * FROM search_engine "+
-            " JOIN user_search_engine ON user_search_engine.search_engine_id = search_engine.id "+
-            " WHERE user_search_engine.user_id = "+connection.escape(idUser);
+        var query = 'SELECT search_engine.*, user_search_engine.default FROM search_engine '+
+            'LEFT JOIN user_search_engine ON user_search_engine.search_engine_id = search_engine.id '+
+            'WHERE user_search_engine.user_id = '+connection.escape(idUser)+' '+
+            'ORDER BY name ASC';
         connection.query(query, function(err, rows, fields) {
             if(err){
                 defer.reject(err);
