@@ -18,6 +18,7 @@
     "grunt-contrib-less"              : "*",
     "grunt-contrib-concat"            : "*",
     "grunt-contrib-uglify"            : "*",
+    "grunt-angular-templates"         : "*",
     "q"                               : "*",
     "moment"                          : "*",
     "validator"                       : "*",

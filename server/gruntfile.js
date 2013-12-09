@@ -68,6 +68,26 @@ module.exports = function(grunt) {
                     '../client/public/build/js/app.min.js': '../client/public/build/js/app.js'
                 }
             }
+        },
+
+        
+        ngtemplates: {
+            app : {
+                cwd: '../client/public/',
+                src : "js/App/View/**/**.html",
+                dest : "../client/public/js/App/View/templates.js"
+            },
+            options: {
+                module: 'bookmarkApp',
+                htmlmin: {
+                    collapseWhitespace:             true,
+                    removeAttributeQuotes:          true,
+                    removeComments:                 true, // Only if you don't use comment directives!
+                    removeEmptyAttributes:          true,
+                    removeScriptTypeAttributes:     true,
+                    removeStyleLinkTypeAttributes:  true
+                }
+            }
         }
     });
 
@@ -76,7 +96,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-angular-templates');
 
     grunt.registerTask('default', ['less', 'watch']);
-    grunt.registerTask('compile', ['concat', 'uglify']);
+    grunt.registerTask('compile', ['concat', 'uglify', 'ngtemplates']);
 };
