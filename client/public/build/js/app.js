@@ -197,8 +197,8 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
             var template = "";
             if(scope.bookmark.bookmark_type_id == 1) {
                 template += '<a class="url-bookmark" ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">';
-                template += '<img ng-src="http://placehold.it/16x16" height="16" width="16" />';
-                //template += '<img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" height="16" width="16" />';
+                //template += '<img ng-src="http://placehold.it/16x16" height="16" width="16" />';
+                template += '<img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" height="16" width="16" />';
                 template += '{{bookmark.name|truncate:24}}';
                 template += '</a>';
             }
@@ -254,8 +254,8 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
 ;cacheModule.directive('preloadResource', ['resourceCache', function(resourceCache) {
     return {
         restrict: "A",
-        link: function (scope, element, attrs) { 
-            resourceCache.put(attrs.preloadResource, element.html()); 
+        link: function (scope, element, attrs) {
+            resourceCache.put(attrs.preloadResource, attrs.preloadData); 
         }
     };
 }]);

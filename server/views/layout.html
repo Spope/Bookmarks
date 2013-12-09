@@ -82,15 +82,9 @@
     {{/if}}
 
     {{#if init}}
-        <div data-preload-resource="/api/user/{{userId}}/load" style="display:none;">
-            {{{init}}}
-        </div>
-        <div data-preload-resource="/api/user/{{userId}}/searchengines" style="display:none;">
-            {{{searchEngines}}}
-        </div>
-        <div data-preload-resource="/api/islogged" style="display:none;">
-            {{{user}}}
-        </div>
+        <div data-preload-resource="/api/user/{{userId}}/load" style="display:none;" data-preload-data="{{init}}"></div>
+        <div data-preload-resource="/api/user/{{userId}}/searchengines" style="display:none;" data-preload-data="{{searchEngines}}"></div>
+        <div data-preload-resource="/api/islogged" style="display:none;" data-preload-data="{{user}}"></div>
     {{/if}}
 
 </body>
