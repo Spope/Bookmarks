@@ -61,11 +61,18 @@ app.get('/', function(req, res) {
 
         var sendResponse = function(){
             if(count == 2){
+                delete req.user.password;
+                delete req.user.token;
+                delete req.user.salt;
+                delete req.user.created;
+                delete req.user.updated;
+
                 res.render('index', {
                     debugMode: config.debug,
                     userId: req.user.id,
                     init: JSON.stringify(bookmarks),
-                    searchEngines: JSON.stringify(searchEngines)
+                    searchEngines: JSON.stringify(searchEngines),
+                    user: JSON.stringify(req.user)
                 });
             }
         }

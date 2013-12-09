@@ -1,4 +1,4 @@
-services.factory('UserService', ['$http', '$location', '$q', '$timeout', function($http, $location, $q, $timeout) {
+services.factory('UserService', ['$http', '$location', '$q', '$timeout', 'resourceCache', function($http, $location, $q, $timeout, resourceCache) {
     var service =  {
         isLogged  : false,
         user      : null,
@@ -9,7 +9,8 @@ services.factory('UserService', ['$http', '$location', '$q', '$timeout', functio
             var defer = $q.defer();
             var config = {
                 method: 'GET',
-                url   : '/api/islogged'
+                url   : '/api/islogged',
+                cache : resourceCache
             };
 
             $http(config)
