@@ -3,9 +3,20 @@
  
 <head>
     <title>Bookmarks</title>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+    <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
     <link type="text/css" rel="stylesheet" href="/css/main.css" />
     <link rel="icon" type="image/png" href="/img/favicon.png" />
+    
+    <script>
+        WebFont.load({
+            google: {
+                families: [ 'Open+Sans:300italic,400italic,400,300,700:latin' ]
+            },
+            active: function() {
+                $("html").scope().$broadcast('font-loaded'); // bit hacky but allow to wait before isotope positionning
+            },
+        });
+    </script>
 </head>
 
 <body>

@@ -301,7 +301,7 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
         }
     };
 });
-;directives.directive("mansory", [ '$timeout', function($timeout){
+;directives.directive("mansory", [ '$timeout', '$window', function($timeout, $window){
     return {
         restrict: "A",
         link: function(scope, element, attrs) {
@@ -317,7 +317,23 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
                 options.masonry.columnWidth = parseInt(attrs.mansory)
             }
 
+            scope.getFont = function(){
+                return window.font;
+            }
+
             scope.mansory = function() {
+                
+                if(window.font){
+                    __masonry();
+                }else{
+                    var temp = scope.$on('font-loaded', function(){
+                        __masonry();
+                        temp();
+                    });
+                }
+            }
+
+            __masonry = function(){
                 //Hack to wait the render to finish
                 $timeout(function(){
                     
@@ -1818,7 +1834,6 @@ directives.directive("typeaheadItem", [function (){
     $scope.pageLoad = function() {
         var next = function(categoryLength) {
             $rootScope.initStep = categoryLength;
-            console.log(categoryLength);
             //getting categories from cache
             $scope.loadCategory();
         };
