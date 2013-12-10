@@ -9,8 +9,9 @@ Build on top of Angular / Node.
 ####Server Side
 * NodeJS
 * ExpressJS
-* Less compiled with Grunt
 * MySQL with [Node-MySQL](https://github.com/felixge/node-mysql)
+* Grunt
+* Less
 
 ####Client Side
 * AngularJS
@@ -57,7 +58,9 @@ To build the app, you need to run :
 
 	grunt compile
 
-It will concatenate the files and compress them into **client/public/build/js**. This can be automaticaly done using git hooks. Example on pre-commit :
+This will concatenate the .js files and compress them into **client/public/build/js**. It also cache the AngularsJS tempaltes into a templates.js file. This tempaltes.js file will only be used on producton.
+
+This can be automaticaly done using git hooks. Example on pre-commit :
 
     #!/bin/sh
     cd ~/public_html/bookmarks/server/
