@@ -1,19 +1,14 @@
 <!doctype html>
 <html ng-app="bookmarkApp">
- 
 <head>
     <title>Bookmarks</title>
     <link type="text/css" rel="stylesheet" href="/css/main.css" />
     <link rel="icon" type="image/png" href="/img/favicon.png" />
 </head>
-
 <body>
     <div class="container">
-
-     
         <div ng-view ></div>
     </div>
-
     {{#if debugMode}}
         <script type="text/javascript" src="/bower/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="/bower/jquery-ui/ui/minified/jquery-ui.min.js"></script>
@@ -22,6 +17,7 @@
         <script type="text/javascript" src="/js/plugin/isotope/isotope.js"></script>
         <script type="text/javascript" src="/js/plugin/isotope/masonryCentered.js"></script>
         <script type="text/javascript" src="/js/plugin/webFont.js"></script>
+        <script type="text/javascript" src="/js/plugin/fontInit.js"></script>
 
         <script type="text/javascript" src="/bower/angular/angular.min.js"></script>
         <script type="text/javascript" src="/bower/crossfilter/crossfilter.min.js"></script>
@@ -76,32 +72,13 @@
         <script src="http://devserver2.com:35729/livereload.js"></script>
 
     {{else}}
-
         <script type="text/javascript" src="/build/js/static.min.js"></script>
         <script type="text/javascript" src="/build/js/app.min.js"></script>
     {{/if}}
-
-    <script>
-        window.fontLoaded = false;
-        WebFont.load({
-            google: {
-                families: [ 'Open+Sans:300italic,400italic,400,300,700:latin' ]
-            },
-            active: function() {
-                window.fontLoaded = true;
-                var scope = $("html").scope();
-                if(scope){
-                    scope.$broadcast('font-loaded'); // bit hacky but allow to wait before isotope positionning
-                }
-            },
-        });
-    </script>
-
     {{#if init}}
         <div data-preload-resource="/api/user/{{userId}}/load" style="display:none;" data-preload-data="{{init}}"></div>
         <div data-preload-resource="/api/user/{{userId}}/searchengines" style="display:none;" data-preload-data="{{searchEngines}}"></div>
         <div data-preload-resource="/api/islogged" style="display:none;" data-preload-data="{{user}}"></div>
     {{/if}}
-
 </body>
 </html>
