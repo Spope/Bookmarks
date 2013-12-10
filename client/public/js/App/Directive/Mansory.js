@@ -20,7 +20,7 @@ directives.directive("mansory", [ '$timeout', '$window', function($timeout, $win
 
             scope.mansory = function() {
                 
-                if(window.font){
+                if(window.fontLoaded){
                     __masonry();
                 }else{
                     var temp = scope.$on('font-loaded', function(){

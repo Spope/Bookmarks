@@ -10,9 +10,11 @@ var hbs = require('hbs');
 app.set('view engine', 'html');
 app.set('views', 'server/views');
 app.engine('html', hbs.__express);
-app.use(express.static('client/public'));
+var oneDay = 1000 * ( 60 * 60 * 24 * 365 );
+app.use(express.static('client/public', { maxAge: oneDay }));
 app.use(express.bodyParser());
 app.use(express.cookieParser());
+app.use(express.compress());
 
 app.use(express.cookieSession({secret:'aarezaeza'}));
 

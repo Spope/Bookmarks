@@ -41,6 +41,7 @@ module.exports = function(grunt) {
                     '../client/public/js/plugin/bootstrap/modal.js',
                     '../client/public/js/plugin/isotope/isotope.js',
                     '../client/public/js/plugin/isotope/masonryCentered.js',
+                    '../client/public/js/plugin/webFont.js',
                     ],
                 dest: '../client/public/build/js/static.js',
             },
