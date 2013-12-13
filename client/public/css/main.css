@@ -645,7 +645,10 @@ button {
   background: transparent url("../img/openfolder-icon.png") left top no-repeat;
 }
 .category-general .bookmarks-list-general .bookmarks-list.dragging ul {
-  padding: 10px;
+  padding: 5px;
+}
+.category-general .bookmarks-list-general .bookmarks-list.dragging ul.drop-into {
+  border: 1px dashed gray;
 }
 .category-general .bookmarks-list-general .bookmarks-list ul.sub-folder li {
   padding: 0 !important;

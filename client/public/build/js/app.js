@@ -548,12 +548,12 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
                         $('.bin').removeClass("opened");
                     }
                     if($(e.target).hasClass('sub-folder')) {
-                        $(e.target).css('border', '1px dashed gray');
+                        $(e.target).addClass('drop-into');
                     }
                 },
                 out: function(e, ui){
                     if($(e.target).hasClass('sub-folder')) {
-                        $(e.target).css('border', 'none');
+                        $(e.target).removeClass('drop-into');
                     }
                 }
             });
