@@ -197,16 +197,20 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
             var template = "";
             if(scope.bookmark.bookmark_type_id == 1) {
                 template += '<a class="url-bookmark" ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">';
-                //template += '<img ng-src="http://placehold.it/16x16" height="16" width="16" />';
-                template += '<img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" height="16" width="16" />';
+                template += '<img ng-src="http://placehold.it/16x16" height="16" width="16" />';
+                //template += '<img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" height="16" width="16" />';
                 template += '{{bookmark.name|truncate:24}}';
                 template += '</a>';
             }
             if(scope.bookmark.bookmark_type_id == 2) {
+                
                 template += '<a class="url-bookmark" href="" title="{{bookmark.name}}" ng-click="setParent(bookmark)">';
                 template += '<img src="/img/bookmark/folder.png" height="16" width="16" />';
                 template += '{{bookmark.name|truncate:24}}';
+                
                 template += '</a>';
+                template += '<ul class="connection sub-folder" data-id="{{bookmark.id}}" sortable="connection" save="saveBookmark(bookmark)"><li>';
+                template += '</li></ul>';
             }
 
             element.append($compile(template)(scope));
@@ -217,16 +221,14 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
                 editBtn += '<img src="/img/bookmark/pen.png" width="16" height="16" />';
                 editBtn += '</a>';
 
-                
 
-                
                 element.bind('mouseenter', function(e) {
-                    element.children('.url-bookmark').stop().animate({
+                    element.find('.url-bookmark').stop().animate({
                         paddingLeft: 20
                     }, 200, function () {
                         //append editButton
                         element.find('.url-bookmark').before($compile(editBtn)(scope));
-                        element.children('.url-bookmark').css('padding-left', '0px');
+                        element.find('.url-bookmark').css('padding-left', '0px');
                     })
                 });
 
@@ -235,10 +237,10 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
                     if(element.find('.btn-edit-bookmark')[0]) {
                         element.find('.btn-edit-bookmark').remove();
 
-                        element.children('.url-bookmark').css('padding-left', '20px');
+                        element.find('.url-bookmark').css('padding-left', '20px');
                     }
 
-                    element.children('.url-bookmark').stop().animate({
+                    element.find('.url-bookmark').stop().animate({
                         paddingLeft: 0
                     }, 200)
                 });
@@ -436,7 +438,8 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
         restrict: "A",
         link: function(scope, element, attrs) {
             element.sortable({
-                items:"li:not(.bookmark-back)",
+                items:"li:not(.bookmark-back, .sub-folder)",
+                //cancel:".sub-folder",
                 connectWith: "."+attrs.sortable,
                 helper: 'clone',
                 zIndex: 999999,
@@ -453,10 +456,14 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
                     scope.sorting = true;
                     //Hack to force dragged Book to be over other categories
                     $('.category-li').css('z-index', 1);
+                    $('.bin').css('z-index', 100);
                     $(e.target).closest('.category-li').css("z-index", 2);
 
                     //If the fav cat is empty, 20px will be added to the dom. Helper position is recalculated;
                     element.sortable('refreshPositions');
+
+                    $('.bookmarks-list').addClass('dragging');
+                    //$('.sub-folder').bind('mouseover', overFolder);
                 },
                 stop: function (e, ui) {
                     //Avoid sort when book has changed of category
@@ -475,6 +482,8 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
                     }
 
                     $('.bin, .favoritesEmpty').removeClass("visible");
+                    $('.bookmarks-list').removeClass('dragging');
+                    //$('.sub-folder').unbind('mouseover', overFolder);
                     scope.sorting = false;
                     $('.category-li').css('z-index', 1);
                 },
@@ -494,6 +503,7 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
                         $(ui.item).remove();
 
                     } else {
+                        
                         //Sorting bookmarks
                         scope.bookmark = BookmarkService.get(id);
                         //If dropped a folder into the favorite category > undo
@@ -506,22 +516,44 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
                         if(scope.currentParent) {
                             parent = scope.currentParent.id;
                         }
-                        scope.bookmark.parent = parent;
-                        setNewOrder(ui);
-
-                        scope.$apply(attrs.save).then(function(test) {
-                            //reload bookmarks into the category that lose a bookmarks
-                            //(needed for folder)
-                            ui.sender.scope().loadBookmarks(false);
-                        });
+                        //
+                        if($(ui.item).parent().hasClass('sub-folder')){
+                            
+                            scope.bookmark.parent = $(ui.item).parent().data('id');
+                            BookmarkService.getByCategory(scope.category.id, {id: $(ui.item).parent().data('id')}, true, function(books){
+                                scope.$apply(attrs.save).then(function(test) {
+                                    //reload bookmarks into the category that lose a bookmarks
+                                    //(needed for folder)
+                                    ui.sender.scope().loadBookmarks(false);
+                                });
+                            });
+                        }else{
+                            scope.bookmark.parent = parent;
+                            setNewOrder(ui);
+                            scope.$apply(attrs.save).then(function(test) {
+                                //reload bookmarks into the category that lose a bookmarks
+                                //(needed for folder)
+                                ui.sender.scope().loadBookmarks(false);
+                            });
+                        }
 
                     }
+                    
+                    
                 },
                 over:function(e, ui){
                     if($(e.target).hasClass('bin')) {
                         $('.bin').addClass("opened");
                     }else{
                         $('.bin').removeClass("opened");
+                    }
+                    if($(e.target).hasClass('sub-folder')) {
+                        $(e.target).css('border', '1px dashed gray');
+                    }
+                },
+                out: function(e, ui){
+                    if($(e.target).hasClass('sub-folder')) {
+                        $(e.target).css('border', 'none');
                     }
                 }
             });
@@ -536,7 +568,6 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
                     }
                 }
             }
-
         }
     }
 }]);

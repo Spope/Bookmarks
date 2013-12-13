@@ -3,7 +3,8 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
         restrict: "A",
         link: function(scope, element, attrs) {
             element.sortable({
-                items:"li:not(.bookmark-back)",
+                items:"li:not(.bookmark-back, .sub-folder)",
+                //cancel:".sub-folder",
                 connectWith: "."+attrs.sortable,
                 helper: 'clone',
                 zIndex: 999999,
@@ -20,10 +21,14 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                     scope.sorting = true;
                     //Hack to force dragged Book to be over other categories
                     $('.category-li').css('z-index', 1);
+                    $('.bin').css('z-index', 100);
                     $(e.target).closest('.category-li').css("z-index", 2);
 
                     //If the fav cat is empty, 20px will be added to the dom. Helper position is recalculated;
                     element.sortable('refreshPositions');
+
+                    $('.bookmarks-list').addClass('dragging');
+                    //$('.sub-folder').bind('mouseover', overFolder);
                 },
                 stop: function (e, ui) {
                     //Avoid sort when book has changed of category
@@ -42,6 +47,8 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                     }
 
                     $('.bin, .favoritesEmpty').removeClass("visible");
+                    $('.bookmarks-list').removeClass('dragging');
+                    //$('.sub-folder').unbind('mouseover', overFolder);
                     scope.sorting = false;
                     $('.category-li').css('z-index', 1);
                 },
@@ -61,6 +68,7 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                         $(ui.item).remove();
 
                     } else {
+                        
                         //Sorting bookmarks
                         scope.bookmark = BookmarkService.get(id);
                         //If dropped a folder into the favorite category > undo
@@ -73,22 +81,44 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                         if(scope.currentParent) {
                             parent = scope.currentParent.id;
                         }
-                        scope.bookmark.parent = parent;
-                        setNewOrder(ui);
-
-                        scope.$apply(attrs.save).then(function(test) {
-                            //reload bookmarks into the category that lose a bookmarks
-                            //(needed for folder)
-                            ui.sender.scope().loadBookmarks(false);
-                        });
+                        //
+                        if($(ui.item).parent().hasClass('sub-folder')){
+                            
+                            scope.bookmark.parent = $(ui.item).parent().data('id');
+                            BookmarkService.getByCategory(scope.category.id, {id: $(ui.item).parent().data('id')}, true, function(books){
+                                scope.$apply(attrs.save).then(function(test) {
+                                    //reload bookmarks into the category that lose a bookmarks
+                                    //(needed for folder)
+                                    ui.sender.scope().loadBookmarks(false);
+                                });
+                            });
+                        }else{
+                            scope.bookmark.parent = parent;
+                            setNewOrder(ui);
+                            scope.$apply(attrs.save).then(function(test) {
+                                //reload bookmarks into the category that lose a bookmarks
+                                //(needed for folder)
+                                ui.sender.scope().loadBookmarks(false);
+                            });
+                        }
 
                     }
+                    
+                    
                 },
                 over:function(e, ui){
                     if($(e.target).hasClass('bin')) {
                         $('.bin').addClass("opened");
                     }else{
                         $('.bin').removeClass("opened");
+                    }
+                    if($(e.target).hasClass('sub-folder')) {
+                        $(e.target).css('border', '1px dashed gray');
+                    }
+                },
+                out: function(e, ui){
+                    if($(e.target).hasClass('sub-folder')) {
+                        $(e.target).css('border', 'none');
                     }
                 }
             });
@@ -103,7 +133,6 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                     }
                 }
             }
-
         }
     }
 }]);
