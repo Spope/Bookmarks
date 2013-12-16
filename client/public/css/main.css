@@ -621,6 +621,9 @@ button {
 .category-general .bookmarks-list-general .bookmarks-list .bookmark:not(:last-child) {
   margin-bottom: 7px;
 }
+.category-general .bookmarks-list-general .bookmarks-list .ui-sortable-placeholder {
+  height: 16px;
+}
 .category-general .bookmarks-list-general .bookmarks-list .bookmark a {
   -webkit-transition: all 0s ease-out;
   -moz-transition: all 0s ease-out;
@@ -644,14 +647,28 @@ button {
   padding-left: 20px;
   background: transparent url("../img/openfolder-icon.png") left top no-repeat;
 }
-.category-general .bookmarks-list-general .bookmarks-list.dragging ul {
-  padding: 5px;
-}
-.category-general .bookmarks-list-general .bookmarks-list.dragging ul.drop-into {
+.category-general .bookmarks-list-general .bookmarks-list.dragging li.drop-into {
   border: 1px dashed gray;
+  padding-left: 20px;
+  background: url("../img/bookmark/into-folder.png") 2px 0 no-repeat;
 }
-.category-general .bookmarks-list-general .bookmarks-list ul.sub-folder li {
+.category-general .bookmarks-list-general .bookmarks-list.dragging ul.sub-folder {
+  display: block !important;
+}
+.category-general .bookmarks-list-general .bookmarks-list li.folder {
+  position: relative;
+}
+.category-general .bookmarks-list-general .bookmarks-list li.folder ul.sub-folder {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 16px;
+}
+.category-general .bookmarks-list-general .bookmarks-list li.folder ul.sub-folder li {
   padding: 0 !important;
+  margin: 0 !important;
 }
 .category-general .bookmarks-list-general .bookmarks-list .bookmark a.url-bookmark {
   display: block;

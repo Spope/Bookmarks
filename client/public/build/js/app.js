@@ -209,8 +209,9 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
                 template += '{{bookmark.name|truncate:24}}';
                 
                 template += '</a>';
-                template += '<ul class="connection sub-folder" data-id="{{bookmark.id}}" sortable="connection" save="saveBookmark(bookmark)"><li>';
-                template += '</li></ul>';
+                template += '<ul class="connection sub-folder" data-id="{{bookmark.id}}" sortable="connection" save="saveBookmark(bookmark)">';
+                template += '</ul>';
+                element.addClass('folder');
             }
 
             element.append($compile(template)(scope));
@@ -548,12 +549,12 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
                         $('.bin').removeClass("opened");
                     }
                     if($(e.target).hasClass('sub-folder')) {
-                        $(e.target).addClass('drop-into');
+                        $(e.target).parent().addClass('drop-into');
                     }
                 },
                 out: function(e, ui){
                     if($(e.target).hasClass('sub-folder')) {
-                        $(e.target).removeClass('drop-into');
+                        $(e.target).parent().removeClass('drop-into');
                     }
                 }
             });

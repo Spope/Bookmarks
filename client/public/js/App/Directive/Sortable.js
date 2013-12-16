@@ -113,12 +113,12 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                         $('.bin').removeClass("opened");
                     }
                     if($(e.target).hasClass('sub-folder')) {
-                        $(e.target).addClass('drop-into');
+                        $(e.target).parent().addClass('drop-into');
                     }
                 },
                 out: function(e, ui){
                     if($(e.target).hasClass('sub-folder')) {
-                        $(e.target).removeClass('drop-into');
+                        $(e.target).parent().removeClass('drop-into');
                     }
                 }
             });

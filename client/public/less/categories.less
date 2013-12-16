@@ -134,13 +134,15 @@
             }
         }
 
-
-
         .bookmarks-list{
             padding: 0 10px 10px 10px;
 
             .bookmark:not(:last-child){
                 margin-bottom: 7px;
+            }
+
+            .ui-sortable-placeholder{
+                height:16px;
             }
 
             .bookmark a {
@@ -172,18 +174,39 @@
                 }
             }
             &.dragging{
-                ul{
-                    padding:5px;
-                    &.drop-into{
-                        border:1px dashed gray;
+                li.drop-into{
+                    border:1px dashed gray;
+                    padding-left:20px;
+                    background: url("../img/bookmark/into-folder.png") 2px 0 no-repeat;
+                }
+                ul.sub-folder{
+                    display:block !important;
+                }
+            }
+
+
+
+            li.folder{
+                position:relative;
+                ul.sub-folder{
+                    display:none;
+                    position:absolute;
+                    top:0;
+                    left:0;
+                    width:100%;
+                    height:16px;
+                    li{
+                        padding:0 !important;
+                        margin:0 !important;
                     }
                 }
             }
-            ul.sub-folder{
-                li{
-                    padding:0 !important;
-                }
-            }
+
+
+
+
+
+            
 
             .bookmark a.url-bookmark{
                 display:block;

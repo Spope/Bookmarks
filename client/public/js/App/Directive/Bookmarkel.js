@@ -18,8 +18,9 @@ directives.directive("bookmarkel", ['$compile', function($compile){
                 template += '{{bookmark.name|truncate:24}}';
                 
                 template += '</a>';
-                template += '<ul class="connection sub-folder" data-id="{{bookmark.id}}" sortable="connection" save="saveBookmark(bookmark)"><li>';
-                template += '</li></ul>';
+                template += '<ul class="connection sub-folder" data-id="{{bookmark.id}}" sortable="connection" save="saveBookmark(bookmark)">';
+                template += '</ul>';
+                element.addClass('folder');
             }
 
             element.append($compile(template)(scope));
