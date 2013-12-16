@@ -213,11 +213,12 @@ module.exports = {
 
         this.getBookmark(idUser, bookmark.id).then(function(oldBookmark) {
 
-            if(bookmark.category_id == oldBookmark.category_id) {
-                exec = that.__updatePosition(idUser, bookmark, oldBookmark);
-            }else{
-                exec = that.__updateCategory(idUser, bookmark, oldBookmark);
-            }
+            //if(bookmark.category_id == oldBookmark.category_id) {
+                //exec = that.__updatePosition(idUser, bookmark, oldBookmark);
+            //}else{
+                //exec = that.__updateCategory(idUser, bookmark, oldBookmark);
+            //}
+            exec = that.__updateCategory(idUser, bookmark, oldBookmark);
 
             exec.then(function(bookmark) {
                 return that.__updateBookmark(idUser, bookmark, oldBookmark);
@@ -237,7 +238,6 @@ module.exports = {
 
     __updateCategory: function(idUser, bookmark, oldBookmark) {
         var returnPromise = Q.defer();
-        if(bookmark.category_id != oldBookmark.category_id) {
 
             var parentValue = 'IS NULL';
             if(bookmark.parent) {
@@ -330,10 +330,6 @@ module.exports = {
                     returnPromise.resolve(bookmark);
                 }
             });
-
-        } else {
-            returnPromise.resolve(bookmark);
-        }
 
         return returnPromise.promise;
     },
