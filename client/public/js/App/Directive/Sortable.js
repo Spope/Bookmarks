@@ -42,6 +42,7 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                             scope.$apply(attrs.save).then(function(data) {
                                 var parent = BookmarkService.getParent(scope.bookmark);
                                 BookmarkService.getByCategory(scope.bookmark.category_id, parent, false);
+                                
                             });
                         }
                     }
@@ -86,6 +87,7 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                             
                             scope.bookmark.parent = $(ui.item).parent().data('id');
                             BookmarkService.getByCategory(scope.category.id, {id: $(ui.item).parent().data('id')}, true, function(books){
+                                BookmarkService.invalidateCategory(scope.bookmark.category_id);
                                 scope.$apply(attrs.save).then(function(test) {
                                     //reload bookmarks into the category that lose a bookmarks
                                     //(needed for folder)

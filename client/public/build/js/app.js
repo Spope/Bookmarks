@@ -807,7 +807,7 @@ directives.directive("typeaheadItem", [function (){
         },
 
         invalidateCategory: function(idCategory){
-            LocalBookmarkService.setByCategory(idCategory, null, false);
+            LocalBookmarkService.bookmarks[idCategory] = null;
         },
 
 

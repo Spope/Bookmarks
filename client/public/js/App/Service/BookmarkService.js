@@ -29,6 +29,10 @@ services.factory('BookmarkService', ['UserService', '$http', 'LocalBookmarkServi
             return promise;
         },
 
+        invalidateCategory: function(idCategory){
+            LocalBookmarkService.bookmarks[idCategory] = null;
+        },
+
 
         getByCategory: function(idCategory, parent, cache, next) {
 
