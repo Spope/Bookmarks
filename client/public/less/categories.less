@@ -175,9 +175,15 @@
             }
             &.dragging{
                 li.drop-into{
-                    border:1px dashed gray;
-                    padding-left:20px;
-                    background: url("../img/bookmark/into-folder.png") 2px 0 no-repeat;
+                    border-style: solid;
+                    border-width: 1px;
+                    -moz-border-image: url("../img/bookmark/border.png") 1 repeat;
+                    -webkit-border-image: url("../img/bookmark/border.png") 1 repeat;
+                    -o-border-image: url("../img/bookmark/border.png") 1 repeat;
+                    border-image: url("../img/bookmark/border.png") 1 repeat;
+ 
+                    padding:2px 0 2px 20px;
+                    background: url("../img/bookmark/into-folder.png") 2px 2px no-repeat;
                 }
                 ul.sub-folder{
                     display:block !important;
