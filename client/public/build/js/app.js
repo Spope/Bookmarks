@@ -199,7 +199,9 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
                 template += '<a class="url-bookmark" ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">';
                 //template += '<img ng-src="http://placehold.it/16x16" height="16" width="16" />';
                 //template += '<img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" height="16" width="16" />';
+                //template += '<img ng-src="http://{{bookmark.category_id}}.getfavicon.appspot.com/{{bookmark.url}}?defaulticon=lightpng" height="16" width="16" />';
                 template += '<img ng-src="http://g.etfv.co/{{bookmark.url}}?defaulticon=lightpng" height="16" width="16" />';
+
                 template += '{{bookmark.name|truncate:24}}';
                 template += '</a>';
             }
