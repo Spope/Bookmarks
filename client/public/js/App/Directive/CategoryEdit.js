@@ -16,9 +16,9 @@ directives.directive('categoryedit', function() {
                     }
 
                     if(e.keyCode === 13) {
-                        var name = elm.html();
+                        var name = elm.text();
                         if(name != "") {
-                            scope.category.name = elm.html();
+                            scope.category.name = name;
                             scope.saveCategory(scope.category).then(function(data) {
                                 elm.blur();
                             });

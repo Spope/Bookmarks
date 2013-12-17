@@ -197,8 +197,8 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
             var template = "";
             if(scope.bookmark.bookmark_type_id == 1) {
                 template += '<a class="url-bookmark" ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">';
-                //template += '<img ng-src="http://placehold.it/16x16" height="16" width="16" />';
-                template += '<img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" height="16" width="16" />';
+                template += '<img ng-src="http://placehold.it/16x16" height="16" width="16" />';
+                //template += '<img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" height="16" width="16" />';
                 template += '{{bookmark.name|truncate:24}}';
                 template += '</a>';
             }
@@ -280,9 +280,9 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
                     }
 
                     if(e.keyCode === 13) {
-                        var name = elm.html();
+                        var name = elm.text();
                         if(name != "") {
-                            scope.category.name = elm.html();
+                            scope.category.name = name;
                             scope.saveCategory(scope.category).then(function(data) {
                                 elm.blur();
                             });
