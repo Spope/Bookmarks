@@ -20,7 +20,7 @@
                     <ul class="search-bookmark-results-list">
                         <li class="search-bookmark-result" ng-repeat="result in results" typeahead-item="result">
                             <div class="left">
-                                <img ng-src="http://www.google.com/s2/favicons?domain={{result.url|removeHTTP}}" height="16" width="16"/>
+                                <img ng-src="http://g.etfv.co/{{bookmark.url}}?defaulticon=lightpng" height="16" width="16"/>
                             </div>
                             <div>
                                 <p ng-bind-html-unsafe="result.display"></p>
