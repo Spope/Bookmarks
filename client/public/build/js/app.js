@@ -2514,7 +2514,7 @@ bookmarkApp.config(['$httpProvider', function($httpProvider) {
   'use strict';
 
   $templateCache.put('js/App/View/Bookmarks/bookmark.html',
-    "<a class=url-bookmark ng-href={{bookmark.url}} target=_blank title={{bookmark.name}}><img ng-src=http://placehold.it/16x16 height=16 width=16>    {{bookmark.name|truncate:24}}</a>"
+    "<a class=url-bookmark ng-href={{bookmark.url}} target=_blank title={{bookmark.name}}><img ng-src=\"http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}\" height=16 width=16>   {{bookmark.name|truncate:24}}</a>"
   );
 
 
