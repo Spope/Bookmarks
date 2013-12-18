@@ -1,0 +1,6 @@
+<a class="url-bookmark" href="" title="{{bookmark.name}}" ng-click="setParent(bookmark)">
+    <img src="/img/bookmark/folder.png" height="16" width="16" />
+    {{bookmark.name|truncate:24}}
+    <ul class="connection sub-folder" data-id="{{bookmark.id}}" sortable="connection" save="saveBookmark(bookmark)">
+    </ul>
+</a>

@@ -1,28 +1,15 @@
-directives.directive("bookmarkel", ['$compile', function($compile){
+directives.directive("bookmarkel", ['$compile', '$templateCache', function($compile, $templateCache){
     return {
         restrict: "A",
         link: function(scope, element, attrs){
 
             var template = "";
             if(scope.bookmark.bookmark_type_id == 1) {
-                template += '<a class="url-bookmark" ng-href="{{bookmark.url}}" target="_blank" title="{{bookmark.name}}">';
-                //template += '<img ng-src="http://placehold.it/16x16" height="16" width="16" />';
-                //template += '<img ng-src="http://www.google.com/s2/favicons?domain={{bookmark.url|removeHTTP}}" height="16" width="16" />';
-                //template += '<img ng-src="http://{{bookmark.category_id}}.getfavicon.appspot.com/{{bookmark.url}}?defaulticon=lightpng" height="16" width="16" />';
-                template += '<img ng-src="http://g.etfv.co/{{bookmark.url}}?defaulticon=lightpng" height="16" width="16" />';
-
-                template += '{{bookmark.name|truncate:24}}';
-                template += '</a>';
+                template = $templateCache.get('js/App/View/Bookmarks/bookmark.html');
             }
             if(scope.bookmark.bookmark_type_id == 2) {
                 
-                template += '<a class="url-bookmark" href="" title="{{bookmark.name}}" ng-click="setParent(bookmark)">';
-                template += '<img src="/img/bookmark/folder.png" height="16" width="16" />';
-                template += '{{bookmark.name|truncate:24}}';
-                
-                template += '</a>';
-                template += '<ul class="connection sub-folder" data-id="{{bookmark.id}}" sortable="connection" save="saveBookmark(bookmark)">';
-                template += '</ul>';
+                template = $templateCache.get('js/App/View/Bookmarks/folder.html');
                 element.addClass('folder');
             }
 
@@ -56,11 +43,6 @@ directives.directive("bookmarkel", ['$compile', function($compile){
                     element.find('.url-bookmark').stop().animate({
                         paddingLeft: 0
                     }, 200)
-                });
-
-                //Hack to trigger mouse leave when clicking on a folder
-                element.bind('mouseup', function(e) {
-                    //$(this).trigger('mouseleave');
                 });
             }
         }
