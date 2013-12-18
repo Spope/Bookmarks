@@ -28,4 +28,4 @@ services.service('loadConfigTemplate').run(['$templateCache', '$http', function(
     };
     xhr.send(null);
 
-}])
+}]);
