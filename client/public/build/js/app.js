@@ -314,10 +314,18 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
                 if(window.fontLoaded){
                     __masonry();
                 }else{
+                    //Sometimes (on, first load) everything fail so timeout of 3 seconds will fix it.
+                    var waitMasonry = $timeout(function() {
+                        __masonry();
+                    }, 3000);
+
                     var temp = scope.$on('font-loaded', function(){
                         __masonry();
-                        temp();
+                        //event worked correctly, cancel the tiemout
+                        $timeout.cancel(waitMasonry);
                     });
+
+                    
                 }
             }
 

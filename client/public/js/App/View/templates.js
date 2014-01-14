@@ -2,7 +2,7 @@ angular.module('bookmarkApp').run(['$templateCache', function($templateCache) {
   'use strict';
 
   $templateCache.put('js/App/View/Bookmarks/bookmark.html',
-    "<a class=url-bookmark ng-href={{bookmark.url}} target=_blank title={{bookmark.name}}><img ng-src=\"http://g.etfv.co/{{bookmark.url}}?defaulticon=lightpng\" height=16 width=16> {{bookmark.name|truncate:24}}</a>"
+    "<a class=url-bookmark href={{bookmark.url}} target=_blank title={{bookmark.name}}><img ng-src=\"http://g.etfv.co/{{bookmark.url}}?defaulticon=lightpng\" height=16 width=16> {{bookmark.name|truncate:24}}</a>"
   );
 
 
