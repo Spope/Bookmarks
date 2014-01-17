@@ -437,6 +437,7 @@ cacheModule.factory('resourceCache',['$cacheFactory', function($cacheFactory) {
                 connectWith: "."+attrs.sortable,
                 helper: 'clone',
                 zIndex: 999999,
+                distance: 5,
                 containment: '.categories-list-general',
                 cursorAt: {left:50, top:10},
                 sort: function(event, ui){
@@ -2092,11 +2093,14 @@ directives.directive("typeaheadItem", [function (){
     */
 
 }]);
-;controllers.controller('LogoutController', ['$scope', '$http', '$location', 'UserService', function ($scope, $http, $location, UserService) {
+;controllers.controller('LogoutController', ['$scope', '$http', '$location', 'UserService', 'LocalBookmarkService', 'LocalCategoryService', function ($scope, $http, $location, UserService, LocalBookmarkService, LocalCategoryService) {
     $http.get('/api/logout')
     .success(function(data, status, headers, config) {
         UserService.isLogged = false;
         UserService.user     = null;
+        LocalBookmarkService.bookmarks = new Array();
+        LocalCategoryService.categories = new Array();
+
         $location.path('/login');
     })
     .error(function(data, status, headers, config) {

@@ -8,6 +8,7 @@ directives.directive("sortable", ['BookmarkService', 'modalService', function(Bo
                 connectWith: "."+attrs.sortable,
                 helper: 'clone',
                 zIndex: 999999,
+                distance: 5,
                 containment: '.categories-list-general',
                 cursorAt: {left:50, top:10},
                 sort: function(event, ui){
