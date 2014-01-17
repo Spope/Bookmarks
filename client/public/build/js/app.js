@@ -2093,15 +2093,13 @@ directives.directive("typeaheadItem", [function (){
     */
 
 }]);
-;controllers.controller('LogoutController', ['$scope', '$http', '$location', 'UserService', 'LocalBookmarkService', 'LocalCategoryService', function ($scope, $http, $location, UserService, LocalBookmarkService, LocalCategoryService) {
+;controllers.controller('LogoutController', ['$scope', '$http', '$location', 'UserService', '$window', function ($scope, $http, $location, UserService, $window) {
     $http.get('/api/logout')
     .success(function(data, status, headers, config) {
         UserService.isLogged = false;
         UserService.user     = null;
-        LocalBookmarkService.bookmarks = new Array();
-        LocalCategoryService.categories = new Array();
-
-        $location.path('/login');
+        //force a page reload to empty preloaded div data
+        $window.location.href = "/";
     })
     .error(function(data, status, headers, config) {
         UserService.isLogged = false;
