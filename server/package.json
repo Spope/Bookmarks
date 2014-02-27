@@ -21,7 +21,7 @@
     "grunt-angular-templates"         : "*",
     "q"                               : "*",
     "moment"                          : "*",
-    "validator"                       : "*",
+    "validator"                       : "2.1",
     "passport"                        : "*",
     "passport-local"                  : "*",
     "passport-http"                   : "*",
