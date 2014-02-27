@@ -4,7 +4,7 @@ var Q = bootstrap.getPromise();
 var moment = require('moment');
 var searchEngineService = require('../service/SearchEngineService');
 var categoryService = require('../service/CategoryService');
-var validator = require('validator');
+var Validator = require('validator').Validator;
 
 module.exports = {
 
@@ -15,7 +15,7 @@ module.exports = {
         user.created  = moment().format('YYYY-MM-DD HH:mm:ss');
         user.roles    = 1;
 
-        //var validator = new Validator();
+        var validator = new Validator();
 
         validator.error = function(msg) {
             console.log(msg);
